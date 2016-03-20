@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<title>Travel The World Around</title>
+</head>
+<body>
+<table width="80%">
+	<tr>
+		<td>
+			<h:outputText value="RSS feed" />
+			<p:feedReader value="http://activeadventures.com/blog/feed/" var="feed">
+		    <h:outputText value="#{feed.title}" style="font-weight: bold;display:block"/>
+		    <h:outputText value="#{feed.description.value}" escape="false"/>
+		    <p:separator />
+		    </p:feedReader>
+    	</td>
+    	<td>
+    		&nbsp;
+    	</td>
+    </tr>
+</table>
+</body>
+</html>
