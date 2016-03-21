@@ -5,23 +5,41 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <head>
+<style> 
+	#rss{
+		border: 1px red;
+		height: 600px;
+		width: 600px;
+		overflow: scroll;
+	} 
+</style>
 <title>Travel The World Around</title>
 </head>
 <body>
-<table width="80%">
-	<tr>
-		<td>
-			<h:outputText value="RSS feed" />
-			<p:feedReader value="http://activeadventures.com/blog/feed/" var="feed">
-		    <h:outputText value="#{feed.title}" style="font-weight: bold;display:block"/>
-		    <h:outputText value="#{feed.description.value}" escape="false"/>
-		    <p:separator />
-		    </p:feedReader>
-    	</td>
-    	<td>
-    		&nbsp;
-    	</td>
-    </tr>
-</table>
+	<table style="width: 80%;">
+		<tr>
+			<td height="50%"><div id="rss"><h:outputText value="RSS feed" /> <p:feedReader
+					value="http://activeadventures.com/blog/feed/" var="feed">
+					<h:outputText value="#{feed.title}"
+						style="font-weight: bold;display:block" />
+					<h:outputText value="#{feed.description.value}" escape="false" />
+					<p:separator />
+				</p:feedReader></div></td>
+			<td><a class="twitter-timeline" href="https://twitter.com/klub_putnika"
+				data-widget-id="711858338246619136">Tweets by Klub putnika</a> <script>
+					!function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/
+								.test(d.location) ? 'http' : 'https';
+						if (!d.getElementById(id)) {
+							js = d.createElement(s);
+							js.id = id;
+							js.src = p + "://platform.twitter.com/widgets.js";
+							fjs.parentNode.insertBefore(js, fjs);
+						}
+					}(document, "script", "twitter-wjs");
+				</script>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
