@@ -10,10 +10,10 @@ public class SendMail
    public static void main(String [] args)
    {    
       // Recipient's email ID needs to be mentioned.
-      String to = "sasamihajlica@gmail.com";
+      String to = "nicedayhighlightter@gmail.com";
 
       // Sender's email ID needs to be mentioned
-      final String from = "sasamihajlica@gmail.com";
+      final String from = "nicedayhighlightter@gmail.com";
 
       // Assuming you are sending email from localhost
       String host = "localhost";
@@ -45,7 +45,7 @@ public class SendMail
     	  Session session = Session.getDefaultInstance(props, 
                   new Authenticator(){
                      protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(from, "pass");
+                        return new PasswordAuthentication(from, "niceday25");
                      }});
          // Create a default MimeMessage object.
          MimeMessage message = new MimeMessage(session);
