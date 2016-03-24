@@ -1,43 +1,42 @@
 package net.etfbl.dto;
 
 public class Putopis {
-	
-	private int id;
-	private String naziv;
-	private String datum;
-	private String mjesto;
-	private String tekst;
+	private int idPutopisa;
+	private String nazivPutopisa;
+	private String datumObjavljivanja;
+	private String podaciOMjestu;
+	private String tekstPutopisa;
 	private Korisnik korisnik;
 	
-	public int getId() {
-		return id;
+	public int getIdPutopisa() {
+		return idPutopisa;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setIdPutopisa(int idPutopisa) {
+		this.idPutopisa = idPutopisa;
 	}
-	public String getNaziv() {
-		return naziv;
+	public String getNazivPutopisa() {
+		return nazivPutopisa;
 	}
-	public void setNaziv(String naziv) {
-		this.naziv = naziv;
+	public void setNazivPutopisa(String nazivPutopisa) {
+		this.nazivPutopisa = nazivPutopisa;
 	}
-	public String getDatum() {
-		return datum;
+	public String getDatumObjavljivanja() {
+		return datumObjavljivanja;
 	}
-	public void setDatum(String datum) {
-		this.datum = datum;
+	public void setDatumObjavljivanja(String datumObjavljivanja) {
+		this.datumObjavljivanja = datumObjavljivanja;
 	}
-	public String getMjesto() {
-		return mjesto;
+	public String getPodaciOMjestu() {
+		return podaciOMjestu;
 	}
-	public void setMjesto(String mjesto) {
-		this.mjesto = mjesto;
+	public void setPodaciOMjestu(String podaciOMjestu) {
+		this.podaciOMjestu = podaciOMjestu;
 	}
-	public String getTekst() {
-		return tekst;
+	public String getTekstPutopisa() {
+		return tekstPutopisa;
 	}
-	public void setTekst(String tekst) {
-		this.tekst = tekst;
+	public void setTekstPutopisa(String tekstPutopisa) {
+		this.tekstPutopisa = tekstPutopisa;
 	}
 	public Korisnik getKorisnik() {
 		return korisnik;
@@ -47,4 +46,9 @@ public class Putopis {
 	}
 	
 	
+	@Override
+	public String toString()
+	{
+		return "Id putopisa:" + idPutopisa + " Naziv putopisa:" + nazivPutopisa +  " Tekst putopisa: " + tekstPutopisa;
+	}
 }

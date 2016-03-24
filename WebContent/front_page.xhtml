@@ -4,34 +4,34 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<head>
-<style>
-#rss {
-	border: 1px red;
-	height: 600px;
+<h:head>
+	<title>Wellcome</title>
+	<style>
+.feed {
 	width: 600px;
+	height: 200px;
 	overflow: scroll;
 }
 </style>
-<title>Travel The World Around</title>
-</head>
-<body>
-	<table style="width: 80%;">
-		<tr>
-			<td height="50%"><div id="rss">
-					<h:outputText value="RSS feed" />
-					<p:feedReader value="http://activeadventures.com/blog/feed/"
+</h:head>
+<h:body>
+	<p:panelGrid>
+		<p:row>
+			<p:column>
+				<dir class="feed">
+					<p:feedReader value="http://rss.news.yahoo.com/rss/sports"
 						var="feed">
 						<h:outputText value="#{feed.title}"
 							style="font-weight: bold;display:block" />
 						<h:outputText value="#{feed.description.value}" escape="false" />
 						<p:separator />
 					</p:feedReader>
-
-				</div></td>
-			<td><a class="twitter-timeline"
-				href="https://twitter.com/klub_putnika"
-				data-widget-id="712298564391723008">Tweets by @klub_putnika</a> <script>
+				</dir>
+			</p:column>
+			<p:column colspan="2">
+				<a class="twitter-timeline" href="https://twitter.com/klub_putnika"
+					data-widget-id="712359835208175616">Tweets by @klub_putnika</a>
+				<script>
 					!function(d, s, id) {
 						var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/
 								.test(d.location) ? 'http' : 'https';
@@ -44,66 +44,118 @@
 					}(document, "script", "twitter-wjs");
 				</script>
 
-			</td>
-		</tr>
-		<tr>
-			<td><h:form>
-					<h:panelGrid columns="3" style="border:solid black 1px">
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:form>
+					<h:panelGrid columns="3">
 						<h:outputText value="Ime:"></h:outputText>
-						<h:inputText required="true" id="ime"
-							requiredMessage="Niste unijeli ime!"
-							value="#{korisnikBean.korisnik.ime}"></h:inputText>
+						<h:inputText id="ime" value="#{korisnikBean.korisnik.ime}"
+							required="true" requiredMessage="Popunite polje."></h:inputText>
 						<h:message for="ime" style="color:red"></h:message>
 
 						<h:outputText value="Prezime:"></h:outputText>
-						<h:inputText required="true" id="prezime"
-							requiredMessage="Niste unijeli prezime!"
-							value="#{korisnikBean.korisnik.prezime}"></h:inputText>
+						<h:inputText id="prezime" value="#{korisnikBean.korisnik.prezime}"
+							required="true" requiredMessage="Popunite polje."></h:inputText>
 						<h:message for="prezime" style="color:red"></h:message>
 
-						<h:outputText value="Email:"></h:outputText>
-						<h:inputText required="true" id="email"
-							requiredMessage="Niste unijeli e-mail!"
-							value="#{korisnikBean.korisnik.email}"></h:inputText>
-						<h:message for="email" style="color:red"></h:message>
+						<h:outputText value="Datum rodjenja:"></h:outputText>
+						<h:inputText id="datumRodjenja" required="true"
+							value="#{korisnikBean.korisnik.datumRodjenja}"
+							requiredMessage="Popunite polje." />
+						<h:message for="datumRodjenja" style="color:red"></h:message>
 
 						<h:outputText value="Kratka biografija:"></h:outputText>
-						<h:inputTextarea rows="20" cols="20" required="true"
-							id="biografija" requiredMessage="Pozeljna kratka biografija."
-							value="#{korisnikBean.korisnik.biografija}"></h:inputTextarea>
-						<h:message for="biografija" style="color:red"></h:message>
+						<h:inputText id="kratkaBiografija" required="true"
+							value="#{korisnikBean.korisnik.kratkaBiografija}"
+							requiredMessage="Popunite polje." />
+						<h:message for="kratkaBiografija" style="color:red"></h:message>
 
-						<h:outputText value="Datum rodjenja:"></h:outputText>
-						<h:inputText required="true" id="datum"
-							requiredMessage="Datum rodjenja nije naveden."
-							value="#{korisnikBean.korisnik.datumRodjenja}"></h:inputText>
-						<h:message for="datum" style="color:red"></h:message>
+						<h:outputText value="E-mail:"></h:outputText>
+						<h:inputText id="email" value="#{korisnikBean.korisnik.eMail}"
+							required="true" requiredMessage="Popunite polje."></h:inputText>
+						<h:message for="email" style="color:red"></h:message>
 
 						<h:outputText value="Korisnicko ime:"></h:outputText>
-						<h:inputText required="true" id="korisnickoIme"
-							requiredMessage="Niste unijeli korisnicko ime!"
-							value="#{korisnikBean.korisnik.korisnickoIme}"></h:inputText>
-						<h:message for="korisnickoIme" style="color:red"></h:message>
+						<h:inputText id="kIme" required="true"
+							value="#{korisnikBean.korisnik.korisnickoIme}"
+							requiredMessage="Popunite polje." />
+						<h:message for="kIme" style="color:red"></h:message>
 
 						<h:outputText value="Lozinka:"></h:outputText>
-						<h:inputText required="true" id="lozinka"
-							requiredMessage="Niste unijeli lozinku!"
-							value="#{korisnikBean.korisnik.lozinka}"></h:inputText>
+						<h:inputSecret id="lozinka" required="true"
+							value="#{korisnikBean.korisnik.lozinka}"
+							requiredMessage="Popunite polje." />
 						<h:message for="lozinka" style="color:red"></h:message>
 
-						<h:outputText value="Ime:"></h:outputText>
-						<h:selectOneRadio id="radio"
-							value="#{korisnikBean.korisnik.korisnickaGrupa}">
-							<f:selectItem itemValue="1" itemLabel="administrator"></f:selectItem>
-							<f:selectItem itemValue="0" itemLabel="korisnik"></f:selectItem>
-						</h:selectOneRadio>
-						<h:message for="ime" style="color:red"></h:message>
+						<h:outputText value="Korisnicka grupa:"></h:outputText>
+						<h:selectOneMenu value="#{korisnikBean.korisnik.korisnickaGrupa}">
+							<f:selectItem itemLabel="administrator" itemValue="administrator"></f:selectItem>
+							<f:selectItem itemLabel="korisnik" itemValue="korisnik"></f:selectItem>
+						</h:selectOneMenu>
+						<h:message></h:message>
 
 						<h:commandButton value="Log in" action="#{korisnikBean.insert()}"></h:commandButton>
-						
+
 					</h:panelGrid>
-				</h:form></td>
-		</tr>
-	</table>
-</body>
+				</h:form>
+			</p:column>
+			<p:column>
+				<h:form>
+					<h:panelGrid columns="2">
+						<h:outputText value="Unesite nasov ili kljucnu rijec:"></h:outputText>
+						<h:inputText value="#{putopisBean.tekstPretrage}"></h:inputText>
+						<h:commandButton value="Pretrazi putopise"
+							action="#{putopisBean.pretrazi()}"></h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:dataTable cellpadding="10" value="#{putopisBean.putopisi}"
+					var="k">
+					<h:column>
+						<f:facet name="header">Naslov putopisa</f:facet>
+			#{k.nazivPutopisa}
+		</h:column>
+
+					<h:column>
+						<f:facet name="header">Tekst putopisa</f:facet>
+			#{k.tekstPutopisa}
+		</h:column>
+				</h:dataTable>
+			</p:column>
+			<p:column>
+				<h:form>
+					<h:panelGrid columns="2">
+						<h:outputText value="Unesite ime korisnika:"></h:outputText>
+						<h:inputText value="#{korisnikBean.imeKorisnika}"></h:inputText>
+						<h:commandButton value="Pronadji korisnika"
+							action="#{korisnikBean.pretrazi()}"></h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:dataTable cellpadding="10" value="#{korisnikBean.korisnici}"
+					var="k">
+					<h:column>
+						<f:facet name="header">Korisnicko ime</f:facet>
+			#{k.korisnickoIme}
+		</h:column>
+
+					<h:column>
+						<f:facet name="header"></f:facet>
+						<h:commandButton value="Dodaj kontakt"></h:commandButton>
+					</h:column>
+				</h:dataTable>
+			</p:column>
+			<p:column>
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+</h:body>
 </html>
