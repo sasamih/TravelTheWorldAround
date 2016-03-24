@@ -1,5 +1,8 @@
 package net.etfbl.dao;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,14 +39,14 @@ public class KorisnikDAO {
 			return korisnici;
 		}
 		
-		public static boolean insertKorisnik(Korisnik korisnik)
+		public static boolean insertKorisnik(Korisnik korisnik) throws NoSuchAlgorithmException
 		{
 			Connection conn = ConnectionPool.openConnection();
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryInsert);
 				ps.setString(1, korisnik.getIme());
 				ps.setString(2, korisnik.getKorisnickoIme());
-				ps.setString(3, korisnik.getLozinka());
+				ps.setString(3, getMD5Hash(korisnik.getLozinka()));
 				ps.setString(4, korisnik.getPrezime());
 				ps.setString(5, korisnik.geteMail());
 				ps.setString(6, korisnik.getKratkaBiografija());
@@ -59,6 +62,22 @@ public class KorisnikDAO {
 			}
 			return true;
 		}
-
+		
+		private static String getMD5Hash(String lozinka) throws NoSuchAlgorithmException
+		{
+			String hash = "";
+			
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(lozinka.getBytes());
+			byte[] digest = md.digest();
+			BigInteger bigInt = new BigInteger(1, digest);
+			hash = bigInt.toString(16);
+			while(hash.length() < 32)
+			{
+				hash = "0" + hash;
+			}
+			
+			return hash;
+		}
 
 }

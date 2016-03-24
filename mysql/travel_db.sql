@@ -78,10 +78,12 @@ CREATE TABLE IF NOT EXISTS `KORISNIK` (
   PRIMARY KEY (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KORISNIK: ~2 rows (approximately)
+-- Dumping data for table traveldb.KORISNIK: ~3 rows (approximately)
 /*!40000 ALTER TABLE `KORISNIK` DISABLE KEYS */;
 INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`) VALUES
 	('Branka', 'branka', '123', 'Pekez', 'branka@branka.com', 'Iz Podrasnice', '18.9.1993', 'administrator'),
+	('Dragan', 'gago', '04e0d737c9292f826b0a4a42bc22cf5f', 'Torbica', 'dragan@jovetorbica.com', 'Iz Krajine', '16.5.1961.', 'korisnik'),
+	('Mladen', 'mladen', '123', 'Stupar', 'mladen@mladen.com', 'Iz Tisce', '15.7.1993.', 'administrator'),
 	('Sasa', 'sasa', '123', 'Mihajlica', 'sasa@sasa.com', 'Iz Krsalja', '29.5.1993', 'administrator');
 /*!40000 ALTER TABLE `KORISNIK` ENABLE KEYS */;
 

@@ -1,5 +1,6 @@
 package net.etfbl.beans;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,11 @@ public class KorisnikBean {
 		this.korisnik = korisnik;
 	}
 	
-	public boolean insert()
+	public boolean insert() throws NoSuchAlgorithmException
 	{
-		return KorisnikDAO.insertKorisnik(korisnik);
+		KorisnikDAO.insertKorisnik(korisnik);
+		this.obrisiPolja();
+		return true;
 	}
 
 	public List<Korisnik> getKorisnici() {
@@ -52,5 +55,16 @@ public class KorisnikBean {
 	{
 		korisnici = new ArrayList<Korisnik>();
 		korisnici = KorisnikDAO.getByName(imeKorisnika);
+	}
+	
+	public void obrisiPolja()
+	{
+		korisnik.setIme(null);
+		korisnik.setPrezime(null);
+		korisnik.setDatumRodjenja(null);
+		korisnik.seteMail(null);
+		korisnik.setKratkaBiografija(null);
+		korisnik.setKorisnickoIme(null);
+		korisnik.setLozinka(null);
 	}
 }
