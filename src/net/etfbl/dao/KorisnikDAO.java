@@ -15,8 +15,9 @@ import net.etfbl.dto.Korisnik;
 
 public class KorisnikDAO {
 		private static String queryGetAll = "select * from knjiga";
+		private static String queryGetByUsernameAndPassowrd = "select * from KORISNIK where korisnickoIme like ? and lozinka like ?;";
 		private static String queryGetByName = "select * from KORISNIK where korisnickoIme like ?;";
-		private static String queryUpadate = "UPDATE `knjigadb`.`knjiga` SET `status`=? WHERE `id`=?;";
+		private static String queryUpdate = "UPDATE `knjigadb`.`knjiga` SET `status`=? WHERE `id`=?;";
 		private static String queryInsert = "INSERT INTO `traveldb`.`KORISNIK` VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		
@@ -61,6 +62,39 @@ public class KorisnikDAO {
 				e.printStackTrace();
 			}
 			return true;
+		}
+		
+		public static Korisnik login(String korisnickoIme, String lozinka) throws NoSuchAlgorithmException, SQLException
+		{
+			String hashLozinka = getMD5Hash(lozinka);
+			Korisnik korisnik = null;
+			
+			Connection conn = ConnectionPool.openConnection();
+			if (conn != null)
+			{
+				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetByUsernameAndPassowrd);
+				ps.setString(1, korisnickoIme);
+				ps.setString(2, hashLozinka);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next())
+				{
+					korisnik = new Korisnik();
+					korisnik.setIme(rs.getString(1));
+					korisnik.setKorisnickoIme(rs.getString(2));
+					korisnik.setLozinka(rs.getString(3));
+					korisnik.setPrezime(rs.getString(4));
+					korisnik.seteMail(rs.getString(5));
+					korisnik.setKratkaBiografija(rs.getString(6));
+					korisnik.setDatumRodjenja(rs.getString(7));
+					korisnik.setKorisnickaGrupa(rs.getString(8));
+				}
+				
+				rs.close();
+				ps.close();
+			}
+			conn.close();
+			return korisnik;
+			
 		}
 		
 		private static String getMD5Hash(String lozinka) throws NoSuchAlgorithmException

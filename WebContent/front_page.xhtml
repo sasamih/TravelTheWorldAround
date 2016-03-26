@@ -18,8 +18,30 @@
 	<p:panelGrid>
 		<p:row>
 			<p:column>
+
+			</p:column>
+			<p:column>
+				<h:form>
+					<h:panelGrid columns="3">
+						<h:outputText value="Korisnicko ime: "></h:outputText>
+						<h:inputText value="#{korisnikBean.prijavaKorisnickoIme}"
+							id="korisnickoIme" required="true"
+							requiredMessage="Popunite polje"></h:inputText>
+						<h:message for="korisnickoIme" style="color:red"></h:message>
+						<h:outputText value="Lozinka: "></h:outputText>
+						<h:inputSecret value="#{korisnikBean.prijavaLozinka}" id="lozinka"
+							required="true" requiredMessage="Popunite polje"></h:inputSecret>
+						<h:message for="lozinka" style="color:red"></h:message>
+						<h:outputText></h:outputText>
+						<h:commandButton value="Prijava" action="#{korisnikBean.prijavi}"></h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
 				<dir class="feed">
-					<p:feedReader value="http://rss.news.yahoo.com/rss/sports"
+					<p:feedReader value="http://www.travelizmo.com/index.rdf"
 						var="feed">
 						<h:outputText value="#{feed.title}"
 							style="font-weight: bold;display:block" />
@@ -29,6 +51,12 @@
 				</dir>
 			</p:column>
 			<p:column colspan="2">
+				
+
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
 				<a class="twitter-timeline" href="https://twitter.com/klub_putnika"
 					data-widget-id="712359835208175616">Tweets by @klub_putnika</a>
 				<script>
@@ -45,8 +73,6 @@
 				</script>
 
 			</p:column>
-		</p:row>
-		<p:row>
 			<p:column>
 				<h:form>
 					<h:panelGrid columns="3">
@@ -96,18 +122,20 @@
 						</h:selectOneMenu>
 						<h:message></h:message>
 
-						<h:commandButton value="Sign up" action="#{korisnikBean.insert()}"></h:commandButton>
+						<h:commandButton value="Sign up" action="#{korisnikBean.insert}"></h:commandButton>
 
 					</h:panelGrid>
 				</h:form>
 			</p:column>
+		</p:row>
+		<p:row>
 			<p:column>
 				<h:form>
 					<h:panelGrid columns="2">
 						<h:outputText value="Unesite nasov ili kljucnu rijec:"></h:outputText>
 						<h:inputText value="#{putopisBean.tekstPretrage}"></h:inputText>
 						<h:commandButton value="Pretrazi putopise"
-							action="#{putopisBean.pretrazi()}"></h:commandButton>
+							action="#{putopisBean.pretrazi}"></h:commandButton>
 					</h:panelGrid>
 				</h:form>
 			</p:column>
@@ -127,35 +155,8 @@
 		</h:column>
 				</h:dataTable>
 			</p:column>
-			<p:column>
-				<h:form>
-					<h:panelGrid columns="2">
-						<h:outputText value="Unesite ime korisnika:"></h:outputText>
-						<h:inputText value="#{korisnikBean.imeKorisnika}"></h:inputText>
-						<h:commandButton value="Pronadji korisnika"
-							action="#{korisnikBean.pretrazi()}"></h:commandButton>
-					</h:panelGrid>
-				</h:form>
-			</p:column>
 		</p:row>
-		<p:row>
-			<p:column>
-				<h:dataTable cellpadding="10" value="#{korisnikBean.korisnici}"
-					var="k">
-					<h:column>
-						<f:facet name="header">Korisnicko ime</f:facet>
-			#{k.korisnickoIme}
-		</h:column>
-
-					<h:column>
-						<f:facet name="header"></f:facet>
-						<h:commandButton value="Dodaj kontakt"></h:commandButton>
-					</h:column>
-				</h:dataTable>
-			</p:column>
-			<p:column>
-			</p:column>
-		</p:row>
+		
 	</p:panelGrid>
 </h:body>
 </html>

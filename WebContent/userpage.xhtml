@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Travel The World Around</title>
+</head>
+<h:body>
+	<h:panelGrid>
+		<p:row>
+				<p:column>
+				<h:form>
+					<h:panelGrid columns="2">
+						<h:outputText value="Unesite ime korisnika:"></h:outputText>
+						<h:inputText value="#{korisnikBean.pretragaKorisnika}"></h:inputText>
+						<h:commandButton value="Pronadji korisnika"
+							action="#{korisnikBean.pretrazi()}"></h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:dataTable cellpadding="10" value="#{korisnikBean.korisnici}"
+					var="k">
+					<h:column>
+						<f:facet name="header">Korisnicko ime</f:facet>
+			#{k.korisnickoIme}
+		</h:column>
+
+					<h:column>
+						<f:facet name="header"></f:facet>
+						<h:commandButton value="Dodaj kontakt"></h:commandButton>
+					</h:column>
+				</h:dataTable>
+			</p:column>
+			<p:column>
+			</p:column>
+		</p:row>
+	</h:panelGrid>
+</h:body>
+</html>
