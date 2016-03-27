@@ -5,8 +5,10 @@ public class Putopis {
 	private String nazivPutopisa;
 	private String datumObjavljivanja;
 	private String podaciOMjestu;
-	private String tekstPutopisa;
+	private String putanja;
 	private Korisnik korisnik;
+	
+	private String tekstPutopisa = "";
 	
 	public int getIdPutopisa() {
 		return idPutopisa;
@@ -32,6 +34,12 @@ public class Putopis {
 	public void setPodaciOMjestu(String podaciOMjestu) {
 		this.podaciOMjestu = podaciOMjestu;
 	}
+	public String getPutanja() {
+		return putanja;
+	}
+	public void setPutanja(String putanja) {
+		this.putanja = putanja;
+	}
 	public String getTekstPutopisa() {
 		return tekstPutopisa;
 	}
@@ -45,6 +53,10 @@ public class Putopis {
 		this.korisnik = korisnik;
 	}
 	
+	public void dodajTekstPutopisa(String tekst)
+	{
+		tekstPutopisa += tekst;
+	}
 	
 	@Override
 	public String toString()

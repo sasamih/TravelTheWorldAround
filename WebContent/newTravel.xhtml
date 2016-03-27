@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Novi putopis</title>
+</head>
+<h:body>
+	<h:form>
+		<h:panelGrid columns="3">
+			<h:outputText value="Naslov:"></h:outputText>
+			<h:inputText value="#{putopisBean.noviPutopis.nazivPutopisa}" id="naslov"
+				required="true" requiredMessage="Polje nije popunjeno!"></h:inputText>
+			<h:message for="naslov" style="color:red"></h:message>
+			<h:outputText value="Tekst putopisa:"></h:outputText>
+			<h:inputTextarea cols="40" rows="20" value="#{putopisBean.noviPutopis.tekstPutopisa}" id="tekst"
+				required="true" requiredMessage="Polje nije popunjeno!"></h:inputTextarea>
+			<h:message for="tekst" style="color:red"></h:message>
+			#{putopisBean.noviPutopis.korisnik} = #{korisnikBean.prijavljeniKorisnik}
+			<h:commandButton value="Sacuvaj" action="#{putopisBean.insert}"></h:commandButton>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

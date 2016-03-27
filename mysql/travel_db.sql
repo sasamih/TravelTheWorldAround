@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `KORISNIK` (
   PRIMARY KEY (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KORISNIK: ~3 rows (approximately)
+-- Dumping data for table traveldb.KORISNIK: ~4 rows (approximately)
 /*!40000 ALTER TABLE `KORISNIK` DISABLE KEYS */;
 INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`) VALUES
 	('Branka', 'branka', '123', 'Pekez', 'branka@branka.com', 'Iz Podrasnice', '18.9.1993', 'administrator'),
@@ -123,18 +123,19 @@ CREATE TABLE IF NOT EXISTS `PUTOPIS` (
   `nazivPutopisa` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `datumObjavljivanja` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `podaciOMjestu` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tekstPutopisa` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `putanja` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idPutopisa`),
   KEY `fk_PUTOPIS_KORISNIK1_idx` (`imeAutora`),
   CONSTRAINT `fk_PUTOPIS_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.PUTOPIS: ~2 rows (approximately)
 /*!40000 ALTER TABLE `PUTOPIS` DISABLE KEYS */;
-INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `tekstPutopisa`, `imeAutora`) VALUES
-	(1, 'Put u Italiju', '23.1.2016.', 'Milano', 'Milano je jedan od najljepsih gradova na svijetu.', 'sasa'),
-	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', 'Plutajuci grad u Italiji.', 'sasa');
+INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`) VALUES
+	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa'),
+	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa'),
+	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago');
 /*!40000 ALTER TABLE `PUTOPIS` ENABLE KEYS */;
 
 

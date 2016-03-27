@@ -108,4 +108,9 @@ public class KorisnikBean {
 		
 		return stranica;
 	}
+	
+	public String noviPutopis()
+	{
+		return "newTravel";
+	}
 }

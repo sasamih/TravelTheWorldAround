@@ -1,9 +1,15 @@
 package net.etfbl.beans;
 
+import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
+import net.etfbl.Utility;
 import net.etfbl.dao.*;
 import net.etfbl.dto.Putopis;
 
@@ -11,6 +17,7 @@ import net.etfbl.dto.Putopis;
 public class PutopisBean {
 	private String tekstPretrage;
 	private List<Putopis> putopisi = null;
+	private Putopis noviPutopis = new Putopis();
 
 	public String getTekstPretrage() {
 		return tekstPretrage;
@@ -20,10 +27,11 @@ public class PutopisBean {
 		this.tekstPretrage = tekstPretrage;
 	}
 	
-	public void pretrazi()
+	public void pretrazi() throws IOException
 	{
 		setPutopisi(new ArrayList<Putopis>());
 		setPutopisi(PutopisDAO.getByTravel(tekstPretrage));
+		getTekstPutopisa();
 	}
 
 	public List<Putopis> getPutopisi() {
@@ -34,6 +42,28 @@ public class PutopisBean {
 		this.putopisi = putopisi;
 	}
 	
+	public Putopis getNoviPutopis() {
+		return noviPutopis;
+	}
+
+	public void setNoviPutopis(Putopis noviPutopis) {
+		this.noviPutopis = noviPutopis;
+	}
+	
+	public void insert() throws FileNotFoundException, SQLException
+	{
+		noviPutopis.setPutanja("/WEB-INF/putopisi/" + noviPutopis.getNazivPutopisa() + ".txt");
+		if (Utility.projectPath.equals(""))
+		{
+			Utility.setPutanjaDoProjekta();
+		}	
+		PrintWriter pw = new PrintWriter(new File(Utility.projectPath + noviPutopis.getPutanja()));
+		pw.println(noviPutopis.getTekstPutopisa());
+		pw.close();
+		
+		PutopisDAO.insert(noviPutopis);
+	}
+
 	public void setPutopisiForGuest(List<Putopis> putopisi)
 	{
 		for(Putopis p : putopisi)
@@ -48,5 +78,25 @@ public class PutopisBean {
 		String[] paragrafi = putopis.split("(\n+)+");
 		
 		return paragrafi[0];
+	}
+	
+	private void getTekstPutopisa() throws IOException
+	{
+		if (putopisi != null)
+		{
+			for (Putopis p : putopisi)
+			{
+				Utility.setPutanjaDoProjekta();
+				//System.out.println(path);
+				BufferedReader br = new BufferedReader(new FileReader(Utility.projectPath + p.getPutanja()));
+				
+				String newLine = "";
+				while ((newLine = br.readLine()) != null)
+				{
+					p.dodajTekstPutopisa(newLine);
+				}
+				br.close();
+			}
+		}
 	}
 }

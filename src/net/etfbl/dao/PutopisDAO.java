@@ -13,8 +13,10 @@ import net.etfbl.dto.Putopis;
 
 public class PutopisDAO {
 
+	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`,`putanja`, `imeAutora`) values(?, ?, ?);";
+	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
-		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.tekstPutopisa from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst=? ";
+		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst=? ";
 		String[] tekstPretrage = tekst.split(" ");
 		ArrayList<Putopis> putopisi = new ArrayList<Putopis>();
 		for (int i = 1; i < tekstPretrage.length; i++) {
@@ -34,7 +36,7 @@ public class PutopisDAO {
 				boolean ima = false;
 				Putopis p = new Putopis();
 				p.setIdPutopisa(rs.getInt("idPutopisa"));
-				p.setTekstPutopisa(rs.getString("tekstPutopisa"));
+				p.setPutanja(rs.getString("putanja"));
 				p.setNazivPutopisa(rs.getString("nazivPutopisa"));
 				for (Putopis pp : putopisi) {
 					if (pp.getIdPutopisa() == p.getIdPutopisa())
@@ -50,6 +52,27 @@ public class PutopisDAO {
 		return putopisi;
 	}
 
+	public static boolean insert(Putopis putopis) throws SQLException
+	{
+		boolean success = false;
+		
+		Connection conn = ConnectionPool.openConnection();
+		
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryInsert);
+			ps.setString(1, putopis.getNazivPutopisa());
+			ps.setString(2, putopis.getPutanja());
+			ps.setString(3, "gago");
+			ps.executeUpdate();
+			success = true;
+			ps.close();
+		}
+		conn.close();
+		
+		return success;
+	}
+	
 	/*
 	 * public static boolean insertKorisnik(Korisnik korisnik) { Connection conn
 	 * = ConnectionPool.openConnection(); try { PreparedStatement ps =
