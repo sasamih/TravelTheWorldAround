@@ -9,7 +9,7 @@ public class Utility {
 	public static String setPutanjaDoProjekta()
 	{
 		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
-		//String projectPath = "";
+		projectPath = "";
 		
 		String[] folderNames = path.split("/");
 		for (String f : folderNames)

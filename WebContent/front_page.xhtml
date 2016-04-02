@@ -51,8 +51,7 @@
 				</dir>
 			</p:column>
 			<p:column colspan="2">
-				
-
+			
 			</p:column>
 		</p:row>
 		<p:row>
@@ -112,9 +111,18 @@
 						<h:outputText value="Lozinka:"></h:outputText>
 						<h:inputSecret id="lozinka" required="true"
 							value="#{korisnikBean.korisnik.lozinka}"
-							requiredMessage="Popunite polje." />
+							requiredMessage="Popunite polje." >
+							<f:ajax listener="#{korisnikBean.provjeriLozinke}" render="poklapanje"></f:ajax>
+						</h:inputSecret>
 						<h:message for="lozinka" style="color:red"></h:message>
-
+						
+						<h:outputText value="Ponovljena lozinka"></h:outputText>
+						<h:inputSecret id="pon_lozinka" 
+							value="#{korisnikBean.ponovljenaLozinka}">
+							<f:ajax listener="#{korisnikBean.provjeriLozinke}" render="poklapanje"></f:ajax>
+						</h:inputSecret>
+						<h:outputText id="poklapanje" value="#{korisnikBean.lozinkeNejednake}"></h:outputText>
+						
 						<h:outputText value="Korisnicka grupa:"></h:outputText>
 						<h:selectOneMenu value="#{korisnikBean.korisnik.korisnickaGrupa}">
 							<f:selectItem itemLabel="administrator" itemValue="administrator"></f:selectItem>
@@ -132,10 +140,10 @@
 			<p:column>
 				<h:form>
 					<h:panelGrid columns="2">
-						<h:outputText value="Unesite nasov ili kljucnu rijec:"></h:outputText>
+						<h:outputText value="Unesite naslov ili kljucnu rijec:"></h:outputText>
 						<h:inputText value="#{putopisBean.tekstPretrage}"></h:inputText>
 						<h:commandButton value="Pretrazi putopise"
-							action="#{putopisBean.pretrazi}"></h:commandButton>
+							action="#{putopisBean.pretraziGost}"></h:commandButton>
 					</h:panelGrid>
 				</h:form>
 			</p:column>

@@ -9,6 +9,7 @@ public class Korisnik {
 	private String kratkaBiografija;
 	private String eMail;
 	private String korisnickaGrupa;
+	private int status;
 	
 	public Korisnik()
 	{
@@ -74,5 +75,13 @@ public class Korisnik {
 	}
 	public void setKorisnickaGrupa(String korisnickaGrupa) {
 		this.korisnickaGrupa = korisnickaGrupa;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

@@ -10,7 +10,7 @@
 <title>Travel The World Around</title>
 </head>
 <h:body>
-	<h:panelGrid>
+	<p:panelGrid>
 		<p:row>
 				<p:column>
 				<h:form>
@@ -22,28 +22,55 @@
 					</h:panelGrid>
 				</h:form>
 			</p:column>
+			
+			<p:column>
+				<h:form>
+					<h:panelGrid columns="2">
+						<h:outputText value="Unesite naslov ili kljucnu rijec:"></h:outputText>
+						<h:inputText value="#{putopisBean.tekstPretrage}"></h:inputText>
+						<h:commandButton value="Pretrazi putopise"
+							action="#{putopisBean.pretrazi}"></h:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:column>
 		</p:row>
 		<p:row>
 			<p:column>
 				<h:dataTable cellpadding="10" value="#{korisnikBean.korisnici}"
 					var="k">
-					<h:column>
+					<p:column>
 						<f:facet name="header">Korisnicko ime</f:facet>
 			#{k.korisnickoIme}
-		</h:column>
+		</p:column>
 
-					<h:column>
+					<p:column>
 						<f:facet name="header"></f:facet>
 						<h:commandButton value="Dodaj kontakt"></h:commandButton>
-					</h:column>
+					</p:column>
 				</h:dataTable>
 			</p:column>
+			
 			<p:column>
 				<h:form>
 					<h:commandButton value="Novi putopis" action="#{korisnikBean.noviPutopis}"></h:commandButton>
 				</h:form>
 			</p:column>
+			
+			<p:column>
+				<h:dataTable cellpadding="10" value="#{putopisBean.putopisi}"
+					var="k">
+					<p:column>
+						<f:facet name="header">Naslov putopisa</f:facet>
+			#{k.nazivPutopisa}
+		</p:column>
+
+					<p:column>
+						<f:facet name="header">Tekst putopisa</f:facet>
+			#{k.tekstPutopisa}
+		</p:column>
+				</h:dataTable>
+			</p:column>
 		</p:row>
-	</h:panelGrid>
+	</p:panelGrid>
 </h:body>
 </html>

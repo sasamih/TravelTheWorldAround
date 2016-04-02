@@ -13,7 +13,7 @@ import net.etfbl.dto.Putopis;
 
 public class PutopisDAO {
 
-	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`,`putanja`, `imeAutora`) values(?, ?, ?);";
+	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`,`putanja`, `imeAutora`, `status`) values(?, ?, ?, ?);";
 	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
 		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst=? ";
@@ -64,6 +64,7 @@ public class PutopisDAO {
 			ps.setString(1, putopis.getNazivPutopisa());
 			ps.setString(2, putopis.getPutanja());
 			ps.setString(3, "gago");
+			ps.setInt(4, putopis.getStatus());
 			ps.executeUpdate();
 			success = true;
 			ps.close();

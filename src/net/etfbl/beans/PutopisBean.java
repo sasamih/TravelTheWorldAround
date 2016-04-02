@@ -33,6 +33,12 @@ public class PutopisBean {
 		setPutopisi(PutopisDAO.getByTravel(tekstPretrage));
 		getTekstPutopisa();
 	}
+	
+	public void pretraziGost() throws IOException
+	{
+		pretrazi();
+		setPutopisiForGuest(putopisi);
+	}
 
 	public List<Putopis> getPutopisi() {
 		return putopisi;
@@ -76,7 +82,7 @@ public class PutopisBean {
 	public static String getFirstParagraph(String putopis)
 	{
 		String[] paragrafi = putopis.split("(\n+)+");
-		
+
 		return paragrafi[0];
 	}
 	
@@ -87,12 +93,13 @@ public class PutopisBean {
 			for (Putopis p : putopisi)
 			{
 				Utility.setPutanjaDoProjekta();
-				//System.out.println(path);
 				BufferedReader br = new BufferedReader(new FileReader(Utility.projectPath + p.getPutanja()));
 				
 				String newLine = "";
 				while ((newLine = br.readLine()) != null)
 				{
+					if (newLine.equals(""))
+						p.dodajTekstPutopisa("\n");
 					p.dodajTekstPutopisa(newLine);
 				}
 				br.close();

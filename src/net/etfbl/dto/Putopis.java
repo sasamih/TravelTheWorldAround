@@ -7,6 +7,7 @@ public class Putopis {
 	private String podaciOMjestu;
 	private String putanja;
 	private Korisnik korisnik;
+	private int status;
 	
 	private String tekstPutopisa = "";
 	
@@ -53,6 +54,12 @@ public class Putopis {
 		this.korisnik = korisnik;
 	}
 	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public void dodajTekstPutopisa(String tekst)
 	{
 		tekstPutopisa += tekst;

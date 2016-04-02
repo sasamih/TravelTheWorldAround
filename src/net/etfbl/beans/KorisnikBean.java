@@ -18,6 +18,9 @@ public class KorisnikBean {
 	private String prijavaKorisnickoIme;
 	private String prijavaLozinka;
 	private List<Korisnik> korisnici;
+	
+	private String ponovljenaLozinka;
+	private String lozinkeNejednake;
 
 	public KorisnikBean()
 	{
@@ -41,13 +44,24 @@ public class KorisnikBean {
 		this.prijavljeniKorisnik = prijavljeniKorisnik;
 	}
 
-	public boolean insert() throws NoSuchAlgorithmException
+	public boolean insert() throws NoSuchAlgorithmException, SQLException
 	{
-		KorisnikDAO.insertKorisnik(korisnik);
-		this.obrisiPolja();
-		return true;
+		if (!korisnikExists())
+		{
+			KorisnikDAO.insertKorisnik(korisnik);
+			this.obrisiPolja();
+			return true;
+		}
+		return false;
 	}
 
+	public boolean korisnikExists() throws SQLException
+	{
+		if (KorisnikDAO.exists(korisnik.getKorisnickoIme()))
+			return true;
+		return false;
+	}
+	
 	public List<Korisnik> getKorisnici() {
 		return korisnici;
 	}
@@ -97,6 +111,22 @@ public class KorisnikBean {
 		this.prijavaKorisnickoIme = prijavaKorisnickoIme;
 	}
 	
+	public String getPonovljenaLozinka() {
+		return ponovljenaLozinka;
+	}
+
+	public void setPonovljenaLozinka(String ponovljenaLozinka) {
+		this.ponovljenaLozinka = ponovljenaLozinka;
+	}
+
+	public String getLozinkeNejednake() {
+		return lozinkeNejednake;
+	}
+
+	public void setLozinkeNejednake(String lozinkeNejednake) {
+		this.lozinkeNejednake = lozinkeNejednake;
+	}
+
 	public String prijavi() throws NoSuchAlgorithmException, SQLException
 	{
 		String stranica = "";
@@ -112,5 +142,30 @@ public class KorisnikBean {
 	public String noviPutopis()
 	{
 		return "newTravel";
+	}
+	
+	private String loz;
+	
+	public void sacuvajLozinku()
+	{
+		loz = korisnik.getLozinka();
+		System.out.println(loz);
+	}
+	
+	public void provjeriLozinke()
+	{
+		System.out.println("AAA>>>" + korisnik.getLozinka());
+		if (korisnik.getLozinka() != null)
+		{
+			sacuvajLozinku();
+		}
+		
+		System.out.println(loz + ">>" + ponovljenaLozinka);
+		if ("sasa".equals(ponovljenaLozinka))
+		{
+			lozinkeNejednake = "Lozinke se poklapaju.";
+		}
+		else
+			lozinkeNejednake = "Lozinke se ne poklapaju.";
 	}
 }
