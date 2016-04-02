@@ -1,18 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Travel The World Around</title>
-</head>
+<h:head>
+	<title>Wellcome</title>
+	<style>
+.feed {
+	width: 600px;
+	height: 200px;
+	overflow: scroll;
+}
+
+.header{
+	right: 0;
+}
+
+</style>
+</h:head>
 <h:body>
+
+	<div class="header">
+	<h:form>
+		<h:commandButton value="Odjavi se" action="#{korisnikBean.odjava}"></h:commandButton>
+	</h:form>
+	<h:form>
+		<h:commandButton value="Deaktiviraj nalog" action="#{korisnikBean.deaktiviraj}"></h:commandButton>
+	</h:form>
+	</div>
+	
 	<p:panelGrid>
 		<p:row>
-				<p:column>
+			<p:column>
 				<h:form>
 					<h:panelGrid columns="2">
 						<h:outputText value="Unesite ime korisnika:"></h:outputText>
@@ -22,7 +42,6 @@
 					</h:panelGrid>
 				</h:form>
 			</p:column>
-			
 			<p:column>
 				<h:form>
 					<h:panelGrid columns="2">
@@ -42,18 +61,21 @@
 						<f:facet name="header">Korisnicko ime</f:facet>
 			#{k.korisnickoIme}
 		</p:column>
-
+			
 					<p:column>
 						<f:facet name="header"></f:facet>
 						<h:commandButton value="Dodaj kontakt"></h:commandButton>
 					</p:column>
 				</h:dataTable>
 			</p:column>
-			
 			<p:column>
 				<h:form>
 					<h:commandButton value="Novi putopis" action="#{korisnikBean.noviPutopis}"></h:commandButton>
 				</h:form>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
 			</p:column>
 			
 			<p:column>
@@ -69,8 +91,20 @@
 			#{k.tekstPutopisa}
 		</p:column>
 				</h:dataTable>
+
 			</p:column>
 		</p:row>
+		<p:row>
+			<p:column>
+				
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				
+			</p:column>
+		</p:row>
+		
 	</p:panelGrid>
 </h:body>
 </html>

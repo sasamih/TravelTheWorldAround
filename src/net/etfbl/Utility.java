@@ -1,10 +1,16 @@
 package net.etfbl;
 
+import java.sql.SQLException;
+
 import javax.faces.context.FacesContext;
+
+import net.etfbl.beans.KorisnikBean;
+import net.etfbl.dto.Korisnik;
 
 public class Utility {
 
 	public static String projectPath = "";
+	public static Korisnik prijavljeniKorisnik = new Korisnik();
 	
 	public static String setPutanjaDoProjekta()
 	{

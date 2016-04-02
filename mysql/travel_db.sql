@@ -75,16 +75,19 @@ CREATE TABLE IF NOT EXISTS `KORISNIK` (
   `kratkaBiografija` varchar(450) COLLATE utf8_unicode_ci NOT NULL,
   `datumRodjenja` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `korisnickaGrupa` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KORISNIK: ~4 rows (approximately)
+-- Dumping data for table traveldb.KORISNIK: ~5 rows (approximately)
 /*!40000 ALTER TABLE `KORISNIK` DISABLE KEYS */;
-INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`) VALUES
-	('Branka', 'branka', '123', 'Pekez', 'branka@branka.com', 'Iz Podrasnice', '18.9.1993', 'administrator'),
-	('Dragan', 'gago', '04e0d737c9292f826b0a4a42bc22cf5f', 'Torbica', 'dragan@jovetorbica.com', 'Iz Krajine', '16.5.1961.', 'korisnik'),
-	('Mladen', 'mladen', '123', 'Stupar', 'mladen@mladen.com', 'Iz Tisce', '15.7.1993.', 'administrator'),
-	('Sasa', 'sasa', '123', 'Mihajlica', 'sasa@sasa.com', 'Iz Krsalja', '29.5.1993', 'administrator');
+INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`, `status`) VALUES
+	('Nepoznato', 'boskic', 'bb06f375b88a7fb178292d6a7383f7f3', 'Boskic', 'boskic@arhivatori.com', 'Braco sredio posao', '21.4.1988.', 'korisnik', 0),
+	('Branka', 'branka', '123', 'Pekez', 'branka@branka.com', 'Iz Podrasnice', '18.9.1993', 'administrator', 1),
+	('Djordje', 'djoko', 'fac434c27191d7a5ec906a69d93aa7b3', 'Cvarkov', 'cvarkov@arhivatori.com', 'Glavni arhivator', '21.4.1943.', 'korisnik', 2),
+	('Dragan', 'gago', '04e0d737c9292f826b0a4a42bc22cf5f', 'Torbica', 'dragan@jovetorbica.com', 'Iz Krajine', '16.5.1961.', 'korisnik', 1),
+	('Mladen', 'mladen', '123', 'Stupar', 'mladen@mladen.com', 'Iz Tisce', '15.7.1993.', 'administrator', 1),
+	('Sasa', 'sasa', '123', 'Mihajlica', 'sasa@sasa.com', 'Iz Krsalja', '29.5.1993', 'administrator', 1);
 /*!40000 ALTER TABLE `KORISNIK` ENABLE KEYS */;
 
 
@@ -125,17 +128,19 @@ CREATE TABLE IF NOT EXISTS `PUTOPIS` (
   `podaciOMjestu` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `putanja` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPutopisa`),
   KEY `fk_PUTOPIS_KORISNIK1_idx` (`imeAutora`),
   CONSTRAINT `fk_PUTOPIS_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.PUTOPIS: ~2 rows (approximately)
+-- Dumping data for table traveldb.PUTOPIS: ~3 rows (approximately)
 /*!40000 ALTER TABLE `PUTOPIS` DISABLE KEYS */;
-INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`) VALUES
-	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa'),
-	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa'),
-	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago');
+INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `status`) VALUES
+	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa', 1),
+	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa', 1),
+	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago', 1),
+	(5, 'Na farmi kod babe', NULL, NULL, '/WEB-INF/putopisi/Na farmi kod babe.txt', 'djoko', 0);
 /*!40000 ALTER TABLE `PUTOPIS` ENABLE KEYS */;
 
 

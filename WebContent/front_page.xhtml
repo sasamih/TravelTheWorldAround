@@ -21,6 +21,7 @@
 
 			</p:column>
 			<p:column>
+				<h:outputText value="#{korisnikBean.porukaPrijava}" style="color:red"></h:outputText>
 				<h:form>
 					<h:panelGrid columns="3">
 						<h:outputText value="Korisnicko ime: "></h:outputText>
@@ -73,7 +74,9 @@
 
 			</p:column>
 			<p:column>
+				
 				<h:form>
+					<h:outputText value="#{korisnikBean.porukaRegistracija}" style="color:red"></h:outputText>
 					<h:panelGrid columns="3">
 						<h:outputText value="Ime:"></h:outputText>
 						<h:inputText id="ime" value="#{korisnikBean.korisnik.ime}"

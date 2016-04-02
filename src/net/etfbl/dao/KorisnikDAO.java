@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import com.mysql.jdbc.PreparedStatement;
 
 import net.etfbl.ConnectionPool;
+import net.etfbl.Utility;
 import net.etfbl.dto.Korisnik;
 
 public class KorisnikDAO {
 		private static String queryGetAll = "select * from knjiga";
 		private static String queryGetByUsernameAndPassowrd = "select * from KORISNIK where korisnickoIme like ? and lozinka like ?;";
 		private static String queryGetByName = "select * from KORISNIK where korisnickoIme like ?;";
-		private static String queryUpdate = "UPDATE `knjigadb`.`knjiga` SET `status`=? WHERE `id`=?;";
+		private static String queryUpdateStatus = "UPDATE KORISNIK SET `status`=? WHERE `korisnickoIme`=?;";
 		private static String queryInsert = "INSERT INTO `traveldb`.`KORISNIK` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		private static String quertExists = "select * from KORISNIK where korisnickoIme=?;";
 		
@@ -59,7 +60,6 @@ public class KorisnikDAO {
 				ps.close();
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return true;
@@ -79,15 +79,24 @@ public class KorisnikDAO {
 				ResultSet rs = ps.executeQuery();
 				if (rs.next())
 				{
-					korisnik = new Korisnik();
-					korisnik.setIme(rs.getString(1));
-					korisnik.setKorisnickoIme(rs.getString(2));
-					korisnik.setLozinka(rs.getString(3));
-					korisnik.setPrezime(rs.getString(4));
-					korisnik.seteMail(rs.getString(5));
-					korisnik.setKratkaBiografija(rs.getString(6));
-					korisnik.setDatumRodjenja(rs.getString(7));
-					korisnik.setKorisnickaGrupa(rs.getString(8));
+					if (rs.getInt(9) != 0)
+					{
+						korisnik = new Korisnik();
+						korisnik.setIme(rs.getString(1));
+						korisnik.setKorisnickoIme(rs.getString(2));
+						korisnik.setLozinka(rs.getString(3));
+						korisnik.setPrezime(rs.getString(4));
+						korisnik.seteMail(rs.getString(5));
+						korisnik.setKratkaBiografija(rs.getString(6));
+						korisnik.setDatumRodjenja(rs.getString(7));
+						korisnik.setKorisnickaGrupa(rs.getString(8));
+						korisnik.setStatus(rs.getInt(9));
+						
+						if (korisnik.getStatus() == 2)
+						{
+							changeStatus(conn, 1, korisnickoIme);
+						}
+					}
 				}
 				
 				rs.close();
@@ -96,6 +105,26 @@ public class KorisnikDAO {
 			conn.close();
 			return korisnik;
 			
+		}
+		
+		public static void deactivate(Korisnik korisnik) throws SQLException
+		{
+			Connection conn = ConnectionPool.openConnection();
+			if (conn != null)
+			{
+				System.out.println(korisnik.getKorisnickoIme());
+				changeStatus(conn, 2, korisnik.getKorisnickoIme());
+			}
+			conn.close();
+		}
+		
+		private static void changeStatus(Connection conn, int status, String korisnickoIme) throws SQLException
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryUpdateStatus);
+			ps.setInt(1, status);
+			ps.setString(2, korisnickoIme);
+			ps.executeUpdate();
+			ps.close();
 		}
 		
 		public static boolean exists(String korisnickoIme) throws SQLException

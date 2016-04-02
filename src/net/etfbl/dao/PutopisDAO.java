@@ -63,7 +63,7 @@ public class PutopisDAO {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryInsert);
 			ps.setString(1, putopis.getNazivPutopisa());
 			ps.setString(2, putopis.getPutanja());
-			ps.setString(3, "gago");
+			ps.setString(3, putopis.getKorisnik().getKorisnickoIme());
 			ps.setInt(4, putopis.getStatus());
 			ps.executeUpdate();
 			success = true;

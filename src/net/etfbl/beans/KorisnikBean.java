@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
+import net.etfbl.Utility;
 import net.etfbl.dto.Korisnik;
 import net.etfbl.dao.*;
 
@@ -21,6 +22,9 @@ public class KorisnikBean {
 	
 	private String ponovljenaLozinka;
 	private String lozinkeNejednake;
+	
+	private String porukaRegistracija = "";
+	private String porukaPrijava = "";
 
 	public KorisnikBean()
 	{
@@ -44,13 +48,23 @@ public class KorisnikBean {
 		this.prijavljeniKorisnik = prijavljeniKorisnik;
 	}
 
-	public boolean insert() throws NoSuchAlgorithmException, SQLException
+	public boolean insert() throws NoSuchAlgorithmException
 	{
-		if (!korisnikExists())
-		{
-			KorisnikDAO.insertKorisnik(korisnik);
-			this.obrisiPolja();
-			return true;
+		try {
+			if (!korisnikExists())
+			{
+				KorisnikDAO.insertKorisnik(korisnik);
+				setPorukaRegistracija("Vas nalog ceka na odobrenje od administratora.");
+				this.obrisiPolja();
+				return true;
+			}
+			else
+			{
+				setPorukaRegistracija("Korisnicko ime vec postoji.");
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -127,23 +141,62 @@ public class KorisnikBean {
 		this.lozinkeNejednake = lozinkeNejednake;
 	}
 
+	public String getPorukaRegistracija() {
+		return porukaRegistracija;
+	}
+
+	public void setPorukaRegistracija(String porukaRegistracija) {
+		this.porukaRegistracija = porukaRegistracija;
+	}
+
+	public String getPorukaPrijava() {
+		return porukaPrijava;
+	}
+
+	public void setPorukaPrijava(String porukaPrijava) {
+		this.porukaPrijava = porukaPrijava;
+	}
+
 	public String prijavi() throws NoSuchAlgorithmException, SQLException
 	{
 		String stranica = "";
 		prijavljeniKorisnik = KorisnikDAO.login(prijavaKorisnickoIme, prijavaLozinka);
+		Utility.prijavljeniKorisnik = prijavljeniKorisnik;
 		if (prijavljeniKorisnik != null)
 			stranica = "userpage";
 		else
+		{
 			stranica = "front_page";
-		
+			porukaPrijava = "Vas nalog ceka na odobrenje administratora.";
+		}
+		//System.out.println("1." + prijavljeniKorisnik.getKorisnickoIme());
 		return stranica;
+	}
+	
+	public String odjava()
+	{
+		prijavljeniKorisnik = null;
+		prijavljeniKorisnik = new Korisnik();
+		
+		return "front_page";
+	}
+	
+	public String deaktiviraj() throws SQLException
+	{
+		//System.out.println("2." + Utility.prijavljeniKorisnik.getKorisnickoIme());
+		KorisnikDAO.deactivate(Utility.prijavljeniKorisnik);
+		Utility.prijavljeniKorisnik = null;
+		odjava();
+		
+		return "front_page";
 	}
 	
 	public String noviPutopis()
 	{
 		return "newTravel";
 	}
-	
+
+	////////////////////////////////////////////////////////////////////////////////
 	private String loz;
 	
 	public void sacuvajLozinku()
@@ -168,4 +221,6 @@ public class KorisnikBean {
 		else
 			lozinkeNejednake = "Lozinke se ne poklapaju.";
 	}
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
@@ -18,6 +19,17 @@ public class PutopisBean {
 	private String tekstPretrage;
 	private List<Putopis> putopisi = null;
 	private Putopis noviPutopis = new Putopis();
+	
+	@ManagedProperty(value="#{korisnikBean}")
+	private KorisnikBean korisnikBean;
+	
+	public KorisnikBean getKorisnikBean() {
+		return korisnikBean;
+	}
+
+	public void setKorisnikBean(KorisnikBean korisnikBean) {
+		this.korisnikBean = korisnikBean;
+	}
 
 	public String getTekstPretrage() {
 		return tekstPretrage;
@@ -66,6 +78,8 @@ public class PutopisBean {
 		PrintWriter pw = new PrintWriter(new File(Utility.projectPath + noviPutopis.getPutanja()));
 		pw.println(noviPutopis.getTekstPutopisa());
 		pw.close();
+		System.out.println(korisnikBean.getPrijavljeniKorisnik().getKorisnickoIme());
+		noviPutopis.setKorisnik(Utility.prijavljeniKorisnik);
 		
 		PutopisDAO.insert(noviPutopis);
 	}
