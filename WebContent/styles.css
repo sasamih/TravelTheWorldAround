@@ -1,0 +1,9 @@
+.feed {
+	width: 600px;
+	height: 200px;
+	overflow: scroll;
+}
+
+.header{
+	right: 0;
+}

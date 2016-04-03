@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `KLJUCNE_RIJECI` (
   CONSTRAINT `fk_KLJUCNE_RIJECI_PUTOPIS1` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KLJUCNE_RIJECI: ~5 rows (approximately)
+-- Dumping data for table traveldb.KLJUCNE_RIJECI: ~7 rows (approximately)
 /*!40000 ALTER TABLE `KLJUCNE_RIJECI` DISABLE KEYS */;
 INSERT INTO `KLJUCNE_RIJECI` (`idKljucneRijeci`, `Tekst`, `PUTOPIS_idPutopis`) VALUES
 	(1, 'Milano', 1),
@@ -67,6 +67,21 @@ CREATE TABLE IF NOT EXISTS `KOMENTAR_SLIKA` (
 /*!40000 ALTER TABLE `KOMENTAR_SLIKA` ENABLE KEYS */;
 
 
+-- Dumping structure for table traveldb.KONTAKT
+CREATE TABLE IF NOT EXISTS `KONTAKT` (
+  `korisnikIme` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `kontaktIme` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`korisnikIme`,`kontaktIme`),
+  KEY `FK_kontakt_ime` (`kontaktIme`),
+  CONSTRAINT `FK_korisnik_ime` FOREIGN KEY (`korisnikIme`) REFERENCES `KORISNIK` (`korisnickoIme`),
+  CONSTRAINT `FK_kontakt_ime` FOREIGN KEY (`kontaktIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table traveldb.KONTAKT: ~0 rows (approximately)
+/*!40000 ALTER TABLE `KONTAKT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `KONTAKT` ENABLE KEYS */;
+
+
 -- Dumping structure for table traveldb.KORISNIK
 CREATE TABLE IF NOT EXISTS `KORISNIK` (
   `ime` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
@@ -77,13 +92,13 @@ CREATE TABLE IF NOT EXISTS `KORISNIK` (
   `kratkaBiografija` varchar(450) COLLATE utf8_unicode_ci NOT NULL,
   `datumRodjenja` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `korisnickaGrupa` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `status` int(11) DEFAULT NULL,
+  `statusKorisnik` int(11) DEFAULT NULL,
   PRIMARY KEY (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KORISNIK: ~6 rows (approximately)
+-- Dumping data for table traveldb.KORISNIK: ~7 rows (approximately)
 /*!40000 ALTER TABLE `KORISNIK` DISABLE KEYS */;
-INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`, `status`) VALUES
+INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`, `statusKorisnik`) VALUES
 	('Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', 'Admin', '1.1.1950.', 'administrator', 1),
 	('Nepoznato', 'boskic', 'bb06f375b88a7fb178292d6a7383f7f3', 'Boskic', 'boskic@arhivatori.com', 'Braco sredio posao', '21.4.1988.', 'korisnik', 0),
 	('Branka', 'branka', '123', 'Pekez', 'branka@branka.com', 'Iz Podrasnice', '18.9.1993', 'administrator', 1),
@@ -123,6 +138,22 @@ CREATE TABLE IF NOT EXISTS `OCJENA_SLIKA` (
 /*!40000 ALTER TABLE `OCJENA_SLIKA` ENABLE KEYS */;
 
 
+-- Dumping structure for table traveldb.poruka
+CREATE TABLE IF NOT EXISTS `poruka` (
+  `posiljalac` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `primalac` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `tekstPoruke` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`posiljalac`,`primalac`),
+  KEY `FK_primalac_ime` (`primalac`),
+  CONSTRAINT `FK_posiljalac_ime` FOREIGN KEY (`posiljalac`) REFERENCES `KORISNIK` (`korisnickoIme`),
+  CONSTRAINT `FK_primalac_ime` FOREIGN KEY (`primalac`) REFERENCES `KORISNIK` (`korisnickoIme`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table traveldb.poruka: ~0 rows (approximately)
+/*!40000 ALTER TABLE `poruka` DISABLE KEYS */;
+/*!40000 ALTER TABLE `poruka` ENABLE KEYS */;
+
+
 -- Dumping structure for table traveldb.PUTOPIS
 CREATE TABLE IF NOT EXISTS `PUTOPIS` (
   `idPutopisa` int(11) NOT NULL AUTO_INCREMENT,
@@ -131,15 +162,15 @@ CREATE TABLE IF NOT EXISTS `PUTOPIS` (
   `podaciOMjestu` varchar(90) COLLATE utf8_unicode_ci DEFAULT NULL,
   `putanja` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `status` int(11) DEFAULT NULL,
+  `statusPutopis` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPutopisa`),
   KEY `fk_PUTOPIS_KORISNIK1_idx` (`imeAutora`),
   CONSTRAINT `fk_PUTOPIS_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.PUTOPIS: ~4 rows (approximately)
+-- Dumping data for table traveldb.PUTOPIS: ~8 rows (approximately)
 /*!40000 ALTER TABLE `PUTOPIS` DISABLE KEYS */;
-INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `status`) VALUES
+INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`) VALUES
 	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa', 1),
 	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa', 1),
 	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago', 1),

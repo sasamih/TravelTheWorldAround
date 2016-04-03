@@ -168,21 +168,31 @@ public class KorisnikBean {
 		prijavljeniKorisnik = KorisnikDAO.login(prijavaKorisnickoIme, prijavaLozinka);
 		Utility.prijavljeniKorisnik = prijavljeniKorisnik;
 		if (prijavljeniKorisnik != null)
-			if (prijavljeniKorisnik.getKorisnickaGrupa().equals("korisnik"))
+		{
+			if (prijavljeniKorisnik.getStatus() != 0)
 			{
-				stranica = "userpage";
+				if (prijavljeniKorisnik.getKorisnickaGrupa().equals("korisnik"))
+				{
+					stranica = "userpage";
+				}
+				else
+				{
+					naloziUCekanju = new ArrayList<Korisnik>();
+					naloziUCekanju = KorisnikDAO.getUsersOnHold();
+					PutopisBean.getTravelsOnHold();
+					stranica = "adminpage";
+				}
 			}
 			else
 			{
-				naloziUCekanju = new ArrayList<Korisnik>();
-				naloziUCekanju = KorisnikDAO.getUsersOnHold();
-				PutopisBean.getTravelsOnHold();
-				stranica = "adminpage";
+				stranica = "front_page";
+				porukaPrijava = "Vas nalog ceka na odobrenje administratora.";
 			}
+		}
 		else
 		{
 			stranica = "front_page";
-			porukaPrijava = "Vas nalog ceka na odobrenje administratora.";
+			porukaPrijava = "Korisnicko ime ili lozinka nisu ispravni.";
 		}
 		//System.out.println("1." + prijavljeniKorisnik.getKorisnickoIme());
 		return stranica;

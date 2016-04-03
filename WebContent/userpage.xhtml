@@ -6,22 +6,11 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Wellcome</title>
-	<style>
-.feed {
-	width: 600px;
-	height: 200px;
-	overflow: scroll;
-}
-
-.header{
-	right: 0;
-}
-
-</style>
+<link href="#{request.contextPath}/styles.css" rel="stylesheet" type="text/css"/>
 </h:head>
 <h:body>
 
-	<div class="header">
+	<div>
 	<h:form>
 		<h:commandButton value="Odjavi se" action="#{korisnikBean.odjava}"></h:commandButton>
 	</h:form>

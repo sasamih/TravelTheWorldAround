@@ -13,9 +13,9 @@ import net.etfbl.dto.Putopis;
 
 public class PutopisDAO {
 
-	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `status`) values(?, ?, ?, ?, ?, ?);";
-	public static String queryUpdateStatus = "update PUTOPIS set status=? where idPutopisa=?;";
-	public static String queryTravelsOnHold = "select * from PUTOPIS where status=0;";
+	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`) values(?, ?, ?, ?, ?, ?);";
+	public static String queryUpdateStatus = "update PUTOPIS set statusPutopis=? where idPutopisa=?;";
+	public static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
 	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
 		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst=? ";
@@ -124,6 +124,7 @@ public class PutopisDAO {
 				putopis.setDatumObjavljivanja(rs.getString(3));
 				putopis.setPodaciOMjestu(rs.getString(4));
 				putopis.setPutanja(rs.getString(5));
+				putopis.setKorisnik(KorisnikDAO.setUser(rs));
 				putopis.setStatus(rs.getInt(7));
 				putopisi.add(putopis);
 			}
