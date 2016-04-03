@@ -20,7 +20,8 @@ public class KorisnikDAO {
 		private static String queryGetByName = "select * from KORISNIK where korisnickoIme like ?;";
 		private static String queryUpdateStatus = "UPDATE KORISNIK SET `status`=? WHERE `korisnickoIme`=?;";
 		private static String queryInsert = "INSERT INTO `traveldb`.`KORISNIK` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		private static String quertExists = "select * from KORISNIK where korisnickoIme=?;";
+		private static String queryExists = "select * from KORISNIK where korisnickoIme=?;";
+		private static String queryOnHold = "select * from KORISNIK where status=0;";
 		
 		public static ArrayList<Korisnik> getByName(String naziv)
 		{
@@ -82,15 +83,7 @@ public class KorisnikDAO {
 					if (rs.getInt(9) != 0)
 					{
 						korisnik = new Korisnik();
-						korisnik.setIme(rs.getString(1));
-						korisnik.setKorisnickoIme(rs.getString(2));
-						korisnik.setLozinka(rs.getString(3));
-						korisnik.setPrezime(rs.getString(4));
-						korisnik.seteMail(rs.getString(5));
-						korisnik.setKratkaBiografija(rs.getString(6));
-						korisnik.setDatumRodjenja(rs.getString(7));
-						korisnik.setKorisnickaGrupa(rs.getString(8));
-						korisnik.setStatus(rs.getInt(9));
+						korisnik = setUser(rs);
 						
 						if (korisnik.getStatus() == 2)
 						{
@@ -112,8 +105,17 @@ public class KorisnikDAO {
 			Connection conn = ConnectionPool.openConnection();
 			if (conn != null)
 			{
-				System.out.println(korisnik.getKorisnickoIme());
 				changeStatus(conn, 2, korisnik.getKorisnickoIme());
+			}
+			conn.close();
+		}
+		
+		public static void activate(Korisnik korisnik) throws SQLException
+		{
+			Connection conn = ConnectionPool.openConnection();
+			if (conn != null)
+			{
+				changeStatus(conn, 1, korisnik.getKorisnickoIme());
 			}
 			conn.close();
 		}
@@ -133,13 +135,52 @@ public class KorisnikDAO {
 			
 			if (conn != null)
 			{
-				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(quertExists);
+				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryExists);
 				ps.setString(1, korisnickoIme);
 				ResultSet rs = ps.executeQuery();
 				if(rs.next())
 					return true;
 			}
 			return false;
+		}
+		
+		public static ArrayList<Korisnik> getUsersOnHold() throws SQLException
+		{
+			ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
+			
+			Connection conn = ConnectionPool.openConnection();
+			if (conn != null)
+			{
+				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryOnHold);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next())
+				{
+					Korisnik korisnik = new Korisnik();
+					korisnik = setUser(rs);
+					korisnici.add(korisnik);
+				}
+				rs.close();
+				ps.close();
+			}
+			conn.close();
+			
+			return korisnici;
+		}
+		
+		private static Korisnik setUser(ResultSet rs) throws SQLException
+		{
+			Korisnik korisnik = new Korisnik();
+			korisnik.setIme(rs.getString(1));
+			korisnik.setKorisnickoIme(rs.getString(2));
+			korisnik.setLozinka(rs.getString(3));
+			korisnik.setPrezime(rs.getString(4));
+			korisnik.seteMail(rs.getString(5));
+			korisnik.setKratkaBiografija(rs.getString(6));
+			korisnik.setDatumRodjenja(rs.getString(7));
+			korisnik.setKorisnickaGrupa(rs.getString(8));
+			korisnik.setStatus(rs.getInt(9));
+			
+			return korisnik;
 		}
 		
 		private static String getMD5Hash(String lozinka) throws NoSuchAlgorithmException

@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `KLJUCNE_RIJECI` (
   PRIMARY KEY (`idKljucneRijeci`),
   KEY `fk_KLJUCNE_RIJECI_PUTOPIS1_idx` (`PUTOPIS_idPutopis`),
   CONSTRAINT `fk_KLJUCNE_RIJECI_PUTOPIS1` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.KLJUCNE_RIJECI: ~5 rows (approximately)
 /*!40000 ALTER TABLE `KLJUCNE_RIJECI` DISABLE KEYS */;
@@ -32,7 +32,9 @@ INSERT INTO `KLJUCNE_RIJECI` (`idKljucneRijeci`, `Tekst`, `PUTOPIS_idPutopis`) V
 	(2, 'Italija', 1),
 	(3, 'istorija', 1),
 	(4, 'Italija', 2),
-	(5, 'Venecija', 2);
+	(5, 'Venecija', 2),
+	(6, 'Joja', 14),
+	(7, 'Beograd', 14);
 /*!40000 ALTER TABLE `KLJUCNE_RIJECI` ENABLE KEYS */;
 
 
@@ -79,12 +81,13 @@ CREATE TABLE IF NOT EXISTS `KORISNIK` (
   PRIMARY KEY (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KORISNIK: ~5 rows (approximately)
+-- Dumping data for table traveldb.KORISNIK: ~6 rows (approximately)
 /*!40000 ALTER TABLE `KORISNIK` DISABLE KEYS */;
 INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`, `status`) VALUES
+	('Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', 'Admin', '1.1.1950.', 'administrator', 1),
 	('Nepoznato', 'boskic', 'bb06f375b88a7fb178292d6a7383f7f3', 'Boskic', 'boskic@arhivatori.com', 'Braco sredio posao', '21.4.1988.', 'korisnik', 0),
 	('Branka', 'branka', '123', 'Pekez', 'branka@branka.com', 'Iz Podrasnice', '18.9.1993', 'administrator', 1),
-	('Djordje', 'djoko', 'fac434c27191d7a5ec906a69d93aa7b3', 'Cvarkov', 'cvarkov@arhivatori.com', 'Glavni arhivator', '21.4.1943.', 'korisnik', 2),
+	('Djordje', 'djoko', 'fac434c27191d7a5ec906a69d93aa7b3', 'Cvarkov', 'cvarkov@arhivatori.com', 'Glavni arhivator', '21.4.1943.', 'korisnik', 1),
 	('Dragan', 'gago', '04e0d737c9292f826b0a4a42bc22cf5f', 'Torbica', 'dragan@jovetorbica.com', 'Iz Krajine', '16.5.1961.', 'korisnik', 1),
 	('Mladen', 'mladen', '123', 'Stupar', 'mladen@mladen.com', 'Iz Tisce', '15.7.1993.', 'administrator', 1),
 	('Sasa', 'sasa', '123', 'Mihajlica', 'sasa@sasa.com', 'Iz Krsalja', '29.5.1993', 'administrator', 1);
@@ -125,22 +128,26 @@ CREATE TABLE IF NOT EXISTS `PUTOPIS` (
   `idPutopisa` int(11) NOT NULL AUTO_INCREMENT,
   `nazivPutopisa` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `datumObjavljivanja` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `podaciOMjestu` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `podaciOMjestu` varchar(90) COLLATE utf8_unicode_ci DEFAULT NULL,
   `putanja` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPutopisa`),
   KEY `fk_PUTOPIS_KORISNIK1_idx` (`imeAutora`),
   CONSTRAINT `fk_PUTOPIS_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.PUTOPIS: ~3 rows (approximately)
+-- Dumping data for table traveldb.PUTOPIS: ~4 rows (approximately)
 /*!40000 ALTER TABLE `PUTOPIS` DISABLE KEYS */;
 INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `status`) VALUES
 	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa', 1),
 	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa', 1),
 	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago', 1),
-	(5, 'Na farmi kod babe', NULL, NULL, '/WEB-INF/putopisi/Na farmi kod babe.txt', 'djoko', 0);
+	(5, 'Na farmi kod babe', NULL, NULL, '/WEB-INF/putopisi/Na farmi kod babe.txt', 'djoko', 0),
+	(9, 'U Majkic Japru po piletinu', '3.4.2016.', 'Majkic Japra', '/WEB-INF/putopisi/U Majkic Japru po piletinu.txt', 'gago', 0),
+	(10, 'Kod tetka u Ofenbahu', '3.4.2016.', 'Ofenbah', '/WEB-INF/putopisi/Kod tetka u Ofenbahu.txt', 'gago', 0),
+	(13, 'Sa koncerta Piju grupe', '3.4.2016.', 'Novi Sad', '/WEB-INF/putopisi/Sa koncerta Piju grupe.txt', 'djoko', 0),
+	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 0);
 /*!40000 ALTER TABLE `PUTOPIS` ENABLE KEYS */;
 
 

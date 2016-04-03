@@ -3,6 +3,7 @@ package net.etfbl.beans;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -20,16 +21,9 @@ public class PutopisBean {
 	private List<Putopis> putopisi = null;
 	private Putopis noviPutopis = new Putopis();
 	
-	@ManagedProperty(value="#{korisnikBean}")
-	private KorisnikBean korisnikBean;
+	private String kljucneRijeci;
 	
-	public KorisnikBean getKorisnikBean() {
-		return korisnikBean;
-	}
-
-	public void setKorisnikBean(KorisnikBean korisnikBean) {
-		this.korisnikBean = korisnikBean;
-	}
+	private static List<Putopis> putopisiUCekanju;
 
 	public String getTekstPretrage() {
 		return tekstPretrage;
@@ -74,16 +68,29 @@ public class PutopisBean {
 		if (Utility.projectPath.equals(""))
 		{
 			Utility.setPutanjaDoProjekta();
-		}	
+		}
+		
+		Calendar c = Calendar.getInstance();
+		noviPutopis.setDatumObjavljivanja(c.get(Calendar.DAY_OF_MONTH) + "." 
+				+ (c.get(Calendar.MONTH)+1) + "." + c.get(Calendar.YEAR) + ".");
+		
 		PrintWriter pw = new PrintWriter(new File(Utility.projectPath + noviPutopis.getPutanja()));
 		pw.println(noviPutopis.getTekstPutopisa());
 		pw.close();
-		System.out.println(korisnikBean.getPrijavljeniKorisnik().getKorisnickoIme());
+		
 		noviPutopis.setKorisnik(Utility.prijavljeniKorisnik);
 		
-		PutopisDAO.insert(noviPutopis);
+		String[] rijeci = kljucneRijeci.split(",");
+		PutopisDAO.insert(noviPutopis, rijeci);
 	}
 
+	public String odobriPutopis(Putopis putopis) throws SQLException
+	{
+		putopis.setStatus(1);
+		PutopisDAO.updateStatus(putopis);
+		return "adminpage";
+	}
+	
 	public void setPutopisiForGuest(List<Putopis> putopisi)
 	{
 		for(Putopis p : putopisi)
@@ -119,5 +126,27 @@ public class PutopisBean {
 				br.close();
 			}
 		}
+	}
+
+	public String getKljucneRijeci() {
+		return kljucneRijeci;
+	}
+
+	public void setKljucneRijeci(String kljucneRijeci) {
+		this.kljucneRijeci = kljucneRijeci;
+	}
+
+	public static void getTravelsOnHold() throws SQLException
+	{
+		putopisiUCekanju = new ArrayList<Putopis>();
+		putopisiUCekanju = PutopisDAO.getTravelsOnHold();
+	}
+	
+	public List<Putopis> getPutopisiUCekanju() {
+		return putopisiUCekanju;
+	}
+
+	public void setPutopisiUCekanju(List<Putopis> putopisiUCekanju) {
+		this.putopisiUCekanju = putopisiUCekanju;
 	}
 }

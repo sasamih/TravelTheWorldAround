@@ -16,11 +16,21 @@
 			<h:inputText value="#{putopisBean.noviPutopis.nazivPutopisa}" id="naslov"
 				required="true" requiredMessage="Polje nije popunjeno!"></h:inputText>
 			<h:message for="naslov" style="color:red"></h:message>
+			
+			<h:outputText value="Naziv mjesta"></h:outputText>
+			<h:inputText value="#{putopisBean.noviPutopis.podaciOMjestu}" id="mjesto"
+				required="true" requiredMessage="Polje nije popunjeno!"></h:inputText>
+			<h:message for="mjesto" style="color:red"></h:message>
+			
 			<h:outputText value="Tekst putopisa:"></h:outputText>
 			<h:inputTextarea cols="40" rows="20" value="#{putopisBean.noviPutopis.tekstPutopisa}" id="tekst"
 				required="true" requiredMessage="Polje nije popunjeno!"></h:inputTextarea>
 			<h:message for="tekst" style="color:red"></h:message>
-			#{putopisBean.noviPutopis.korisnik} = #{korisnikBean.prijavljeniKorisnik}
+			
+			<h:outputText value="Kljucne rijeci putopisa(odvojene zarezom):"></h:outputText>
+			<h:inputText value="#{putopisBean.kljucneRijeci}"></h:inputText>
+			<h:outputText></h:outputText>
+			
 			<h:commandButton value="Sacuvaj" action="#{putopisBean.insert}"></h:commandButton>
 		</h:panelGrid>
 	</h:form>

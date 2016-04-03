@@ -13,7 +13,9 @@ import net.etfbl.dto.Putopis;
 
 public class PutopisDAO {
 
-	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`,`putanja`, `imeAutora`, `status`) values(?, ?, ?, ?);";
+	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `status`) values(?, ?, ?, ?, ?, ?);";
+	public static String queryUpdateStatus = "update PUTOPIS set status=? where idPutopisa=?;";
+	public static String queryTravelsOnHold = "select * from PUTOPIS where status=0;";
 	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
 		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst=? ";
@@ -52,7 +54,7 @@ public class PutopisDAO {
 		return putopisi;
 	}
 
-	public static boolean insert(Putopis putopis) throws SQLException
+	public static boolean insert(Putopis putopis, String[] rijeci) throws SQLException
 	{
 		boolean success = false;
 		
@@ -62,10 +64,29 @@ public class PutopisDAO {
 		{
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryInsert);
 			ps.setString(1, putopis.getNazivPutopisa());
-			ps.setString(2, putopis.getPutanja());
-			ps.setString(3, putopis.getKorisnik().getKorisnickoIme());
-			ps.setInt(4, putopis.getStatus());
+			ps.setString(2, putopis.getDatumObjavljivanja());
+			ps.setString(3, putopis.getPodaciOMjestu());
+			ps.setString(4, putopis.getPutanja());
+			ps.setString(5, putopis.getKorisnik().getKorisnickoIme());
+			ps.setInt(6, 0);
 			ps.executeUpdate();
+			
+			String lastIdQuery = "select last_insert_id();";
+			ps = (PreparedStatement) conn.prepareStatement(lastIdQuery);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int putopisId = rs.getInt(1);
+			rs.close();
+			
+			for (int i = 0; i < rijeci.length; i++)
+			{
+				String keyWordQuery = "insert into KLJUCNE_RIJECI(`Tekst`, `PUTOPIS_idPutopis`) values(?, ?);";
+				ps = (PreparedStatement) conn.prepareStatement(keyWordQuery);
+				ps.setString(1, rijeci[i]);
+				ps.setInt(2, putopisId);
+				ps.executeUpdate();
+			}
+			
 			success = true;
 			ps.close();
 		}
@@ -74,19 +95,43 @@ public class PutopisDAO {
 		return success;
 	}
 	
-	/*
-	 * public static boolean insertKorisnik(Korisnik korisnik) { Connection conn
-	 * = ConnectionPool.openConnection(); try { PreparedStatement ps =
-	 * (PreparedStatement) conn.prepareStatement(querryInsert); ps.setString(1,
-	 * korisnik.getIme()); ps.setString(2, korisnik.getKorisnickoIme());
-	 * ps.setString(3, korisnik.getLozinka()); ps.setString(4,
-	 * korisnik.getPrezime()); ps.setString(5, korisnik.geteMail());
-	 * ps.setString(6, korisnik.getKratkaBiografija()); ps.setString(7,
-	 * korisnik.getDatumRodjenja()); ps.setString(8,
-	 * korisnik.getKorisnickaGrupa());
-	 * 
-	 * ps.executeUpdate(); ps.close(); conn.close(); } catch (SQLException e) {
-	 * // TODO Auto-generated catch block e.printStackTrace(); } return true; }
-	 */
 
+	public static void updateStatus(Putopis putopis) throws SQLException
+	{
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryUpdateStatus);
+			ps.setInt(1, putopis.getStatus());
+			ps.setInt(2, putopis.getIdPutopisa());
+		}
+	}
+	
+	public static ArrayList<Putopis> getTravelsOnHold() throws SQLException
+	{
+		ArrayList<Putopis> putopisi = new ArrayList<Putopis>();
+		
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryTravelsOnHold);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				Putopis putopis = new Putopis();
+				putopis.setIdPutopisa(rs.getInt(1));
+				putopis.setNazivPutopisa(rs.getString(2));
+				putopis.setDatumObjavljivanja(rs.getString(3));
+				putopis.setPodaciOMjestu(rs.getString(4));
+				putopis.setPutanja(rs.getString(5));
+				putopis.setStatus(rs.getInt(7));
+				putopisi.add(putopis);
+			}
+			rs.close();
+			ps.close();
+		}
+		conn.close();
+		
+		return putopisi;
+	}
 }

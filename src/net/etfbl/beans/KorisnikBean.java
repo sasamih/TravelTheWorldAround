@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import net.etfbl.Utility;
 import net.etfbl.dto.Korisnik;
+import net.etfbl.dto.Putopis;
 import net.etfbl.dao.*;
 
 @ManagedBean(name = "korisnikBean")
+//@ViewScoped
 public class KorisnikBean {
 	private Korisnik korisnik;
 	private Korisnik prijavljeniKorisnik;
@@ -25,6 +28,8 @@ public class KorisnikBean {
 	
 	private String porukaRegistracija = "";
 	private String porukaPrijava = "";
+	
+	private List<Korisnik> naloziUCekanju;
 
 	public KorisnikBean()
 	{
@@ -163,7 +168,17 @@ public class KorisnikBean {
 		prijavljeniKorisnik = KorisnikDAO.login(prijavaKorisnickoIme, prijavaLozinka);
 		Utility.prijavljeniKorisnik = prijavljeniKorisnik;
 		if (prijavljeniKorisnik != null)
-			stranica = "userpage";
+			if (prijavljeniKorisnik.getKorisnickaGrupa().equals("korisnik"))
+			{
+				stranica = "userpage";
+			}
+			else
+			{
+				naloziUCekanju = new ArrayList<Korisnik>();
+				naloziUCekanju = KorisnikDAO.getUsersOnHold();
+				PutopisBean.getTravelsOnHold();
+				stranica = "adminpage";
+			}
 		else
 		{
 			stranica = "front_page";
@@ -195,6 +210,13 @@ public class KorisnikBean {
 	{
 		return "newTravel";
 	}
+	
+	public String odobriKorisnika()//Korisnik korisnik) throws SQLException
+	{
+		System.out.println("Bio");
+		//KorisnikDAO.activate(korisnik);
+		return "adminpage";
+	}
 
 	////////////////////////////////////////////////////////////////////////////////
 	private String loz;
@@ -222,5 +244,13 @@ public class KorisnikBean {
 			lozinkeNejednake = "Lozinke se ne poklapaju.";
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	public List<Korisnik> getNaloziUCekanju() {
+		return naloziUCekanju;
+	}
+
+	public void setNaloziUCekanju(ArrayList<Korisnik> naloziUCekanju) {
+		this.naloziUCekanju = naloziUCekanju;
+	}
 	
 }
