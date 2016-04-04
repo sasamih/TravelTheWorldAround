@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `KONTAKT` (
   `kontaktIme` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`korisnikIme`,`kontaktIme`),
   KEY `FK_kontakt_ime` (`kontaktIme`),
-  CONSTRAINT `FK_korisnik_ime` FOREIGN KEY (`korisnikIme`) REFERENCES `KORISNIK` (`korisnickoIme`),
-  CONSTRAINT `FK_kontakt_ime` FOREIGN KEY (`kontaktIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
+  CONSTRAINT `FK_kontakt_ime` FOREIGN KEY (`kontaktIme`) REFERENCES `KORISNIK` (`korisnickoIme`),
+  CONSTRAINT `FK_korisnik_ime` FOREIGN KEY (`korisnikIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.KONTAKT: ~0 rows (approximately)
@@ -138,20 +138,22 @@ CREATE TABLE IF NOT EXISTS `OCJENA_SLIKA` (
 /*!40000 ALTER TABLE `OCJENA_SLIKA` ENABLE KEYS */;
 
 
--- Dumping structure for table traveldb.poruka
-CREATE TABLE IF NOT EXISTS `poruka` (
+-- Dumping structure for table traveldb.PORUKA
+CREATE TABLE IF NOT EXISTS `PORUKA` (
   `posiljalac` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `primalac` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `tekstPoruke` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `statusProcitana` int(11) NOT NULL,
+  `vrijemeSlanja` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`posiljalac`,`primalac`),
   KEY `FK_primalac_ime` (`primalac`),
   CONSTRAINT `FK_posiljalac_ime` FOREIGN KEY (`posiljalac`) REFERENCES `KORISNIK` (`korisnickoIme`),
   CONSTRAINT `FK_primalac_ime` FOREIGN KEY (`primalac`) REFERENCES `KORISNIK` (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.poruka: ~0 rows (approximately)
-/*!40000 ALTER TABLE `poruka` DISABLE KEYS */;
-/*!40000 ALTER TABLE `poruka` ENABLE KEYS */;
+-- Dumping data for table traveldb.PORUKA: ~0 rows (approximately)
+/*!40000 ALTER TABLE `PORUKA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PORUKA` ENABLE KEYS */;
 
 
 -- Dumping structure for table traveldb.PUTOPIS
