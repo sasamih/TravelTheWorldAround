@@ -109,7 +109,10 @@ public class PutopisDAO {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryUpdateStatus);
 			ps.setInt(1, putopis.getStatus());
 			ps.setInt(2, putopis.getIdPutopisa());
+			ps.executeUpdate();
+			ps.close();
 		}
+		conn.close();
 	}
 	
 	public static ArrayList<Putopis> getTravelsOnHold() throws SQLException

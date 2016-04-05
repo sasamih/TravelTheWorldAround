@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import net.etfbl.Utility;
@@ -14,7 +15,7 @@ import net.etfbl.dto.Putopis;
 import net.etfbl.dao.*;
 
 @ManagedBean(name = "korisnikBean")
-//@ViewScoped
+@SessionScoped
 public class KorisnikBean {
 	private Korisnik korisnik;
 	private Korisnik prijavljeniKorisnik;
@@ -31,6 +32,8 @@ public class KorisnikBean {
 	
 	private List<Korisnik> naloziUCekanju;
 
+	private Korisnik korisnikCekanje;
+	
 	public KorisnikBean()
 	{
 		korisnik = new Korisnik();
@@ -208,7 +211,6 @@ public class KorisnikBean {
 	
 	public String deaktiviraj() throws SQLException
 	{
-		//System.out.println("2." + Utility.prijavljeniKorisnik.getKorisnickoIme());
 		KorisnikDAO.deactivate(Utility.prijavljeniKorisnik);
 		Utility.prijavljeniKorisnik = null;
 		odjava();
@@ -221,10 +223,17 @@ public class KorisnikBean {
 		return "newTravel";
 	}
 	
-	public String odobriKorisnika()//Korisnik korisnik) throws SQLException
+	public String odobriKorisnika() throws SQLException
 	{
-		System.out.println("Bio");
-		//KorisnikDAO.activate(korisnik);
+		for (int index = naloziUCekanju.size() - 1; index >= 0; index--) 
+		{
+			if (naloziUCekanju.get(index) != null) 
+			{	
+				Korisnik korisnik = naloziUCekanju.get(index);			
+				KorisnikDAO.activate(korisnik);
+				naloziUCekanju.remove(index);
+			}
+		}
 		return "adminpage";
 	}
 	
@@ -254,6 +263,14 @@ public class KorisnikBean {
 
 	public void setNaloziUCekanju(ArrayList<Korisnik> naloziUCekanju) {
 		this.naloziUCekanju = naloziUCekanju;
+	}
+
+	public Korisnik getKorisnikCekanje() {
+		return korisnikCekanje;
+	}
+
+	public void setKorisnikCekanje(Korisnik korisnikCekanje) {
+		this.korisnikCekanje = korisnikCekanje;
 	}
 	
 }

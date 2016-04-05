@@ -8,14 +8,17 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
 import net.etfbl.Utility;
 import net.etfbl.dao.*;
+import net.etfbl.dto.Korisnik;
 import net.etfbl.dto.Putopis;
 
 @ManagedBean(name="putopisBean")
+@SessionScoped
 public class PutopisBean {
 	private String tekstPretrage;
 	private List<Putopis> putopisi = null;
@@ -86,10 +89,19 @@ public class PutopisBean {
 		return "userpage";
 	}
 
-	public String odobriPutopis(Putopis putopis) throws SQLException
+	public String odobriPutopis() throws SQLException
 	{
-		putopis.setStatus(1);
-		PutopisDAO.updateStatus(putopis);
+		for (int index = putopisiUCekanju.size() - 1; index >= 0; index--) 
+		{
+			if (putopisiUCekanju.get(index) != null) 
+			{	
+				Putopis putopis = putopisiUCekanju.get(index);	
+				putopis.setStatus(1);
+				System.out.println("Bio " + putopis.getIdPutopisa());
+				PutopisDAO.updateStatus(putopis);
+				putopisiUCekanju.remove(index);
+			}
+		}
 		return "adminpage";
 	}
 	
