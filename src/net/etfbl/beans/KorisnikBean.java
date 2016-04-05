@@ -227,33 +227,26 @@ public class KorisnikBean {
 		//KorisnikDAO.activate(korisnik);
 		return "adminpage";
 	}
-
-	////////////////////////////////////////////////////////////////////////////////
-	private String loz;
 	
 	public void sacuvajLozinku()
 	{
-		loz = korisnik.getLozinka();
-		System.out.println(loz);
+		Utility.lozinka = korisnik.getLozinka();
 	}
 	
 	public void provjeriLozinke()
 	{
-		System.out.println("AAA>>>" + korisnik.getLozinka());
 		if (korisnik.getLozinka() != null)
 		{
 			sacuvajLozinku();
 		}
 		
-		System.out.println(loz + ">>" + ponovljenaLozinka);
-		if ("sasa".equals(ponovljenaLozinka))
+		if (Utility.lozinka.equals(ponovljenaLozinka))
 		{
 			lozinkeNejednake = "Lozinke se poklapaju.";
 		}
 		else
 			lozinkeNejednake = "Lozinke se ne poklapaju.";
 	}
-	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	public List<Korisnik> getNaloziUCekanju() {
 		return naloziUCekanju;

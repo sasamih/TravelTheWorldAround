@@ -11,6 +11,7 @@ public class Utility {
 
 	public static String projectPath = "";
 	public static Korisnik prijavljeniKorisnik = new Korisnik();
+	public static String lozinka = "";
 	
 	public static String setPutanjaDoProjekta()
 	{

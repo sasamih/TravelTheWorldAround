@@ -6,7 +6,8 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Wellcome</title>
-<link href="#{request.contextPath}/styles.css" rel="stylesheet" type="text/css"/>
+	<link href="#{request.contextPath}/styles.css" rel="stylesheet"
+		type="text/css" />
 </h:head>
 <h:body>
 	<p:panelGrid>
@@ -15,7 +16,8 @@
 
 			</p:column>
 			<p:column>
-				<h:outputText value="#{korisnikBean.porukaPrijava}" style="color:red"></h:outputText>
+				<h:outputText value="#{korisnikBean.porukaPrijava}"
+					style="color:red"></h:outputText>
 				<h:form>
 					<h:panelGrid columns="3">
 						<h:outputText value="Korisnicko ime: "></h:outputText>
@@ -46,7 +48,7 @@
 				</dir>
 			</p:column>
 			<p:column colspan="2">
-			
+
 			</p:column>
 		</p:row>
 		<p:row>
@@ -68,9 +70,10 @@
 
 			</p:column>
 			<p:column>
-				
+
 				<h:form>
-					<h:outputText value="#{korisnikBean.porukaRegistracija}" style="color:red"></h:outputText>
+					<h:outputText value="#{korisnikBean.porukaRegistracija}"
+						style="color:red"></h:outputText>
 					<h:panelGrid columns="3">
 						<h:outputText value="Ime:"></h:outputText>
 						<h:inputText id="ime" value="#{korisnikBean.korisnik.ime}"
@@ -108,18 +111,19 @@
 						<h:outputText value="Lozinka:"></h:outputText>
 						<h:inputSecret id="lozinka" required="true"
 							value="#{korisnikBean.korisnik.lozinka}"
-							requiredMessage="Popunite polje." >
-							<f:ajax listener="#{korisnikBean.provjeriLozinke}" render="poklapanje"></f:ajax>
+							requiredMessage="Popunite polje.">
+							<p:ajax event="keyup" listener="#{korisnikBean.sacuvajLozinku}"/>
 						</h:inputSecret>
 						<h:message for="lozinka" style="color:red"></h:message>
-						
+
 						<h:outputText value="Ponovljena lozinka"></h:outputText>
-						<h:inputSecret id="pon_lozinka" 
+						<h:inputSecret id="pon_lozinka"
 							value="#{korisnikBean.ponovljenaLozinka}">
-							<f:ajax listener="#{korisnikBean.provjeriLozinke}" render="poklapanje"></f:ajax>
+							<p:ajax event="keyup" update="poklapanje" listener="#{korisnikBean.provjeriLozinke}"/>
 						</h:inputSecret>
-						<h:outputText id="poklapanje" value="#{korisnikBean.lozinkeNejednake}"></h:outputText>
-						
+						<h:outputText id="poklapanje"
+							value="#{korisnikBean.lozinkeNejednake}"></h:outputText>
+
 						<h:outputText value="Korisnicka grupa:"></h:outputText>
 						<h:selectOneMenu value="#{korisnikBean.korisnik.korisnickaGrupa}">
 							<f:selectItem itemLabel="administrator" itemValue="administrator"></f:selectItem>
@@ -138,30 +142,33 @@
 				<h:form>
 					<h:panelGrid columns="2">
 						<h:outputText value="Unesite naslov ili kljucnu rijec:"></h:outputText>
-						<h:inputText value="#{putopisBean.tekstPretrage}"></h:inputText>
-						<h:commandButton value="Pretrazi putopise"
-							action="#{putopisBean.pretraziGost}"></h:commandButton>
+						<h:inputText value="#{putopisBean.tekstPretrage}">
+							<p:ajax event="keyup" update="lista"
+								listener="#{putopisBean.pretraziGost}" />
+						</h:inputText>
+
 					</h:panelGrid>
+					<h:dataTable id="lista" cellpadding="10"
+						value="#{putopisBean.putopisi}" var="k">
+						<h:column>
+							<f:facet name="header">Naslov putopisa</f:facet>
+									#{k.nazivPutopisa}
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">Tekst putopisa</f:facet>
+									#{k.tekstPutopisa}
+						</h:column>
+					</h:dataTable>
 				</h:form>
 			</p:column>
 		</p:row>
 		<p:row>
 			<p:column>
-				<h:dataTable cellpadding="10" value="#{putopisBean.putopisi}"
-					var="k">
-					<h:column>
-						<f:facet name="header">Naslov putopisa</f:facet>
-			#{k.nazivPutopisa}
-		</h:column>
 
-					<h:column>
-						<f:facet name="header">Tekst putopisa</f:facet>
-			#{k.tekstPutopisa}
-		</h:column>
-				</h:dataTable>
 			</p:column>
 		</p:row>
-		
+
 	</p:panelGrid>
 </h:body>
 </html>

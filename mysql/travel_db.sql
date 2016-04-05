@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `KLJUCNE_RIJECI` (
   PRIMARY KEY (`idKljucneRijeci`),
   KEY `fk_KLJUCNE_RIJECI_PUTOPIS1_idx` (`PUTOPIS_idPutopis`),
   CONSTRAINT `fk_KLJUCNE_RIJECI_PUTOPIS1` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.KLJUCNE_RIJECI: ~7 rows (approximately)
 /*!40000 ALTER TABLE `KLJUCNE_RIJECI` DISABLE KEYS */;
@@ -34,7 +34,13 @@ INSERT INTO `KLJUCNE_RIJECI` (`idKljucneRijeci`, `Tekst`, `PUTOPIS_idPutopis`) V
 	(4, 'Italija', 2),
 	(5, 'Venecija', 2),
 	(6, 'Joja', 14),
-	(7, 'Beograd', 14);
+	(7, 'Beograd', 14),
+	(8, 'Split', 15),
+	(9, 'kolegijum', 15),
+	(10, 'U Splitu na kolegijumu', 15),
+	(11, 'Grcka', 16),
+	(12, 'Krf', 16),
+	(13, 'Putovanje u Grcku', 16);
 /*!40000 ALTER TABLE `KLJUCNE_RIJECI` ENABLE KEYS */;
 
 
@@ -168,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `PUTOPIS` (
   PRIMARY KEY (`idPutopisa`),
   KEY `fk_PUTOPIS_KORISNIK1_idx` (`imeAutora`),
   CONSTRAINT `fk_PUTOPIS_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.PUTOPIS: ~8 rows (approximately)
 /*!40000 ALTER TABLE `PUTOPIS` DISABLE KEYS */;
@@ -180,7 +186,9 @@ INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `pod
 	(9, 'U Majkic Japru po piletinu', '3.4.2016.', 'Majkic Japra', '/WEB-INF/putopisi/U Majkic Japru po piletinu.txt', 'gago', 0),
 	(10, 'Kod tetka u Ofenbahu', '3.4.2016.', 'Ofenbah', '/WEB-INF/putopisi/Kod tetka u Ofenbahu.txt', 'gago', 0),
 	(13, 'Sa koncerta Piju grupe', '3.4.2016.', 'Novi Sad', '/WEB-INF/putopisi/Sa koncerta Piju grupe.txt', 'djoko', 0),
-	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 0);
+	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 0),
+	(15, 'U Splitu na kolegijumu', '5.4.2016.', 'Split', '/WEB-INF/putopisi/U Splitu na kolegijumu.txt', 'gago', 0),
+	(16, 'Putovanje u Grcku', '5.4.2016.', 'Krf', '/WEB-INF/putopisi/Putovanje u Grcku.txt', 'gago', 0);
 /*!40000 ALTER TABLE `PUTOPIS` ENABLE KEYS */;
 
 

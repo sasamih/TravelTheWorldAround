@@ -18,7 +18,7 @@ public class PutopisDAO {
 	public static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
 	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
-		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst=? ";
+		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst like ? ";
 		String[] tekstPretrage = tekst.split(" ");
 		ArrayList<Putopis> putopisi = new ArrayList<Putopis>();
 		for (int i = 1; i < tekstPretrage.length; i++) {
@@ -30,7 +30,7 @@ public class PutopisDAO {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetByTravel);
 			;
 			for (int i = 0; i < tekstPretrage.length; i++) {
-				ps.setString(i + 1, tekstPretrage[i]);
+				ps.setString(i + 1, "%" + tekstPretrage[i] + "%");
 			}
 			ResultSet rs = ps.executeQuery();
 
@@ -78,14 +78,19 @@ public class PutopisDAO {
 			int putopisId = rs.getInt(1);
 			rs.close();
 			
+			String keyWordQuery = "insert into KLJUCNE_RIJECI(`Tekst`, `PUTOPIS_idPutopis`) values(?, ?);";
 			for (int i = 0; i < rijeci.length; i++)
 			{
-				String keyWordQuery = "insert into KLJUCNE_RIJECI(`Tekst`, `PUTOPIS_idPutopis`) values(?, ?);";
 				ps = (PreparedStatement) conn.prepareStatement(keyWordQuery);
 				ps.setString(1, rijeci[i]);
 				ps.setInt(2, putopisId);
 				ps.executeUpdate();
 			}
+			
+			ps = (PreparedStatement) conn.prepareStatement(keyWordQuery);
+			ps.setString(1, putopis.getNazivPutopisa());
+			ps.setInt(2, putopisId);
+			ps.executeUpdate();
 			
 			success = true;
 			ps.close();

@@ -62,7 +62,7 @@ public class PutopisBean {
 		this.noviPutopis = noviPutopis;
 	}
 	
-	public void insert() throws FileNotFoundException, SQLException
+	public String insert() throws FileNotFoundException, SQLException
 	{
 		noviPutopis.setPutanja("/WEB-INF/putopisi/" + noviPutopis.getNazivPutopisa() + ".txt");
 		if (Utility.projectPath.equals(""))
@@ -82,6 +82,8 @@ public class PutopisBean {
 		
 		String[] rijeci = kljucneRijeci.split(",");
 		PutopisDAO.insert(noviPutopis, rijeci);
+		
+		return "userpage";
 	}
 
 	public String odobriPutopis(Putopis putopis) throws SQLException
@@ -147,6 +149,6 @@ public class PutopisBean {
 	}
 
 	public void setPutopisiUCekanju(List<Putopis> putopisiUCekanju) {
-		this.putopisiUCekanju = putopisiUCekanju;
+		PutopisBean.putopisiUCekanju = putopisiUCekanju;
 	}
 }
