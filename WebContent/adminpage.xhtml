@@ -17,11 +17,13 @@
 				<h:dataTable value="#{korisnikBean.naloziUCekanju}" var="k">
 					<p:column>
 						<f:facet name="header">Korisnicko ime</f:facet>
-						<h:outputText value="#{k.korisnickoIme}"></h:outputText>
+						<h:form>
+							<h:commandLink value="#{k.korisnickoIme}" action="#{korisnikBean.korisnikInfo(k)}"></h:commandLink>
+						</h:form>
 					</p:column>
 					<p:column>
 					<h:form>
-							<h:commandButton value="Odobri" action="#{korisnikBean.odobriKorisnika}"></h:commandButton>
+							<h:commandButton value="Odobri" action="#{korisnikBean.odobriKorisnika(k)}"></h:commandButton>
 					</h:form>
 					</p:column>
 				</h:dataTable>
@@ -30,11 +32,13 @@
 				<h:dataTable value="#{putopisBean.putopisiUCekanju}" var="p">
 					<p:column>
 						<f:facet name="header">Naziv putopisa</f:facet>
-						#{p.nazivPutopisa}
+						<h:form>
+							<h:commandLink value="#{p.nazivPutopisa}" action="#{putopisBean.putopisInfo(p)}"></h:commandLink>
+						</h:form>
 					</p:column>
 					<p:column>
 					<h:form>
-							<h:commandButton value="Odobri" action="#{putopisBean.odobriPutopis}"></h:commandButton>
+							<h:commandButton value="Odobri" action="#{putopisBean.odobriPutopis(p)}"></h:commandButton>
 					</h:form>
 					</p:column>
 				</h:dataTable>

@@ -27,6 +27,7 @@ public class PutopisBean {
 	private String kljucneRijeci;
 	
 	private static List<Putopis> putopisiUCekanju;
+	private Putopis putopisCekanje;
 
 	public String getTekstPretrage() {
 		return tekstPretrage;
@@ -89,20 +90,25 @@ public class PutopisBean {
 		return "userpage";
 	}
 
-	public String odobriPutopis() throws SQLException
+	public String odobriPutopis(Putopis putopis) throws SQLException
 	{
-		for (int index = putopisiUCekanju.size() - 1; index >= 0; index--) 
+		if (putopis != null)
 		{
-			if (putopisiUCekanju.get(index) != null) 
-			{	
-				Putopis putopis = putopisiUCekanju.get(index);	
-				putopis.setStatus(1);
-				System.out.println("Bio " + putopis.getIdPutopisa());
-				PutopisDAO.updateStatus(putopis);
-				putopisiUCekanju.remove(index);
-			}
+			putopisiUCekanju.remove(putopis);
+			putopis.setStatus(1);
+			PutopisDAO.updateStatus(putopis);
 		}
+		
 		return "adminpage";
+	}
+	
+	public String putopisInfo(Putopis putopis) throws IOException
+	{
+		putopis.setTekstPutopisa("");
+		getTekstJednogPutopisa(putopis);
+		setPutopisCekanje(putopis);
+		
+		return "travelinfopage";
 	}
 	
 	public void setPutopisiForGuest(List<Putopis> putopisi)
@@ -127,21 +133,26 @@ public class PutopisBean {
 		{
 			for (Putopis p : putopisi)
 			{
-				Utility.setPutanjaDoProjekta();
-				BufferedReader br = new BufferedReader(new FileReader(Utility.projectPath + p.getPutanja()));
-				
-				String newLine = "";
-				while ((newLine = br.readLine()) != null)
-				{
-					if (newLine.equals(""))
-						p.dodajTekstPutopisa("\n");
-					p.dodajTekstPutopisa(newLine);
-				}
-				br.close();
+				getTekstJednogPutopisa(p);
 			}
 		}
 	}
-
+	
+	private void getTekstJednogPutopisa(Putopis p) throws IOException
+	{
+		Utility.setPutanjaDoProjekta();
+		BufferedReader br = new BufferedReader(new FileReader(Utility.projectPath + p.getPutanja()));
+		
+		String newLine = "";
+		while ((newLine = br.readLine()) != null)
+		{
+			if (newLine.equals(""))
+				p.dodajTekstPutopisa("\n");
+			p.dodajTekstPutopisa(newLine);
+		}
+		br.close();
+	}
+	
 	public String getKljucneRijeci() {
 		return kljucneRijeci;
 	}
@@ -162,5 +173,13 @@ public class PutopisBean {
 
 	public void setPutopisiUCekanju(List<Putopis> putopisiUCekanju) {
 		PutopisBean.putopisiUCekanju = putopisiUCekanju;
+	}
+
+	public Putopis getPutopisCekanje() {
+		return putopisCekanje;
+	}
+
+	public void setPutopisCekanje(Putopis putopisCekanje) {
+		this.putopisCekanje = putopisCekanje;
 	}
 }

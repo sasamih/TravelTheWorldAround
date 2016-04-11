@@ -108,6 +108,13 @@ public class KorisnikBean {
 		korisnik.setKorisnickoIme(null);
 		korisnik.setLozinka(null);
 	}
+	
+	public String korisnikInfo(Korisnik korisnik)
+	{
+		setKorisnikCekanje(korisnik);
+		
+		return "userinfopage";
+	}
 
 	public String getPretragaKorisnika() {
 		return pretragaKorisnika;
@@ -223,17 +230,14 @@ public class KorisnikBean {
 		return "newTravel";
 	}
 	
-	public String odobriKorisnika() throws SQLException
+	public String odobriKorisnika(Korisnik korisnik) throws SQLException
 	{
-		for (int index = naloziUCekanju.size() - 1; index >= 0; index--) 
+		if (korisnik != null)
 		{
-			if (naloziUCekanju.get(index) != null) 
-			{	
-				Korisnik korisnik = naloziUCekanju.get(index);			
-				KorisnikDAO.activate(korisnik);
-				naloziUCekanju.remove(index);
-			}
+			KorisnikDAO.activate(korisnik);
+			naloziUCekanju.remove(korisnik);
 		}
+		
 		return "adminpage";
 	}
 	
