@@ -74,7 +74,15 @@
 		</p:row>
 		<p:row>
 			<p:column>
-
+				<b><h:outputText value="Moji putopisi"></h:outputText></b>
+				<h:dataTable value="#{putopisBean.putopisiKorisnika}" var="pK">
+					<p:column>
+						#{pK.nazivPutopisa}
+					</p:column>
+					<p:column>
+						<h:commandButton value="Izmjeni"></h:commandButton>
+					</p:column>
+				</h:dataTable>
 			</p:column>
 			<p:column>
 				<h:form>

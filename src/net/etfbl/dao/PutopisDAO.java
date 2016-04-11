@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -16,6 +17,7 @@ public class PutopisDAO {
 	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`) values(?, ?, ?, ?, ?, ?);";
 	public static String queryUpdateStatus = "update PUTOPIS set statusPutopis=? where idPutopisa=?;";
 	public static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
+	public static String queryTravelsByUser = "select * from PUTOPIS where imeAutora=?;";
 	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
 		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst like ? ";
@@ -133,6 +135,37 @@ public class PutopisDAO {
 				putopis.setPodaciOMjestu(rs.getString(4));
 				putopis.setPutanja(rs.getString(5));
 				putopis.setKorisnik(KorisnikDAO.setUser(rs));
+				putopis.setStatus(rs.getInt(7));
+				putopisi.add(putopis);
+			}
+			rs.close();
+			ps.close();
+		}
+		conn.close();
+		
+		return putopisi;
+	}
+	
+	public static List<Putopis> getTravelsByUser(Korisnik korisnik) throws SQLException
+	{
+		List<Putopis> putopisi = new ArrayList<Putopis>();
+		Connection conn = ConnectionPool.openConnection();
+		
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryTravelsByUser);
+			ps.setString(1, korisnik.getKorisnickoIme());
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+			{
+				Putopis putopis = new Putopis();
+				putopis.setIdPutopisa(rs.getInt(1));
+				putopis.setNazivPutopisa(rs.getString(2));
+				putopis.setDatumObjavljivanja(rs.getString(3));
+				putopis.setPodaciOMjestu(rs.getString(4));
+				putopis.setPutanja(rs.getString(5));
+				putopis.setKorisnik(korisnik);
 				putopis.setStatus(rs.getInt(7));
 				putopisi.add(putopis);
 			}

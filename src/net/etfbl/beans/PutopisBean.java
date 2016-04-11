@@ -27,6 +27,7 @@ public class PutopisBean {
 	private String kljucneRijeci;
 	
 	private static List<Putopis> putopisiUCekanju;
+	private static List<Putopis> putopisiKorisnika;
 	private Putopis putopisCekanje;
 
 	public String getTekstPretrage() {
@@ -167,6 +168,12 @@ public class PutopisBean {
 		putopisiUCekanju = PutopisDAO.getTravelsOnHold();
 	}
 	
+	public static void getTravelsFromKorisnik(Korisnik korisnik) throws SQLException
+	{
+		putopisiKorisnika = new ArrayList<Putopis>();
+		putopisiKorisnika = PutopisDAO.getTravelsByUser(korisnik);
+	}
+	
 	public List<Putopis> getPutopisiUCekanju() {
 		return putopisiUCekanju;
 	}
@@ -181,5 +188,13 @@ public class PutopisBean {
 
 	public void setPutopisCekanje(Putopis putopisCekanje) {
 		this.putopisCekanje = putopisCekanje;
+	}
+
+	public List<Putopis> getPutopisiKorisnika() {
+		return putopisiKorisnika;
+	}
+
+	public void setPutopisiKorisnika(List<Putopis> putopisiKorisnika) {
+		PutopisBean.putopisiKorisnika = putopisiKorisnika;
 	}
 }

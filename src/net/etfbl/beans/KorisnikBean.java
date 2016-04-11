@@ -183,6 +183,7 @@ public class KorisnikBean {
 			{
 				if (prijavljeniKorisnik.getKorisnickaGrupa().equals("korisnik"))
 				{
+					PutopisBean.getTravelsFromKorisnik(prijavljeniKorisnik);
 					stranica = "userpage";
 				}
 				else
