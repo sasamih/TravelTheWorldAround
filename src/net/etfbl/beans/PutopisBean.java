@@ -17,6 +17,12 @@ import net.etfbl.dao.*;
 import net.etfbl.dto.Korisnik;
 import net.etfbl.dto.Putopis;
 
+import com.itextpdf.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+
 @ManagedBean(name="putopisBean")
 @SessionScoped
 public class PutopisBean {
@@ -219,5 +225,21 @@ public class PutopisBean {
 
 	public void setPutopisiKorisnika(List<Putopis> putopisiKorisnika) {
 		PutopisBean.putopisiKorisnika = putopisiKorisnika;
+	}
+	
+	public void kreirajPDF() throws DocumentException, IOException
+	{
+		// step 1
+        Document document = new Document();
+        // step 2
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/sasa/pdf.pdf"));
+        // step 3
+        document.open();
+        // step 4
+        Utility.setPutanjaDoProjekta();
+        XMLWorkerHelper.getInstance().parseXHtml(writer, document,
+                new FileInputStream(Utility.projectPath + "/newTravel.xhtml")); 
+        //step 5
+         document.close();
 	}
 }
