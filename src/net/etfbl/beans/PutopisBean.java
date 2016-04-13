@@ -86,8 +86,15 @@ public class PutopisBean {
 		noviPutopis.setKorisnik(Utility.prijavljeniKorisnik);
 		
 		String[] rijeci = kljucneRijeci.split(",");
-		PutopisDAO.insert(noviPutopis, rijeci);
 		
+		if (Utility.newTravel)
+		{
+			PutopisDAO.insert(noviPutopis, rijeci);
+		}
+		else
+		{
+			PutopisDAO.update(noviPutopis, rijeci);
+		}
 		return "userpage";
 	}
 
@@ -101,6 +108,22 @@ public class PutopisBean {
 		}
 		
 		return "adminpage";
+	}
+	
+	public String izmjeniPutopis(Putopis putopis) throws IOException, SQLException
+	{
+		noviPutopis = putopis;
+		Utility.newTravel = false;
+		noviPutopis.setTekstPutopisa("");
+		getTekstJednogPutopisa(noviPutopis);
+		List<String> rijeci = PutopisDAO.getKeyWords(noviPutopis.getIdPutopisa());
+		kljucneRijeci = "";
+		for (String rijec : rijeci)
+		{
+			kljucneRijeci += rijec + ",";
+		}
+		
+		return "newTravel";
 	}
 	
 	public String putopisInfo(Putopis putopis) throws IOException
@@ -139,7 +162,7 @@ public class PutopisBean {
 		}
 	}
 	
-	private void getTekstJednogPutopisa(Putopis p) throws IOException
+	private static void getTekstJednogPutopisa(Putopis p) throws IOException
 	{
 		Utility.setPutanjaDoProjekta();
 		BufferedReader br = new BufferedReader(new FileReader(Utility.projectPath + p.getPutanja()));
@@ -168,7 +191,7 @@ public class PutopisBean {
 		putopisiUCekanju = PutopisDAO.getTravelsOnHold();
 	}
 	
-	public static void getTravelsFromKorisnik(Korisnik korisnik) throws SQLException
+	public static void getTravelsFromKorisnik(Korisnik korisnik) throws SQLException, IOException
 	{
 		putopisiKorisnika = new ArrayList<Putopis>();
 		putopisiKorisnika = PutopisDAO.getTravelsByUser(korisnik);

@@ -14,10 +14,13 @@ import net.etfbl.dto.Putopis;
 
 public class PutopisDAO {
 
-	public static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`) values(?, ?, ?, ?, ?, ?);";
-	public static String queryUpdateStatus = "update PUTOPIS set statusPutopis=? where idPutopisa=?;";
-	public static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
-	public static String queryTravelsByUser = "select * from PUTOPIS where imeAutora=?;";
+	private static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`) values(?, ?, ?, ?, ?, ?);";
+	private static String queryUpdate = "update PUTOPIS set nazivPutopisa=?, datumObjavljivanja=?, podaciOMjestu=?, putanja=?, statusPutopis=0 where idPutopisa=?;";
+	private static String queryUpdateStatus = "update PUTOPIS set statusPutopis=? where idPutopisa=?;";
+	private static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
+	private static String queryTravelsByUser = "select * from PUTOPIS where imeAutora=?;";
+	
+	private static String queryGetKeyWords = "select Tekst from KLJUCNE_RIJECI where PUTOPIS_idPutopis = ?;";
 	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
 		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst like ? ";
@@ -102,6 +105,27 @@ public class PutopisDAO {
 		return success;
 	}
 	
+	public static boolean update(Putopis putopis, String[] rijeci) throws SQLException
+	{
+		boolean success = false;
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryUpdate);
+			ps.setString(1, putopis.getNazivPutopisa());
+			ps.setString(2, putopis.getDatumObjavljivanja());
+			ps.setString(3, putopis.getPodaciOMjestu());
+			ps.setString(4, putopis.getPutanja());
+			ps.setInt(5, putopis.getIdPutopisa());
+			ps.executeUpdate();
+			
+			success = true;
+			ps.close();
+		}
+		conn.close();
+		return success;
+	}
+	
 
 	public static void updateStatus(Putopis putopis) throws SQLException
 	{
@@ -175,5 +199,28 @@ public class PutopisDAO {
 		conn.close();
 		
 		return putopisi;
+	}
+	
+	public static List<String> getKeyWords(int idPutopisa) throws SQLException
+	{
+		List<String> keyWords = null;
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetKeyWords);
+			ps.setInt(1, idPutopisa);
+			ResultSet rs = ps.executeQuery();
+			keyWords = new ArrayList<String>();
+			
+			while (rs.next())
+			{
+				keyWords.add(rs.getString(1));
+			}
+			rs.close();
+			ps.close();
+		}
+		conn.close();
+		
+		return keyWords;
 	}
 }

@@ -80,7 +80,9 @@
 						#{pK.nazivPutopisa}
 					</p:column>
 					<p:column>
-						<h:commandButton value="Izmjeni"></h:commandButton>
+						<h:form>
+							<h:commandButton value="Izmjeni" action="#{putopisBean.izmjeniPutopis(pK)}"></h:commandButton>
+						</h:form>
 					</p:column>
 				</h:dataTable>
 			</p:column>
