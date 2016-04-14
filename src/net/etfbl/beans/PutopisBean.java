@@ -232,13 +232,31 @@ public class PutopisBean {
 		// step 1
         Document document = new Document();
         // step 2
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/sasa/pdf.pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/sasa/Downloads/" + noviPutopis.getNazivPutopisa() + ".pdf"));
         // step 3
         document.open();
         // step 4
         Utility.setPutanjaDoProjekta();
+        File file = new File(Utility.projectPath + "/testHtml.html");
+        if (!file.exists())
+        {
+        	file.createNewFile();
+        	PrintWriter pw = new PrintWriter(file);
+        	pw.println("<html xmlns=\"http://www.w3.org/1999/xhtml\">" +
+        				"<head>" +
+        				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />" +
+        				"<title>Insert title here</title>" +
+						"</head>" +
+						"<body>" +
+						"<h1>" + noviPutopis.getNazivPutopisa() + "</h1>" +
+						"<p>" + noviPutopis.getTekstPutopisa() + "</p>" +
+						"</body>" +
+						"</html>");
+        	pw.close();
+        }
         XMLWorkerHelper.getInstance().parseXHtml(writer, document,
-                new FileInputStream(Utility.projectPath + "/newTravel.xhtml")); 
+                new FileInputStream(Utility.projectPath + "/testHtml.html"));
+        file.delete();
         //step 5
          document.close();
 	}
