@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
 import net.etfbl.Utility;
 import net.etfbl.dao.*;
@@ -232,7 +231,7 @@ public class PutopisBean {
 		// step 1
         Document document = new Document();
         // step 2
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/sasa/Downloads/" + noviPutopis.getNazivPutopisa() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/rtrk/" + noviPutopis.getNazivPutopisa() + ".pdf"));
         // step 3
         document.open();
         // step 4

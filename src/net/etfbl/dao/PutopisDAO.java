@@ -14,9 +14,10 @@ import net.etfbl.dto.Putopis;
 
 public class PutopisDAO {
 
-	private static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`) values(?, ?, ?, ?, ?, ?);";
-	private static String queryUpdate = "update PUTOPIS set nazivPutopisa=?, datumObjavljivanja=?, podaciOMjestu=?, putanja=?, statusPutopis=0 where idPutopisa=?;";
+	private static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`, `prosjecnaOcjena`) values(?, ?, ?, ?, ?, ?, 0.00);";
+	private static String queryUpdate = "update PUTOPIS set nazivPutopisa=?, datumObjavljivanja=?, podaciOMjestu=?, putanja=?, statusPutopis=0, prosjecnaOprema=? where idPutopisa=?;";
 	private static String queryUpdateStatus = "update PUTOPIS set statusPutopis=? where idPutopisa=?;";
+	private static String queryUpdateProsjecnaOcjena = "update PUTOPIS set prosjecnaOcjena=? where idPutopisa=?;";
 	private static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
 	private static String queryTravelsByUser = "select * from PUTOPIS where imeAutora=?;";
 	
@@ -117,6 +118,7 @@ public class PutopisDAO {
 			ps.setString(3, putopis.getPodaciOMjestu());
 			ps.setString(4, putopis.getPutanja());
 			ps.setInt(5, putopis.getIdPutopisa());
+			ps.setDouble(6, putopis.getProsjecnaOcjena());
 			ps.executeUpdate();
 			
 			success = true;
@@ -134,6 +136,20 @@ public class PutopisDAO {
 		{
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryUpdateStatus);
 			ps.setInt(1, putopis.getStatus());
+			ps.setInt(2, putopis.getIdPutopisa());
+			ps.executeUpdate();
+			ps.close();
+		}
+		conn.close();
+	}
+	
+	public static void updateProsjecnaOcjena(Putopis putopis) throws SQLException
+	{
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryUpdateProsjecnaOcjena);
+			ps.setDouble(1, putopis.getProsjecnaOcjena());
 			ps.setInt(2, putopis.getIdPutopisa());
 			ps.executeUpdate();
 			ps.close();
@@ -160,6 +176,7 @@ public class PutopisDAO {
 				putopis.setPutanja(rs.getString(5));
 				putopis.setKorisnik(KorisnikDAO.setUser(rs));
 				putopis.setStatus(rs.getInt(7));
+				putopis.setProsjecnaOcjena(rs.getDouble(8));
 				putopisi.add(putopis);
 			}
 			rs.close();
@@ -191,6 +208,7 @@ public class PutopisDAO {
 				putopis.setPutanja(rs.getString(5));
 				putopis.setKorisnik(korisnik);
 				putopis.setStatus(rs.getInt(7));
+				putopis.setProsjecnaOcjena(rs.getDouble(8));
 				putopisi.add(putopis);
 			}
 			rs.close();

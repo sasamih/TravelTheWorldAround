@@ -8,6 +8,7 @@ public class Putopis {
 	private String putanja;
 	private Korisnik korisnik;
 	private int status;
+	private double prosjecnaOcjena;
 	
 	private String tekstPutopisa = "";
 	
@@ -69,5 +70,11 @@ public class Putopis {
 	public String toString()
 	{
 		return "Id putopisa:" + idPutopisa + " Naziv putopisa:" + nazivPutopisa +  " Tekst putopisa: " + tekstPutopisa;
+	}
+	public double getProsjecnaOcjena() {
+		return prosjecnaOcjena;
+	}
+	public void setProsjecnaOcjena(double prosjecnaOcjena) {
+		this.prosjecnaOcjena = prosjecnaOcjena;
 	}
 }
