@@ -128,11 +128,13 @@ CREATE TABLE IF NOT EXISTS `OCJENA_PUTOPIS` (
   CONSTRAINT `fk_OCJENA_PUTOPIS2` FOREIGN KEY (`korisnickoIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.OCJENA_PUTOPIS: ~0 rows (approximately)
+-- Dumping data for table traveldb.OCJENA_PUTOPIS: ~2 rows (approximately)
 /*!40000 ALTER TABLE `OCJENA_PUTOPIS` DISABLE KEYS */;
 INSERT INTO `OCJENA_PUTOPIS` (`idOcjene`, `PUTOPIS_idPutopis`, `ocjena`, `korisnickoIme`) VALUES
-	(1, 1, 3, 'gago'),
-	(2, 15, 3, 'gago');
+	(1, 1, 4, 'gago'),
+	(2, 15, 4, 'gago'),
+	(3, 1, 3, 'djoko'),
+	(4, 15, 5, 'djoko');
 /*!40000 ALTER TABLE `OCJENA_PUTOPIS` ENABLE KEYS */;
 
 
@@ -186,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `PUTOPIS` (
 -- Dumping data for table traveldb.PUTOPIS: ~10 rows (approximately)
 /*!40000 ALTER TABLE `PUTOPIS` DISABLE KEYS */;
 INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`, `prosjecnaOcjena`) VALUES
-	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa', 1, NULL),
+	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa', 1, 3.5),
 	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa', 1, NULL),
 	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago', 1, NULL),
 	(5, 'Na farmi kod babe', NULL, NULL, '/WEB-INF/putopisi/Na farmi kod babe.txt', 'djoko', 1, NULL),
@@ -194,7 +196,7 @@ INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `pod
 	(10, 'Kod tetka u Ofenbahu', '3.4.2016.', 'Ofenbah', '/WEB-INF/putopisi/Kod tetka u Ofenbahu.txt', 'gago', 1, NULL),
 	(13, 'Sa koncerta Piju grupe', '3.4.2016.', 'Novi Sad', '/WEB-INF/putopisi/Sa koncerta Piju grupe.txt', 'djoko', 0, NULL),
 	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 1, NULL),
-	(15, 'U Splitu na kolegijumu', '5.4.2016.', 'Split', '/WEB-INF/putopisi/U Splitu na kolegijumu.txt', 'gago', 1, NULL),
+	(15, 'U Splitu na kolegijumu', '5.4.2016.', 'Split', '/WEB-INF/putopisi/U Splitu na kolegijumu.txt', 'gago', 1, 4.5),
 	(16, 'Putovanje u Grcku', '5.4.2016.', 'Krf', '/WEB-INF/putopisi/Putovanje u Grcku.txt', 'gago', 1, NULL);
 /*!40000 ALTER TABLE `PUTOPIS` ENABLE KEYS */;
 
