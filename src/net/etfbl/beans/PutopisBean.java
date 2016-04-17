@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import net.etfbl.Utility;
 import net.etfbl.dao.*;
 import net.etfbl.dto.Korisnik;
+import net.etfbl.dto.OcjenaPutopisa;
 import net.etfbl.dto.Putopis;
 
 import com.itextpdf.*;
@@ -35,6 +36,9 @@ public class PutopisBean {
 	private static List<Putopis> putopisiKorisnika;
 	private Putopis putopisCekanje;
 
+	private ArrayList<OcjenaPutopisa>  ocjeneKorisnika = null;
+	private ArrayList<OcjenaPutopisa> ocjenePutopisa = null;
+	
 	public String getTekstPretrage() {
 		return tekstPretrage;
 	}
@@ -43,14 +47,31 @@ public class PutopisBean {
 		this.tekstPretrage = tekstPretrage;
 	}
 	
-	public void pretrazi() throws IOException
+	public void pretrazi() throws IOException, SQLException
 	{
 		setPutopisi(new ArrayList<Putopis>());
 		setPutopisi(PutopisDAO.getByTravel(tekstPretrage));
+		ocjeneKorisnika = new ArrayList<OcjenaPutopisa>();
+		for(Putopis p : putopisi)
+		{
+			OcjenaPutopisa ocjena = OcjenaPutopisaDAO.getGradesByUserAndTravel(p, Utility.prijavljeniKorisnik);
+			if (ocjena != null)
+			{
+				ocjeneKorisnika.add(ocjena);
+			}
+			else
+			{
+				OcjenaPutopisa ocjenaTmp = new OcjenaPutopisa();
+				ocjenaTmp.setKorisnik(Utility.prijavljeniKorisnik);
+				ocjenaTmp.setPutopis(p);
+				ocjenaTmp.setOcjena(0);
+				ocjeneKorisnika.add(ocjenaTmp);
+			}
+		}
 		getTekstPutopisa();
 	}
 	
-	public void pretraziGost() throws IOException
+	public void pretraziGost() throws IOException, SQLException
 	{
 		pretrazi();
 		setPutopisiForGuest(putopisi);
@@ -202,6 +223,40 @@ public class PutopisBean {
 		putopisiKorisnika = PutopisDAO.getTravelsByUser(korisnik);
 	}
 	
+	public void getOcjeneKorisnika(Korisnik korisnik) throws SQLException
+	{
+		ocjeneKorisnika = OcjenaPutopisaDAO.getGradesByUser(korisnik);
+	}
+	
+	public void getOcjenePutopisa(Putopis putopis) throws SQLException
+	{
+		ocjenePutopisa = new ArrayList<OcjenaPutopisa>();
+		ocjenePutopisa = OcjenaPutopisaDAO.getGradesByTravel(putopis);
+	}
+	
+	public void promjeniOcjenu(OcjenaPutopisa ocjena) throws SQLException
+	{
+		for(OcjenaPutopisa op : ocjeneKorisnika)
+		{
+			System.out.println(ocjena.getPutopis().getIdPutopisa() + " " + op.getPutopis().getIdPutopisa());
+			if (op.getPutopis().getIdPutopisa() == ocjena.getPutopis().getIdPutopisa())
+			{
+				System.out.println(op.getOcjena());
+				if (op.getOcjena() == 0)
+				{
+					System.out.println("Bio ovde");
+					OcjenaPutopisaDAO.insert(ocjena);
+				}
+				else
+				{
+					OcjenaPutopisaDAO.update(ocjena);
+				}
+				break;
+			}
+		}
+	}
+	
+	
 	public List<Putopis> getPutopisiUCekanju() {
 		return putopisiUCekanju;
 	}
@@ -226,15 +281,27 @@ public class PutopisBean {
 		PutopisBean.putopisiKorisnika = putopisiKorisnika;
 	}
 	
+	public ArrayList<OcjenaPutopisa> getOcjeneKorisnika() {
+		return ocjeneKorisnika;
+	}
+
+	public void setOcjeneKorisnika(ArrayList<OcjenaPutopisa> ocjeneKorisnika) {
+		this.ocjeneKorisnika = ocjeneKorisnika;
+	}
+
+	public ArrayList<OcjenaPutopisa> getOcjenePutopisa() {
+		return ocjenePutopisa;
+	}
+
+	public void setOcjenePutopisa(ArrayList<OcjenaPutopisa> ocjenePutopisa) {
+		this.ocjenePutopisa = ocjenePutopisa;
+	}
+
 	public void kreirajPDF() throws DocumentException, IOException
 	{
-		// step 1
         Document document = new Document();
-        // step 2
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/rtrk/" + noviPutopis.getNazivPutopisa() + ".pdf"));
-        // step 3
         document.open();
-        // step 4
         Utility.setPutanjaDoProjekta();
         File file = new File(Utility.projectPath + "/testHtml.html");
         if (!file.exists())
@@ -256,7 +323,6 @@ public class PutopisBean {
         XMLWorkerHelper.getInstance().parseXHtml(writer, document,
                 new FileInputStream(Utility.projectPath + "/testHtml.html"));
         file.delete();
-        //step 5
          document.close();
 	}
 }

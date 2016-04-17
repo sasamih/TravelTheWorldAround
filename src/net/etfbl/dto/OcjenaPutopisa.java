@@ -5,7 +5,7 @@ public class OcjenaPutopisa {
 	private int idOcjene;
 	private Putopis putopis;
 	private Korisnik korisnik;
-	private int ocjena;
+	private int ocjena = 0;
 	
 	public int getIdOcjene() {
 		return idOcjene;
