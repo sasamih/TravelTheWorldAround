@@ -16,7 +16,7 @@ public class ConnectionPool {
 			e.printStackTrace();
 		}
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traveldb", "root", "rtrk");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traveldb", "root", "root");
 			return conn;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

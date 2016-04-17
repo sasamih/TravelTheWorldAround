@@ -30,7 +30,7 @@ public class PutopisDAO {
 		for (int i = 1; i < tekstPretrage.length; i++) {
 			queryGetByTravel += "or kr.tekst=? ";
 		}
-		queryGetByTravel += ";";
+		queryGetByTravel += "and statusPutopis=1;";
 		Connection conn = ConnectionPool.openConnection();
 		try {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetByTravel);

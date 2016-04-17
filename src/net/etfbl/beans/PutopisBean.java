@@ -240,9 +240,8 @@ public class PutopisBean {
 		{
 			if (op.getPutopis().getIdPutopisa() == ocjena.getPutopis().getIdPutopisa())
 			{
-				if (op.getOcjena() == 0)
+				if (OcjenaPutopisaDAO.getById(ocjena) == null)
 				{
-					System.out.println("Bio ovde");
 					OcjenaPutopisaDAO.insert(ocjena);
 				}
 				else
