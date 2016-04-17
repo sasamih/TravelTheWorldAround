@@ -238,10 +238,8 @@ public class PutopisBean {
 	{
 		for(OcjenaPutopisa op : ocjeneKorisnika)
 		{
-			System.out.println(ocjena.getPutopis().getIdPutopisa() + " " + op.getPutopis().getIdPutopisa());
 			if (op.getPutopis().getIdPutopisa() == ocjena.getPutopis().getIdPutopisa())
 			{
-				System.out.println(op.getOcjena());
 				if (op.getOcjena() == 0)
 				{
 					System.out.println("Bio ovde");
