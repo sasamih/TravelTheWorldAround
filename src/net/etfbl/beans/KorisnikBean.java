@@ -206,7 +206,6 @@ public class KorisnikBean {
 			stranica = "front_page";
 			porukaPrijava = "Korisnicko ime ili lozinka nisu ispravni.";
 		}
-		//System.out.println("1." + prijavljeniKorisnik.getKorisnickoIme());
 		return stranica;
 	}
 	
@@ -214,6 +213,7 @@ public class KorisnikBean {
 	{
 		prijavljeniKorisnik = null;
 		prijavljeniKorisnik = new Korisnik();
+		Utility.prijavljeniKorisnik = null;
 		
 		return "front_page";
 	}

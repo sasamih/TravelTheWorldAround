@@ -13,7 +13,9 @@
 
 	<div>
 		<h:form>
-			<h:commandButton value="Odjavi se" action="#{korisnikBean.odjava}"></h:commandButton>
+			<h:commandButton value="Odjavi se" action="#{korisnikBean.odjava}">
+				<f:actionListener binding="#{putopisBean.odjava()}" />
+			</h:commandButton>
 		</h:form>
 		<h:form>
 			<h:commandButton value="Deaktiviraj nalog"
@@ -51,7 +53,7 @@
 					<h:panelGrid columns="2">
 						<h:outputText value="Unesite naslov ili kljucnu rijec:"></h:outputText>
 						<h:inputText value="#{putopisBean.tekstPretrage}">
-							<p:ajax event="keyup" update="lista listaOcjena"
+							<p:ajax event="keyup" update="lista listaOcjena listaProsjek"
 								listener="#{putopisBean.pretrazi}" />
 						</h:inputText>
 
@@ -86,6 +88,12 @@
 							</h:selectOneMenu>
 						</h:column>
 					</h:dataTable> 
+					<h:dataTable id="listaProsjek" cellspacing="15" value="#{putopisBean.putopisi}" var="pp">
+						<h:column>
+							<f:facet name="header">Prosjecna ocjena</f:facet>
+							<h:outputText value="#{pp.prosjecnaOcjena}"></h:outputText>
+						</h:column>
+					</h:dataTable>
 					</h:panelGrid>
 				</h:form>
 			</p:column>

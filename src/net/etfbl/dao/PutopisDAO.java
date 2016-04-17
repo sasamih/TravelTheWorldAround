@@ -24,7 +24,7 @@ public class PutopisDAO {
 	private static String queryGetKeyWords = "select Tekst from KLJUCNE_RIJECI where PUTOPIS_idPutopis = ?;";
 	
 	public static ArrayList<Putopis> getByTravel(String tekst) {
-		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst like ? ";
+		String queryGetByTravel = "SELECT p.idPutopisa, p.nazivPutopisa, p.putanja, p.prosjecnaOcjena from `traveldb`.`PUTOPIS` p inner join `traveldb`.`KLJUCNE_RIJECI` kr on kr.PUTOPIS_idPutopis=p.idPutopisa where kr.tekst like ? ";
 		String[] tekstPretrage = tekst.split(" ");
 		ArrayList<Putopis> putopisi = new ArrayList<Putopis>();
 		for (int i = 1; i < tekstPretrage.length; i++) {
@@ -46,6 +46,7 @@ public class PutopisDAO {
 				p.setIdPutopisa(rs.getInt("idPutopisa"));
 				p.setPutanja(rs.getString("putanja"));
 				p.setNazivPutopisa(rs.getString("nazivPutopisa"));
+				p.setProsjecnaOcjena(rs.getDouble("prosjecnaOcjena"));
 				for (Putopis pp : putopisi) {
 					if (pp.getIdPutopisa() == p.getIdPutopisa())
 						ima = true;

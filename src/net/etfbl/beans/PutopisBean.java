@@ -251,6 +251,16 @@ public class PutopisBean {
 				break;
 			}
 		}
+		ArrayList<OcjenaPutopisa> prosjekOcjene = OcjenaPutopisaDAO.getGradesByTravel(ocjena.getPutopis());
+		double prosjek = 0.0;
+		int suma = 0;
+		for (OcjenaPutopisa op : prosjekOcjene)
+		{
+			suma += op.getOcjena();
+		}
+		prosjek = suma/(double)prosjekOcjene.size();
+		ocjena.getPutopis().setProsjecnaOcjena(prosjek);
+		PutopisDAO.updateProsjecnaOcjena(ocjena.getPutopis());
 	}
 	
 	
@@ -321,5 +331,12 @@ public class PutopisBean {
                 new FileInputStream(Utility.projectPath + "/testHtml.html"));
         file.delete();
          document.close();
+	}
+	
+	public void odjava()
+	{
+		tekstPretrage = "";
+		ocjeneKorisnika = null;
+		putopisi = null;
 	}
 }
