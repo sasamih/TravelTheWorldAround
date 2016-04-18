@@ -161,6 +161,15 @@ public class PutopisBean {
 		return "travelinfopage";
 	}
 	
+	public String putopisProcitaj(Putopis putopis) throws IOException
+	{
+		putopis.setTekstPutopisa("");
+		getTekstJednogPutopisa(putopis);
+		setPutopisCekanje(putopis);
+		
+		return "readTravel";
+	}
+	
 	public void setPutopisiForGuest(List<Putopis> putopisi)
 	{
 		for(Putopis p : putopisi)
@@ -330,7 +339,14 @@ public class PutopisBean {
         XMLWorkerHelper.getInstance().parseXHtml(writer, document,
                 new FileInputStream(Utility.projectPath + "/testHtml.html"));
         file.delete();
-         document.close();
+        document.close();
+	}
+	
+	public void prijava()
+	{
+		tekstPretrage = "";
+		putopisi = null;
+		ocjeneKorisnika = null;
 	}
 	
 	public void odjava()

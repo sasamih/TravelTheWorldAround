@@ -30,7 +30,9 @@
 							required="true" requiredMessage="Popunite polje"></h:inputSecret>
 						<h:message for="lozinka" style="color:red"></h:message>
 						<h:outputText></h:outputText>
-						<h:commandButton value="Prijava" action="#{korisnikBean.prijavi}"></h:commandButton>
+						<h:commandButton value="Prijava" action="#{korisnikBean.prijavi}">
+							<f:actionListener binding="#{putopisBean.prijava()}"></f:actionListener>
+						</h:commandButton>
 					</h:panelGrid>
 				</h:form>
 			</p:column>

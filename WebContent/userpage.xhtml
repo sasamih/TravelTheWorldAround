@@ -58,23 +58,16 @@
 						</h:inputText>
 
 					</h:panelGrid>
-					<h:panelGrid columns="2">
+					<h:panelGrid columns="3">
 					<h:dataTable id="lista" cellpadding="10"
 						value="#{putopisBean.putopisi}" var="k">
 						<h:column>
 							<f:facet name="header">Naslov putopisa</f:facet>
-									#{k.nazivPutopisa}
-						</h:column>
-
-						<h:column>
-							<f:facet name="header">Tekst putopisa</f:facet>
-									#{k.tekstPutopisa}
+									<h:commandLink value="#{k.nazivPutopisa}" action="#{putopisBean.putopisProcitaj(k)}"></h:commandLink>
 						</h:column>
 					</h:dataTable>
 					
-					
-					
-					 <h:dataTable id="listaOcjena" cellspacing="15" value="#{putopisBean.ocjeneKorisnika}" var="o">
+					 <h:dataTable id="listaOcjena" cellspacing="30" value="#{putopisBean.ocjeneKorisnika}" var="o">
 						<h:column>
 							<f:facet name="header">Vasa ocjena</f:facet>
 							<h:selectOneMenu value="#{o.ocjena}">
@@ -88,7 +81,7 @@
 							</h:selectOneMenu>
 						</h:column>
 					</h:dataTable> 
-					<h:dataTable id="listaProsjek" cellspacing="15" value="#{putopisBean.putopisi}" var="pp">
+					<h:dataTable id="listaProsjek" cellspacing="30" value="#{putopisBean.putopisi}" var="pp">
 						<h:column>
 							<f:facet name="header">Prosjecna ocjena</f:facet>
 							<h:outputText value="#{pp.prosjecnaOcjena}"></h:outputText>
