@@ -10,7 +10,7 @@ import net.etfbl.dto.Korisnik;
 public class Utility {
 
 	public static String projectPath = "";
-	public static Korisnik prijavljeniKorisnik = new Korisnik();
+	public static Korisnik prijavljeniKorisnik = null;
 	public static String lozinka = "";
 	public static boolean newTravel;
 	

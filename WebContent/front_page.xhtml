@@ -145,23 +145,27 @@
 					<h:panelGrid columns="2">
 						<h:outputText value="Unesite naslov ili kljucnu rijec:"></h:outputText>
 						<h:inputText value="#{putopisBean.tekstPretrage}">
-							<p:ajax event="keyup" update="lista"
+							<p:ajax event="keyup" update="lista listaProsjek"
 								listener="#{putopisBean.pretraziGost}" />
 						</h:inputText>
 
 					</h:panelGrid>
+					<h:panelGrid columns="2">
 					<h:dataTable id="lista" cellpadding="10"
 						value="#{putopisBean.putopisi}" var="k">
 						<h:column>
 							<f:facet name="header">Naslov putopisa</f:facet>
-									#{k.nazivPutopisa}
-						</h:column>
-
-						<h:column>
-							<f:facet name="header">Tekst putopisa</f:facet>
-									#{k.tekstPutopisa}
+									<h:commandLink value="#{k.nazivPutopisa}" action="#{putopisBean.putopisProcitaj(k)}"></h:commandLink>
 						</h:column>
 					</h:dataTable>
+					
+					<h:dataTable id="listaProsjek" cellspacing="30" value="#{putopisBean.putopisi}" var="pp">
+						<h:column>
+							<f:facet name="header">Prosjecna ocjena</f:facet>
+							<h:outputText value="#{pp.prosjecnaOcjena}"></h:outputText>
+						</h:column>
+					</h:dataTable>
+					</h:panelGrid>
 				</h:form>
 			</p:column>
 		</p:row>

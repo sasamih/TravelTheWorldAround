@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.47-0ubuntu0.14.04.1 - (Ubuntu)
+-- Server version:               5.5.49-0ubuntu0.14.04.1 - (Ubuntu)
 -- Server OS:                    debian-linux-gnu
 -- HeidiSQL Version:             9.1.0.4867
 -- --------------------------------------------------------
@@ -126,9 +126,9 @@ CREATE TABLE IF NOT EXISTS `OCJENA_PUTOPIS` (
   KEY `fk_OCJENA_PUTOPIS2` (`korisnickoIme`),
   CONSTRAINT `fk_OCJENA_PUTOPIS1` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_OCJENA_PUTOPIS2` FOREIGN KEY (`korisnickoIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.OCJENA_PUTOPIS: ~2 rows (approximately)
+-- Dumping data for table traveldb.OCJENA_PUTOPIS: ~4 rows (approximately)
 /*!40000 ALTER TABLE `OCJENA_PUTOPIS` DISABLE KEYS */;
 INSERT INTO `OCJENA_PUTOPIS` (`idOcjene`, `PUTOPIS_idPutopis`, `ocjena`, `korisnickoIme`) VALUES
 	(1, 1, 4, 'gago'),
@@ -206,6 +206,7 @@ CREATE TABLE IF NOT EXISTS `SLIKA` (
   `idSlike` int(11) NOT NULL AUTO_INCREMENT,
   `putanjaSlike` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `statusSlika` int(11) DEFAULT NULL,
   PRIMARY KEY (`idSlike`),
   KEY `fk_SLIKA_KORISNIK1_idx` (`imeAutora`),
   CONSTRAINT `fk_SLIKA_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION

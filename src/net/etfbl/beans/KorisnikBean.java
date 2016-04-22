@@ -214,6 +214,7 @@ public class KorisnikBean {
 		prijavljeniKorisnik = null;
 		prijavljeniKorisnik = new Korisnik();
 		Utility.prijavljeniKorisnik = null;
+		korisnici = null;
 		
 		return "front_page";
 	}

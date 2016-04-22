@@ -54,18 +54,21 @@ public class PutopisBean {
 		ocjeneKorisnika = new ArrayList<OcjenaPutopisa>();
 		for(Putopis p : putopisi)
 		{
-			OcjenaPutopisa ocjena = OcjenaPutopisaDAO.getGradesByUserAndTravel(p, Utility.prijavljeniKorisnik);
-			if (ocjena != null)
+			if (Utility.prijavljeniKorisnik != null)
 			{
-				ocjeneKorisnika.add(ocjena);
-			}
-			else
-			{
-				OcjenaPutopisa ocjenaTmp = new OcjenaPutopisa();
-				ocjenaTmp.setKorisnik(Utility.prijavljeniKorisnik);
-				ocjenaTmp.setPutopis(p);
-				ocjenaTmp.setOcjena(0);
-				ocjeneKorisnika.add(ocjenaTmp);
+				OcjenaPutopisa ocjena = OcjenaPutopisaDAO.getGradesByUserAndTravel(p, Utility.prijavljeniKorisnik);
+				if (ocjena != null)
+				{
+					ocjeneKorisnika.add(ocjena);
+				}
+				else
+				{
+					OcjenaPutopisa ocjenaTmp = new OcjenaPutopisa();
+					ocjenaTmp.setKorisnik(Utility.prijavljeniKorisnik);
+					ocjenaTmp.setPutopis(p);
+					ocjenaTmp.setOcjena(0);
+					ocjeneKorisnika.add(ocjenaTmp);
+				}
 			}
 		}
 		getTekstPutopisa();
@@ -354,5 +357,17 @@ public class PutopisBean {
 		tekstPretrage = "";
 		ocjeneKorisnika = null;
 		putopisi = null;
+	}
+	
+	public String nazad()
+	{
+		if (Utility.prijavljeniKorisnik != null)
+		{
+			return "userpage";
+		}
+		else
+		{
+			return "front_page";
+		}
 	}
 }

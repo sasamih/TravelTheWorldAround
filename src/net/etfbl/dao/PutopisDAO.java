@@ -15,7 +15,7 @@ import net.etfbl.dto.Putopis;
 public class PutopisDAO {
 
 	private static String queryInsert = "insert into PUTOPIS(`nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`, `prosjecnaOcjena`) values(?, ?, ?, ?, ?, ?, 0.00);";
-	private static String queryUpdate = "update PUTOPIS set nazivPutopisa=?, datumObjavljivanja=?, podaciOMjestu=?, putanja=?, statusPutopis=0, prosjecnaOprema=? where idPutopisa=?;";
+	private static String queryUpdate = "update PUTOPIS set nazivPutopisa=?, datumObjavljivanja=?, podaciOMjestu=?, putanja=?, statusPutopis=0, prosjecnaOcjena=? where idPutopisa=?;";
 	private static String queryUpdateStatus = "update PUTOPIS set statusPutopis=? where idPutopisa=?;";
 	private static String queryUpdateProsjecnaOcjena = "update PUTOPIS set prosjecnaOcjena=? where idPutopisa=?;";
 	private static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
