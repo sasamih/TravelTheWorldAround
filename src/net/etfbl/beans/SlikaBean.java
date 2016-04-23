@@ -15,6 +15,9 @@ import javax.faces.bean.SessionScoped;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import net.etfbl.Utility;
 import net.etfbl.dto.Slika;
 
@@ -24,7 +27,20 @@ public class SlikaBean {
 	private ArrayList<Slika> noveSlike;
 	private ArrayList<Slika> userPhotos;
 	private String nazivAlbuma;
-
+	
+	//private String putanjaDoSlike = Utility.setPutanjaDoProjekta() + "/WEB-INF/slike/testSlike.jpg";
+	private StreamedContent stream;
+	
+	public SlikaBean()
+	{
+		try {
+			stream = new DefaultStreamedContent(new FileInputStream(new File(Utility.setPutanjaDoProjekta() + "/WEB-INF/slike/testSlike.jpg")));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public ArrayList<Slika> getNoveSlike() {
 		return noveSlike;
 	}
@@ -86,5 +102,13 @@ public class SlikaBean {
 		}
 
 		return "userpage";
+	}
+
+	public StreamedContent getStream() {
+		return stream;
+	}
+
+	public void setStream(StreamedContent stream) {
+		this.stream = stream;
 	}
 }
