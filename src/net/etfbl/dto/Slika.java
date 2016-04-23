@@ -3,8 +3,9 @@ package net.etfbl.dto;
 public class Slika {
 	
 	private int idSlike;
-	private String putanjaSlike;
 	private Korisnik korisnik;
+	private Album album;
+	private String putanjaSlike;
 	private int statusSlika;
 	
 	
@@ -31,5 +32,11 @@ public class Slika {
 	}
 	public void setStatusSlika(int statusSlika) {
 		this.statusSlika = statusSlika;
+	}
+	public Album getAlbum() {
+		return album;
+	}
+	public void setAlbum(Album album) {
+		this.album = album;
 	}
 }

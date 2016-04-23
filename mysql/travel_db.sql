@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.49-0ubuntu0.14.04.1 - (Ubuntu)
+-- Server version:               5.5.46-0ubuntu0.14.04.2 - (Ubuntu)
 -- Server OS:                    debian-linux-gnu
 -- HeidiSQL Version:             9.1.0.4867
 -- --------------------------------------------------------
@@ -13,6 +13,21 @@
 -- Dumping database structure for traveldb
 CREATE DATABASE IF NOT EXISTS `traveldb` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `traveldb`;
+
+
+-- Dumping structure for table traveldb.ALBUM
+CREATE TABLE IF NOT EXISTS `ALBUM` (
+  `idAlbuma` int(11) NOT NULL AUTO_INCREMENT,
+  `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `nazivAlbuma` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`idAlbuma`),
+  KEY `FK_ALBUM_KORISNIK` (`imeAutora`),
+  CONSTRAINT `FK_ALBUM_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table traveldb.ALBUM: ~0 rows (approximately)
+/*!40000 ALTER TABLE `ALBUM` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ALBUM` ENABLE KEYS */;
 
 
 -- Dumping structure for table traveldb.KLJUCNE_RIJECI
@@ -204,11 +219,14 @@ INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `pod
 -- Dumping structure for table traveldb.SLIKA
 CREATE TABLE IF NOT EXISTS `SLIKA` (
   `idSlike` int(11) NOT NULL AUTO_INCREMENT,
-  `putanjaSlike` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `idAlbuma` int(11) DEFAULT NULL,
+  `putanjaSlike` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `statusSlika` int(11) DEFAULT NULL,
   PRIMARY KEY (`idSlike`),
   KEY `fk_SLIKA_KORISNIK1_idx` (`imeAutora`),
+  KEY `FK_SLIKA_ALBUM` (`idAlbuma`),
+  CONSTRAINT `FK_SLIKA_ALBUM` FOREIGN KEY (`idAlbuma`) REFERENCES `ALBUM` (`idAlbuma`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_SLIKA_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
