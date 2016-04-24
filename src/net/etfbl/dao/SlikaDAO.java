@@ -27,7 +27,7 @@ public class SlikaDAO {
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryInsert);
 			ps.setString(1, slika.getPutanjaSlike());
 			ps.setString(2, slika.getKorisnik().getKorisnickoIme());
-			ps.setInt(3, slika.getStatusSlika());
+			ps.setInt(3, 0);
 			ps.setInt(4, slika.getAlbum().getIdAlbuma());
 			ps.executeUpdate();
 			success = true;
@@ -67,7 +67,7 @@ public class SlikaDAO {
 		Connection conn = ConnectionPool.openConnection();
 		if (conn != null)
 		{
-			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetByUser);
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetByAlbum);
 			ps.setInt(1, album.getIdAlbuma());
 			ResultSet rs = ps.executeQuery();
 			slike = new ArrayList<Slika>();
@@ -82,7 +82,10 @@ public class SlikaDAO {
 				slika.setKorisnik(KorisnikDAO.setUser(rs));
 				slike.add(slika);
 			}
+			rs.close();
+			ps.close();
 		}
+		conn.close();
 		return slike;
 	}
 }

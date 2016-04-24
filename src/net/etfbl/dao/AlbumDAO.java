@@ -16,9 +16,10 @@ public class AlbumDAO {
 	public static String queryUpdate = "update ALBUM set nazivAlbuma=? where idAlbuma=?;";
 	public static String queryGetByUser = "select * from ALBUM where imeAutora=?;";
 	
-	public static boolean insert(Album album) throws SQLException
+	public static int insert(Album album) throws SQLException
 	{
-		boolean success = false;
+		//boolean success = false;
+		int albumId = 0;
 		Connection conn = ConnectionPool.openConnection();
 		if (conn != null)
 		{
@@ -26,11 +27,17 @@ public class AlbumDAO {
 			ps.setString(1, album.getKorisnik().getKorisnickoIme());
 			ps.setString(2, album.getNazivAlbuma());
 			ps.executeUpdate();
-			success = true;
+			//success = true;
+			String lastIdQuery = "select last_insert_id();";
+			ps = (PreparedStatement) conn.prepareStatement(lastIdQuery);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			albumId = rs.getInt(1);
+			rs.close();
 			ps.close();
 		}
 		conn.close();
-		return success;
+		return albumId;
 	}
 	
 	public static boolean update(Album album) throws SQLException

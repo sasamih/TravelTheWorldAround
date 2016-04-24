@@ -1,5 +1,7 @@
 package net.etfbl.dto;
 
+import org.primefaces.model.StreamedContent;
+
 public class Slika {
 	
 	private int idSlike;
@@ -8,6 +10,7 @@ public class Slika {
 	private String putanjaSlike;
 	private int statusSlika;
 	
+	private StreamedContent stream;
 	
 	public int getIdSlike() {
 		return idSlike;
@@ -38,5 +41,11 @@ public class Slika {
 	}
 	public void setAlbum(Album album) {
 		this.album = album;
+	}
+	public StreamedContent getStream() {
+		return stream;
+	}
+	public void setStream(StreamedContent stream) {
+		this.stream = stream;
 	}
 }

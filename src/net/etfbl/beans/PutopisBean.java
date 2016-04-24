@@ -11,8 +11,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.ToggleEvent;
+
 import net.etfbl.Utility;
 import net.etfbl.dao.*;
+import net.etfbl.dto.KomentarPutopisa;
 import net.etfbl.dto.Korisnik;
 import net.etfbl.dto.OcjenaPutopisa;
 import net.etfbl.dto.Putopis;
@@ -38,6 +41,8 @@ public class PutopisBean {
 
 	private ArrayList<OcjenaPutopisa>  ocjeneKorisnika = null;
 	private ArrayList<OcjenaPutopisa> ocjenePutopisa = null;
+	
+	private ArrayList<KomentarPutopisa> komentariPutopisa = null;
 	
 	public String getTekstPretrage() {
 		return tekstPretrage;
@@ -246,6 +251,12 @@ public class PutopisBean {
 		ocjenePutopisa = OcjenaPutopisaDAO.getGradesByTravel(putopis);
 	}
 	
+	public void dobaviKomentarePutopisa(ToggleEvent event)//Putopis putopis) throws SQLException
+	{
+		System.out.println("Bio ovde");
+		//komentariPutopisa = KomentarPutopisDAO.getCommentsByTravel(putopis);
+	}
+	
 	public void promjeniOcjenu(OcjenaPutopisa ocjena) throws SQLException
 	{
 		for(OcjenaPutopisa op : ocjeneKorisnika)
@@ -274,7 +285,6 @@ public class PutopisBean {
 		ocjena.getPutopis().setProsjecnaOcjena(prosjek);
 		PutopisDAO.updateProsjecnaOcjena(ocjena.getPutopis());
 	}
-	
 	
 	public List<Putopis> getPutopisiUCekanju() {
 		return putopisiUCekanju;
@@ -314,6 +324,14 @@ public class PutopisBean {
 
 	public void setOcjenePutopisa(ArrayList<OcjenaPutopisa> ocjenePutopisa) {
 		this.ocjenePutopisa = ocjenePutopisa;
+	}
+
+	public ArrayList<KomentarPutopisa> getKomentariPutopisa() {
+		return komentariPutopisa;
+	}
+
+	public void setKomentariPutopisa(ArrayList<KomentarPutopisa> komentariPutopisa) {
+		this.komentariPutopisa = komentariPutopisa;
 	}
 
 	public void kreirajPDF() throws DocumentException, IOException
