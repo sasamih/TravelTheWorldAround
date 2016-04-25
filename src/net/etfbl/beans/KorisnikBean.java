@@ -14,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import net.etfbl.Utility;
 import net.etfbl.dto.Kontakt;
 import net.etfbl.dto.Korisnik;
+import net.etfbl.dto.Poruka;
 import net.etfbl.dto.Putopis;
 import net.etfbl.dao.*;
 
@@ -261,6 +262,16 @@ public class KorisnikBean {
 		{
 			KorisnikDAO.activate(korisnik);
 			naloziUCekanju.remove(korisnik);
+			
+			Calendar c = Calendar.getInstance();
+			Poruka poruka = new Poruka();
+			poruka.setVrijemeSlanja(c.get(Calendar.DAY_OF_MONTH) + "." 
+					+ (c.get(Calendar.MONTH)+1) + "." + c.get(Calendar.YEAR) + ".");
+			poruka.setPosiljalac(Utility.prijavljeniKorisnik);
+			poruka.setPrimalac(korisnik);
+			poruka.setTekstPoruke("Vas nalog je odobren");
+			poruka.setStatusProcitana(0);
+			PorukaDAO.insert(poruka);
 		}
 		
 		return "adminpage";

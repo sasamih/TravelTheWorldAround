@@ -18,6 +18,7 @@ import net.etfbl.dao.*;
 import net.etfbl.dto.KomentarPutopisa;
 import net.etfbl.dto.Korisnik;
 import net.etfbl.dto.OcjenaPutopisa;
+import net.etfbl.dto.Poruka;
 import net.etfbl.dto.Putopis;
 
 import com.itextpdf.*;
@@ -139,6 +140,16 @@ public class PutopisBean {
 			putopisiUCekanju.remove(putopis);
 			putopis.setStatus(1);
 			PutopisDAO.updateStatus(putopis);
+			
+			Calendar c = Calendar.getInstance();
+			Poruka poruka = new Poruka();
+			poruka.setVrijemeSlanja(c.get(Calendar.DAY_OF_MONTH) + "." 
+					+ (c.get(Calendar.MONTH)+1) + "." + c.get(Calendar.YEAR) + ".");
+			poruka.setPosiljalac(Utility.prijavljeniKorisnik);
+			poruka.setPrimalac(putopis.getKorisnik());
+			poruka.setTekstPoruke("Vas putopis je odobren");
+			poruka.setStatusProcitana(0);
+			PorukaDAO.insert(poruka);
 		}
 		
 		return "adminpage";

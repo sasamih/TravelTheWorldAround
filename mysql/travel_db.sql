@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `KONTAKT` (
   CONSTRAINT `FK_korisnik_ime` FOREIGN KEY (`korisnikIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KONTAKT: ~1 rows (approximately)
+-- Dumping data for table traveldb.KONTAKT: ~2 rows (approximately)
 /*!40000 ALTER TABLE `KONTAKT` DISABLE KEYS */;
 INSERT INTO `KONTAKT` (`korisnikIme`, `kontaktIme`) VALUES
 	('gago', 'djoko'),
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `KORISNIK` (
 /*!40000 ALTER TABLE `KORISNIK` DISABLE KEYS */;
 INSERT INTO `KORISNIK` (`ime`, `korisnickoIme`, `lozinka`, `prezime`, `eMail`, `kratkaBiografija`, `datumRodjenja`, `korisnickaGrupa`, `statusKorisnik`) VALUES
 	('Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 'admin@admin.com', 'Admin', '1.1.1950.', 'administrator', 1),
-	('Nepoznato', 'boskic', 'bb06f375b88a7fb178292d6a7383f7f3', 'Boskic', 'boskic@arhivatori.com', 'Braco sredio posao', '21.4.1988.', 'korisnik', 0),
+	('Nepoznato', 'boskic', 'bb06f375b88a7fb178292d6a7383f7f3', 'Boskic', 'boskic@arhivatori.com', 'Braco sredio posao', '21.4.1988.', 'korisnik', 1),
 	('Branka', 'branka', '123', 'Pekez', 'branka@branka.com', 'Iz Podrasnice', '18.9.1993', 'administrator', 1),
 	('Djordje', 'djoko', 'fac434c27191d7a5ec906a69d93aa7b3', 'Cvarkov', 'cvarkov@arhivatori.com', 'Glavni arhivator', '21.4.1943.', 'korisnik', 1),
 	('Dragan', 'gago', '04e0d737c9292f826b0a4a42bc22cf5f', 'Torbica', 'dragan@jovetorbica.com', 'Iz Krajine', '16.5.1961.', 'korisnik', 1),
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `OCJENA_SLIKA` (
   CONSTRAINT `fk_OCJENA_SLIKA_SLIKA1` FOREIGN KEY (`SLIKA_idSlike`) REFERENCES `SLIKA` (`idSlike`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.OCJENA_SLIKA: ~4 rows (approximately)
+-- Dumping data for table traveldb.OCJENA_SLIKA: ~5 rows (approximately)
 /*!40000 ALTER TABLE `OCJENA_SLIKA` DISABLE KEYS */;
 INSERT INTO `OCJENA_SLIKA` (`idOcjene`, `SLIKA_idSlike`, `ocjena`, `korisnickoIme`) VALUES
 	(2, 2, NULL, 'djoko'),
@@ -206,12 +206,14 @@ CREATE TABLE IF NOT EXISTS `PORUKA` (
   CONSTRAINT `FK_primalac_ime` FOREIGN KEY (`primalac`) REFERENCES `KORISNIK` (`korisnickoIme`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.PORUKA: ~0 rows (approximately)
+-- Dumping data for table traveldb.PORUKA: ~3 rows (approximately)
 /*!40000 ALTER TABLE `PORUKA` DISABLE KEYS */;
 INSERT INTO `PORUKA` (`idPoruke`, `posiljalac`, `primalac`, `tekstPoruke`, `statusProcitana`, `vrijemeSlanja`) VALUES
 	(1, 'gago', 'djoko', 'Prva poruka', 1, '25.4.2016.'),
 	(2, 'gago', 'djoko', 'Druga poruka', 1, '25.4.2016.'),
-	(3, 'djoko', 'gago', 'Pozdravite mamu vasu', 1, '25.4.2016.');
+	(3, 'djoko', 'gago', 'Pozdravite mamu vasu', 1, '25.4.2016.'),
+	(4, 'admin', 'boskic', 'Vas nalog je odobren', 1, '25.4.2016.'),
+	(5, 'admin', 'gago', 'Vas nalog je odobren', 1, '25.4.2016.');
 /*!40000 ALTER TABLE `PORUKA` ENABLE KEYS */;
 
 
@@ -237,7 +239,7 @@ INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `pod
 	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa', 1, NULL),
 	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago', 1, NULL),
 	(5, 'Na farmi kod babe', NULL, NULL, '/WEB-INF/putopisi/Na farmi kod babe.txt', 'djoko', 1, NULL),
-	(9, 'U Majkic Japru po piletinu', '13.4.2016.', 'Majkic Japra', '/WEB-INF/putopisi/U Majkic Japru po piletinu.txt', 'gago', 0, NULL),
+	(9, 'U Majkic Japru po piletinu', '13.4.2016.', 'Majkic Japra', '/WEB-INF/putopisi/U Majkic Japru po piletinu.txt', 'gago', 1, NULL),
 	(10, 'Kod tetka u Ofenbahu', '3.4.2016.', 'Ofenbah', '/WEB-INF/putopisi/Kod tetka u Ofenbahu.txt', 'gago', 1, NULL),
 	(13, 'Sa koncerta Piju grupe', '3.4.2016.', 'Novi Sad', '/WEB-INF/putopisi/Sa koncerta Piju grupe.txt', 'djoko', 0, NULL),
 	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 1, NULL),
