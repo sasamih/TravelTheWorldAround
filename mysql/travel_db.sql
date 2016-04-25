@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.46-0ubuntu0.14.04.2 - (Ubuntu)
+-- Server version:               5.5.49-0ubuntu0.14.04.1 - (Ubuntu)
 -- Server OS:                    debian-linux-gnu
 -- HeidiSQL Version:             9.1.0.4867
 -- --------------------------------------------------------
@@ -23,10 +23,12 @@ CREATE TABLE IF NOT EXISTS `ALBUM` (
   PRIMARY KEY (`idAlbuma`),
   KEY `FK_ALBUM_KORISNIK` (`imeAutora`),
   CONSTRAINT `FK_ALBUM_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.ALBUM: ~0 rows (approximately)
+-- Dumping data for table traveldb.ALBUM: ~1 rows (approximately)
 /*!40000 ALTER TABLE `ALBUM` DISABLE KEYS */;
+INSERT INTO `ALBUM` (`idAlbuma`, `imeAutora`, `nazivAlbuma`) VALUES
+	(10, 'gago', 'Testni album');
 /*!40000 ALTER TABLE `ALBUM` ENABLE KEYS */;
 
 
@@ -62,15 +64,21 @@ INSERT INTO `KLJUCNE_RIJECI` (`idKljucneRijeci`, `Tekst`, `PUTOPIS_idPutopis`) V
 -- Dumping structure for table traveldb.KOMENTAR_PUTOPIS
 CREATE TABLE IF NOT EXISTS `KOMENTAR_PUTOPIS` (
   `idKomentara` int(11) NOT NULL AUTO_INCREMENT,
+  `imeAutora` varchar(45) COLLATE utf8_unicode_ci DEFAULT '0',
   `PUTOPIS_idPutopis` int(11) NOT NULL,
-  `tekstPutopisa` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tekstKomentara` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idKomentara`),
   KEY `fk_KOMENTAR_PUTOPIS_idx` (`PUTOPIS_idPutopis`),
-  CONSTRAINT `fk_KOMENTAR_PUTOPIS` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `FK_KOMENTAR_PUTOPIS_KORISNIK` (`imeAutora`),
+  CONSTRAINT `fk_KOMENTAR_PUTOPIS` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_KOMENTAR_PUTOPIS_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KOMENTAR_PUTOPIS: ~0 rows (approximately)
+-- Dumping data for table traveldb.KOMENTAR_PUTOPIS: ~2 rows (approximately)
 /*!40000 ALTER TABLE `KOMENTAR_PUTOPIS` DISABLE KEYS */;
+INSERT INTO `KOMENTAR_PUTOPIS` (`idKomentara`, `imeAutora`, `PUTOPIS_idPutopis`, `tekstKomentara`) VALUES
+	(1, 'gago', 1, 'Prvi komentar'),
+	(2, 'djoko', 1, 'Drugi komentar');
 /*!40000 ALTER TABLE `KOMENTAR_PUTOPIS` ENABLE KEYS */;
 
 
@@ -155,15 +163,24 @@ INSERT INTO `OCJENA_PUTOPIS` (`idOcjene`, `PUTOPIS_idPutopis`, `ocjena`, `korisn
 
 -- Dumping structure for table traveldb.OCJENA_SLIKA
 CREATE TABLE IF NOT EXISTS `OCJENA_SLIKA` (
-  `idSlike` int(11) NOT NULL AUTO_INCREMENT,
+  `idOcjene` int(11) NOT NULL AUTO_INCREMENT,
   `SLIKA_idSlike` int(11) NOT NULL,
-  PRIMARY KEY (`idSlike`),
+  `ocjena` int(11) DEFAULT NULL,
+  `korisnickoIme` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`idOcjene`),
   KEY `fk_OCJENA_SLIKA_SLIKA1_idx` (`SLIKA_idSlike`),
+  KEY `FK_OCJENA_SLIKA_KORISNIK` (`korisnickoIme`),
+  CONSTRAINT `FK_OCJENA_SLIKA_KORISNIK` FOREIGN KEY (`korisnickoIme`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_OCJENA_SLIKA_SLIKA1` FOREIGN KEY (`SLIKA_idSlike`) REFERENCES `SLIKA` (`idSlike`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.OCJENA_SLIKA: ~0 rows (approximately)
+-- Dumping data for table traveldb.OCJENA_SLIKA: ~4 rows (approximately)
 /*!40000 ALTER TABLE `OCJENA_SLIKA` DISABLE KEYS */;
+INSERT INTO `OCJENA_SLIKA` (`idOcjene`, `SLIKA_idSlike`, `ocjena`, `korisnickoIme`) VALUES
+	(2, 2, NULL, 'djoko'),
+	(3, 3, 2, 'djoko'),
+	(4, 2, 5, 'gago'),
+	(5, 1, 4, 'gago');
 /*!40000 ALTER TABLE `OCJENA_SLIKA` ENABLE KEYS */;
 
 
@@ -228,10 +245,14 @@ CREATE TABLE IF NOT EXISTS `SLIKA` (
   KEY `FK_SLIKA_ALBUM` (`idAlbuma`),
   CONSTRAINT `FK_SLIKA_ALBUM` FOREIGN KEY (`idAlbuma`) REFERENCES `ALBUM` (`idAlbuma`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_SLIKA_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.SLIKA: ~0 rows (approximately)
+-- Dumping data for table traveldb.SLIKA: ~3 rows (approximately)
 /*!40000 ALTER TABLE `SLIKA` DISABLE KEYS */;
+INSERT INTO `SLIKA` (`idSlike`, `imeAutora`, `idAlbuma`, `putanjaSlike`, `statusSlika`) VALUES
+	(1, 'gago', 10, '/WEB-INF/slike/Carina Nebula.jpg', 0),
+	(2, 'gago', 10, '/WEB-INF/slike/clock.jpg', 0),
+	(3, 'gago', 10, '/WEB-INF/slike/img_1.jpg', 0);
 /*!40000 ALTER TABLE `SLIKA` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
