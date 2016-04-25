@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import net.etfbl.ConnectionPool;
 import net.etfbl.dto.Album;
 import net.etfbl.dto.Korisnik;
+import net.etfbl.dto.Putopis;
 
 public class AlbumDAO {
 	
-	public static String queryInsert = "insert into ALBUM(`imeAutora`,`nazivAlbuma`) values(?, ?);";
+	public static String queryInsert = "insert into ALBUM(`imeAutora`,`nazivAlbuma`, `idPutopisa`) values(?, ?, ?);";
 	public static String queryUpdate = "update ALBUM set nazivAlbuma=? where idAlbuma=?;";
 	public static String queryGetByUser = "select * from ALBUM where imeAutora=?;";
+	public static String queryGetByTravel = "select * from ALBUM a inner join KORISNIK k on k.korisnickoIme=a.imeAutora where idPutopisa=?;";
 	
 	public static int insert(Album album) throws SQLException
 	{
@@ -26,6 +28,7 @@ public class AlbumDAO {
 			PreparedStatement ps = conn.prepareStatement(queryInsert);
 			ps.setString(1, album.getKorisnik().getKorisnickoIme());
 			ps.setString(2, album.getNazivAlbuma());
+			ps.setInt(3, album.getPutopis().getIdPutopisa());
 			ps.executeUpdate();
 			//success = true;
 			String lastIdQuery = "select last_insert_id();";
@@ -78,5 +81,29 @@ public class AlbumDAO {
 		}
 		conn.close();
 		return albumi;
+	}
+	
+	public static Album getByTravel(Putopis putopis) throws SQLException
+	{
+		Album album = null;
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = conn.prepareStatement(queryGetByTravel);
+			ps.setInt(1, putopis.getIdPutopisa());
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+			{
+				album = new Album();
+				album.setIdAlbuma(rs.getInt(1));
+				album.setNazivAlbuma(rs.getString(3));
+				album.setPutopis(putopis);
+				album.setKorisnik(KorisnikDAO.setUser(rs));
+			}
+			rs.close();
+			ps.close();
+		}
+		conn.close();
+		return album;
 	}
 }

@@ -3,21 +3,20 @@ package net.etfbl.dto;
 public class Kontakt {
 
 
-	private String korisnikIme;
-	private String kontaktIme;
+	private Korisnik korisnik;
+	private Korisnik kontakt;
 	
-	public String getKorisnikIme() {
-		return korisnikIme;
+	public Korisnik getKorisnik() {
+		return korisnik;
 	}
-	public void setKorisnikIme(String korisnikIme) {
-		this.korisnikIme = korisnikIme;
+	public void setKorisnik(Korisnik korisnik) {
+		this.korisnik = korisnik;
 	}
-	public String getKontaktIme() {
-		return kontaktIme;
+	public Korisnik getKontakt() {
+		return kontakt;
 	}
-	public void setKontaktIme(String kontaktIme) {
-		this.kontaktIme = kontaktIme;
+	public void setKontakt(Korisnik kontakt) {
+		this.kontakt = kontakt;
 	}
-	
 	
 }

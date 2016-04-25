@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import net.etfbl.Utility;
+import net.etfbl.dto.Kontakt;
 import net.etfbl.dto.Korisnik;
 import net.etfbl.dto.Putopis;
 import net.etfbl.dao.*;
@@ -32,6 +33,7 @@ public class KorisnikBean {
 	private String porukaPrijava = "";
 	
 	private List<Korisnik> naloziUCekanju;
+	private List<Kontakt> listaKontakata;
 
 	private Korisnik korisnikCekanje;
 	
@@ -83,6 +85,15 @@ public class KorisnikBean {
 		if (KorisnikDAO.exists(korisnik.getKorisnickoIme()))
 			return true;
 		return false;
+	}
+	
+	public void dodajKontakt(Korisnik kontakt) throws SQLException
+	{
+		System.out.println(kontakt.getKorisnickoIme());
+		Kontakt noviKontakt = new Kontakt();
+		noviKontakt.setKontakt(kontakt);
+		noviKontakt.setKorisnik(Utility.prijavljeniKorisnik);
+		KontaktDAO.insert(noviKontakt);
 	}
 	
 	public List<Korisnik> getKorisnici() {
@@ -178,6 +189,7 @@ public class KorisnikBean {
 		String stranica = "";
 		prijavljeniKorisnik = KorisnikDAO.login(prijavaKorisnickoIme, prijavaLozinka);
 		Utility.prijavljeniKorisnik = prijavljeniKorisnik;
+		listaKontakata = KontaktDAO.getAllContacts(Utility.prijavljeniKorisnik);
 		if (prijavljeniKorisnik != null)
 		{
 			if (prijavljeniKorisnik.getStatus() != 0)
@@ -279,6 +291,14 @@ public class KorisnikBean {
 
 	public void setKorisnikCekanje(Korisnik korisnikCekanje) {
 		this.korisnikCekanje = korisnikCekanje;
+	}
+
+	public List<Kontakt> getListaKontakata() {
+		return listaKontakata;
+	}
+
+	public void setListaKontakata(List<Kontakt> listaKontakata) {
+		this.listaKontakata = listaKontakata;
 	}
 	
 }

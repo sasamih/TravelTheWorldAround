@@ -5,6 +5,7 @@ public class Album {
 	private int idAlbuma;
 	private Korisnik korisnik;
 	private String nazivAlbuma;
+	private Putopis putopis;
 	
 	public int getIdAlbuma() {
 		return idAlbuma;
@@ -23,5 +24,11 @@ public class Album {
 	}
 	public void setKorisnik(Korisnik korisnik) {
 		this.korisnik = korisnik;
+	}
+	public Putopis getPutopis() {
+		return putopis;
+	}
+	public void setPutopis(Putopis putopis) {
+		this.putopis = putopis;
 	}
 }

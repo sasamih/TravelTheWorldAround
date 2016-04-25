@@ -29,21 +29,21 @@
 				<h:form>
 					<h:panelGrid columns="2">
 						<h:outputText value="Unesite ime korisnika:"></h:outputText>
+						
 						<h:inputText value="#{korisnikBean.pretragaKorisnika}">
 							<p:ajax event="keyup" update="listaKorisnici"
 								listener="#{korisnikBean.pretrazi}" />
 						</h:inputText>
+						
 					</h:panelGrid>
 					<h:dataTable id="listaKorisnici" cellpadding="10" value="#{korisnikBean.korisnici}"
-						var="k">
+						var="kor">
 						<p:column>
 							<f:facet name="header">Korisnicko ime</f:facet>
-									#{k.korisnickoIme}
+									#{kor.korisnickoIme}
 						</p:column>
-
 						<p:column>
-							<f:facet name="header"></f:facet>
-							<h:commandButton value="Dodaj kontakt"></h:commandButton>
+							<h:commandButton value="Dodaj kontakt" action="#{korisnikBean.dodajKontakt(kor)}"></h:commandButton>
 						</p:column>
 					</h:dataTable>
 				</h:form>
@@ -63,7 +63,9 @@
 						value="#{putopisBean.putopisi}" var="k">
 						<h:column>
 							<f:facet name="header">Naslov putopisa</f:facet>
-									<h:commandLink value="#{k.nazivPutopisa}" action="#{putopisBean.putopisProcitaj(k)}"></h:commandLink>
+									<h:commandLink value="#{k.nazivPutopisa}" action="#{putopisBean.putopisProcitaj(k)}">
+										<f:actionListener binding="#{slikaBean.pronadjiAlbumPutopisa(k)}"></f:actionListener>
+									</h:commandLink>
 						</h:column>
 					</h:dataTable>
 					
@@ -135,6 +137,11 @@
 		</p:row>
 		<p:row>
 			<p:column>
+				<h:dataTable value="#{korisnikBean.listaKontakata}" var="kontakt">
+					<p:column>
+						#{kontakt.kontakt.korisnickoIme}
+					</p:column>
+				</h:dataTable>
 			</p:column>
 		</p:row>
 		<p:row>

@@ -44,6 +44,13 @@
 					
 			</p:column>
 		</p:row>
+		<p:row>
+			<p:column>
+				<h:form>
+					<h:commandLink value="#{slikaBean.travelAlbum.nazivAlbuma}" action="#{slikaBean.prikaziSlikeAlbuma(slikaBean.travelAlbum)}"></h:commandLink>
+				</h:form>
+			</p:column>
+		</p:row>
 	</p:panelGrid>
 	<h:form>
 		<h:commandLink value="Nazad" action="#{putopisBean.nazad}"></h:commandLink>

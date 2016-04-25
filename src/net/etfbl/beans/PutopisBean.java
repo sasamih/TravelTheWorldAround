@@ -251,7 +251,7 @@ public class PutopisBean {
 		ocjenePutopisa = OcjenaPutopisaDAO.getGradesByTravel(putopis);
 	}
 	
-	public void dobaviKomentarePutopisa(ToggleEvent event)//Putopis putopis) throws SQLException
+	public void dobaviKomentarePutopisa()//Putopis putopis) throws SQLException
 	{
 		System.out.println("Bio ovde");
 		//komentariPutopisa = KomentarPutopisDAO.getCommentsByTravel(putopis);

@@ -23,6 +23,7 @@ import org.primefaces.model.StreamedContent;
 import net.etfbl.Utility;
 import net.etfbl.dao.AlbumDAO;
 import net.etfbl.dao.OcjenaSlikeDAO;
+import net.etfbl.dao.PutopisDAO;
 import net.etfbl.dao.SlikaDAO;
 import net.etfbl.dto.Album;
 import net.etfbl.dto.OcjenaSlike;
@@ -38,6 +39,7 @@ public class SlikaBean {
 	private List<Slika> albumPhotos;
 	private String nazivAlbuma;
 	private StreamedContent stream;
+	private Album travelAlbum;
 	
 	private ArrayList<OcjenaSlike> ocjeneKorisnika = null;
 
@@ -133,10 +135,28 @@ public class SlikaBean {
 		return "newAlbum";
 	}
 	
+	public void pronadjiAlbumPutopisa(Putopis putopis) throws SQLException
+	{
+		travelAlbum = AlbumDAO.getByTravel(putopis);
+		System.out.println(travelAlbum.getNazivAlbuma());
+	}
+	
+	public Album getTravelAlbum() {
+		return travelAlbum;
+	}
+
+	public void setTravelAlbum(Album travelAlbum) {
+		this.travelAlbum = travelAlbum;
+	}
+
+	public void setAlbumPhotos(List<Slika> albumPhotos) {
+		this.albumPhotos = albumPhotos;
+	}
+
 	public String prikaziSlikeAlbuma(Album album) throws SQLException, FileNotFoundException
 	{
 		albumPhotos = SlikaDAO.getPhotosByAlbum(album);
-		
+		//System.out.println(album.getNazivAlbuma());
 		ocjeneKorisnika = new ArrayList<OcjenaSlike>();
 		for(Slika s : albumPhotos)
 		{

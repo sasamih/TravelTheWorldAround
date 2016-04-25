@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.49-0ubuntu0.14.04.1 - (Ubuntu)
+-- Server version:               5.5.46-0ubuntu0.14.04.2 - (Ubuntu)
 -- Server OS:                    debian-linux-gnu
 -- HeidiSQL Version:             9.1.0.4867
 -- --------------------------------------------------------
@@ -20,15 +20,18 @@ CREATE TABLE IF NOT EXISTS `ALBUM` (
   `idAlbuma` int(11) NOT NULL AUTO_INCREMENT,
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `nazivAlbuma` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `idPutopisa` int(11) DEFAULT NULL,
   PRIMARY KEY (`idAlbuma`),
   KEY `FK_ALBUM_KORISNIK` (`imeAutora`),
+  KEY `FK_ALBUM_PUTOPIS` (`idPutopisa`),
+  CONSTRAINT `FK_ALBUM_PUTOPIS` FOREIGN KEY (`idPutopisa`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_ALBUM_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.ALBUM: ~1 rows (approximately)
 /*!40000 ALTER TABLE `ALBUM` DISABLE KEYS */;
-INSERT INTO `ALBUM` (`idAlbuma`, `imeAutora`, `nazivAlbuma`) VALUES
-	(10, 'gago', 'Testni album');
+INSERT INTO `ALBUM` (`idAlbuma`, `imeAutora`, `nazivAlbuma`, `idPutopisa`) VALUES
+	(10, 'gago', 'Testni album', 1);
 /*!40000 ALTER TABLE `ALBUM` ENABLE KEYS */;
 
 
@@ -108,6 +111,8 @@ CREATE TABLE IF NOT EXISTS `KONTAKT` (
 
 -- Dumping data for table traveldb.KONTAKT: ~0 rows (approximately)
 /*!40000 ALTER TABLE `KONTAKT` DISABLE KEYS */;
+INSERT INTO `KONTAKT` (`korisnikIme`, `kontaktIme`) VALUES
+	('gago', 'djoko');
 /*!40000 ALTER TABLE `KONTAKT` ENABLE KEYS */;
 
 

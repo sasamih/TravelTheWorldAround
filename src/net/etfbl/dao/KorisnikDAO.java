@@ -17,6 +17,7 @@ import net.etfbl.dto.Korisnik;
 public class KorisnikDAO {
 	private static String queryGetByUsernameAndPassowrd = "select * from KORISNIK where korisnickoIme like ? and lozinka like ?;";
 	private static String queryGetByName = "select * from KORISNIK where korisnickoIme like ?;";
+	private static String queryGetSingleByName = "select * from KORISNIK where korisnickoIme=?;";
 	private static String queryUpdateStatus = "UPDATE KORISNIK SET `statusKorisnik`=? WHERE `korisnickoIme`=?;";
 	private static String queryInsert = "INSERT INTO `traveldb`.`KORISNIK` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String queryExists = "select * from KORISNIK where korisnickoIme=?;";
@@ -43,6 +44,27 @@ public class KorisnikDAO {
 			e.printStackTrace();
 		}
 		return korisnici;
+	}
+	
+	public static Korisnik getSingleByName(String korisnickoIme) throws SQLException
+	{
+		Korisnik korisnik = null;
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetSingleByName);
+			ps.setString(1, korisnickoIme);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+			{
+				korisnik = new Korisnik();
+				korisnik = KorisnikDAO.setUser(rs);
+			}
+			rs.close();
+			ps.close();
+		}
+		conn.close();
+		return korisnik;
 	}
 
 	public static boolean insertKorisnik(Korisnik korisnik)
