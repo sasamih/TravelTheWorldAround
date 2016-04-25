@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.46-0ubuntu0.14.04.2 - (Ubuntu)
+-- Server version:               5.5.49-0ubuntu0.14.04.1 - (Ubuntu)
 -- Server OS:                    debian-linux-gnu
 -- HeidiSQL Version:             9.1.0.4867
 -- --------------------------------------------------------
@@ -109,10 +109,11 @@ CREATE TABLE IF NOT EXISTS `KONTAKT` (
   CONSTRAINT `FK_korisnik_ime` FOREIGN KEY (`korisnikIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KONTAKT: ~0 rows (approximately)
+-- Dumping data for table traveldb.KONTAKT: ~1 rows (approximately)
 /*!40000 ALTER TABLE `KONTAKT` DISABLE KEYS */;
 INSERT INTO `KONTAKT` (`korisnikIme`, `kontaktIme`) VALUES
-	('gago', 'djoko');
+	('gago', 'djoko'),
+	('djoko', 'gago');
 /*!40000 ALTER TABLE `KONTAKT` ENABLE KEYS */;
 
 
@@ -177,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `OCJENA_SLIKA` (
   KEY `FK_OCJENA_SLIKA_KORISNIK` (`korisnickoIme`),
   CONSTRAINT `FK_OCJENA_SLIKA_KORISNIK` FOREIGN KEY (`korisnickoIme`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_OCJENA_SLIKA_SLIKA1` FOREIGN KEY (`SLIKA_idSlike`) REFERENCES `SLIKA` (`idSlike`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.OCJENA_SLIKA: ~4 rows (approximately)
 /*!40000 ALTER TABLE `OCJENA_SLIKA` DISABLE KEYS */;
@@ -185,25 +186,32 @@ INSERT INTO `OCJENA_SLIKA` (`idOcjene`, `SLIKA_idSlike`, `ocjena`, `korisnickoIm
 	(2, 2, NULL, 'djoko'),
 	(3, 3, 2, 'djoko'),
 	(4, 2, 5, 'gago'),
-	(5, 1, 4, 'gago');
+	(5, 1, 4, 'gago'),
+	(6, 1, 3, 'djoko');
 /*!40000 ALTER TABLE `OCJENA_SLIKA` ENABLE KEYS */;
 
 
 -- Dumping structure for table traveldb.PORUKA
 CREATE TABLE IF NOT EXISTS `PORUKA` (
+  `idPoruke` int(11) NOT NULL AUTO_INCREMENT,
   `posiljalac` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `primalac` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `tekstPoruke` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `statusProcitana` int(11) NOT NULL,
   `vrijemeSlanja` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`posiljalac`,`primalac`),
+  PRIMARY KEY (`idPoruke`),
+  KEY `FK_posiljalac_ime` (`posiljalac`),
   KEY `FK_primalac_ime` (`primalac`),
   CONSTRAINT `FK_posiljalac_ime` FOREIGN KEY (`posiljalac`) REFERENCES `KORISNIK` (`korisnickoIme`),
   CONSTRAINT `FK_primalac_ime` FOREIGN KEY (`primalac`) REFERENCES `KORISNIK` (`korisnickoIme`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.PORUKA: ~0 rows (approximately)
 /*!40000 ALTER TABLE `PORUKA` DISABLE KEYS */;
+INSERT INTO `PORUKA` (`idPoruke`, `posiljalac`, `primalac`, `tekstPoruke`, `statusProcitana`, `vrijemeSlanja`) VALUES
+	(1, 'gago', 'djoko', 'Prva poruka', 1, '25.4.2016.'),
+	(2, 'gago', 'djoko', 'Druga poruka', 1, '25.4.2016.'),
+	(3, 'djoko', 'gago', 'Pozdravite mamu vasu', 1, '25.4.2016.');
 /*!40000 ALTER TABLE `PORUKA` ENABLE KEYS */;
 
 

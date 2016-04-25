@@ -2,22 +2,30 @@ package net.etfbl.dto;
 
 public class Poruka {
 
-	private String posiljalac;
-	private String primalac;
+	private int idPoruke;
+	private Korisnik posiljalac;
+	private Korisnik primalac;
 	private String tekstPoruke;
 	private int statusProcitana;
 	private String vrijemeSlanja;
 	
-	public String getPosiljalac() {
+
+	public int getIdPoruke() {
+		return idPoruke;
+	}
+	public void setIdPoruke(int idPoruke) {
+		this.idPoruke = idPoruke;
+	}
+	public Korisnik getPosiljalac() {
 		return posiljalac;
 	}
-	public void setPosiljalac(String posiljalac) {
+	public void setPosiljalac(Korisnik posiljalac) {
 		this.posiljalac = posiljalac;
 	}
-	public String getPrimalac() {
+	public Korisnik getPrimalac() {
 		return primalac;
 	}
-	public void setPrimalac(String primalac) {
+	public void setPrimalac(Korisnik primalac) {
 		this.primalac = primalac;
 	}
 	public String getTekstPoruke() {

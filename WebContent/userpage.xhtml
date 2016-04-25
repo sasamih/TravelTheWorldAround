@@ -9,7 +9,7 @@
 	<link href="#{request.contextPath}/styles.css" rel="stylesheet"
 		type="text/css" />
 </h:head>
-<h:body onload="#{slikaBean.prijava()}">
+<h:body onload="#{porukaBean.dobaviNeprocitanePoruke()}">
 
 	<div>
 		<h:form>
@@ -118,30 +118,40 @@
 			</p:column>
 		</p:row>
 		<p:row>
-		
 			<p:column>
-				<p:graphicImage value="#{slikaBean.stream}" height="200" width="250">
-					<p:resizable></p:resizable>
-				</p:graphicImage>
+				<h:dataTable value="#{korisnikBean.listaKontakata}" var="kontakt">
+					<p:column>
+						<h:form>
+							<h:commandLink value="#{kontakt.kontakt.korisnickoIme}" action="#{korisnikBean.napisiPoruku(kontakt.kontakt)}"></h:commandLink>
+						</h:form>
+					</p:column>
+				</h:dataTable>
 			</p:column>
 				
 			<p:column>
-				<h:dataTable value="#{slikaBean.userAlbums}" var="album">
+				<h:dataTable value="#{porukaBean.neprocitanePoruke}" var="poruka">
 					<p:column>
+						<f:facet name="header">Od</f:facet>
 						<h:form>
-							<h:commandLink value="#{album.nazivAlbuma}" action="#{slikaBean.prikaziSlikeAlbuma(album)}"></h:commandLink>
+							<h:outputText value="#{poruka.posiljalac.korisnickoIme}"></h:outputText>
 						</h:form>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Poruka</f:facet>
+						<h:form>
+							<h:outputText value="#{poruka.tekstPoruke}"></h:outputText>
+						</h:form>
+					</p:column>
+					<p:column>
+					<h:form>
+							<h:commandButton value="Oznaci kao procitano" action="#{porukaBean.oznaciProcitano(poruka)}"></h:commandButton>
+					</h:form>
 					</p:column>
 				</h:dataTable>
 			</p:column>
 		</p:row>
 		<p:row>
 			<p:column>
-				<h:dataTable value="#{korisnikBean.listaKontakata}" var="kontakt">
-					<p:column>
-						#{kontakt.kontakt.korisnickoIme}
-					</p:column>
-				</h:dataTable>
 			</p:column>
 		</p:row>
 		<p:row>

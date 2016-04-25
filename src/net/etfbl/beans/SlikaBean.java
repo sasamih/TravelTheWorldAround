@@ -138,7 +138,6 @@ public class SlikaBean {
 	public void pronadjiAlbumPutopisa(Putopis putopis) throws SQLException
 	{
 		travelAlbum = AlbumDAO.getByTravel(putopis);
-		System.out.println(travelAlbum.getNazivAlbuma());
 	}
 	
 	public Album getTravelAlbum() {

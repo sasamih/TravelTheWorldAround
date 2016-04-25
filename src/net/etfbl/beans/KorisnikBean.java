@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -121,6 +122,12 @@ public class KorisnikBean {
 		korisnik.setLozinka(null);
 	}
 	
+	public String napisiPoruku(Korisnik primalac)
+	{
+		Utility.primalacPoruke = primalac;
+		return "newMessage";
+	}
+	
 	public String korisnikInfo(Korisnik korisnik)
 	{
 		setKorisnikCekanje(korisnik);
@@ -187,6 +194,8 @@ public class KorisnikBean {
 	public String prijavi() throws NoSuchAlgorithmException, SQLException, IOException
 	{
 		String stranica = "";
+		System.out.println("Ode");
+		pretragaKorisnika = null;
 		prijavljeniKorisnik = KorisnikDAO.login(prijavaKorisnickoIme, prijavaLozinka);
 		Utility.prijavljeniKorisnik = prijavljeniKorisnik;
 		listaKontakata = KontaktDAO.getAllContacts(Utility.prijavljeniKorisnik);
