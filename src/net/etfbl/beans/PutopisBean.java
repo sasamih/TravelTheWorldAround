@@ -496,10 +496,12 @@ public class PutopisBean {
 		
 		if (service != null)
 			topTenObj = service.getTopTenTravels();
-		
-		for (net.etfbl.travel.Putopis o : topTenObj)
+		if(topTenObj != null)
 		{
-			topTen.add(o);
+			for (net.etfbl.travel.Putopis o : topTenObj)
+			{
+				topTen.add(o);
+			}
 		}
 	}
 

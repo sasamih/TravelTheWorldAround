@@ -67,10 +67,20 @@ public class KorisnikBean {
 		try {
 			if (!korisnikExists())
 			{
-				KorisnikDAO.insertKorisnik(korisnik);
-				setPorukaRegistracija("Vas nalog ceka na odobrenje od administratora.");
-				this.obrisiPolja();
-				return true;
+				String passTmp = korisnik.getLozinka();
+				String nameTmp = korisnik.getKorisnickoIme();
+				if (nameTmp.length()>=8 && passTmp.length()>=10 && !(nameTmp.contains("$") || nameTmp.contains("#") || nameTmp.contains("/")))
+				{
+					KorisnikDAO.insertKorisnik(korisnik);
+					setPorukaRegistracija("Vas nalog ceka na odobrenje od administratora.");
+					this.obrisiPolja();
+					return true;
+				}
+				else
+				{
+					setPorukaRegistracija("Korisnicko ime ili lozinka nisu odgovarajuce duzine ili lozinka sadrzi nevalidne karaktere!");
+					return false;
+				}
 			}
 			else
 			{
@@ -198,10 +208,11 @@ public class KorisnikBean {
 		String stranica = "";
 		pretragaKorisnika = null;
 		prijavljeniKorisnik = KorisnikDAO.login(prijavaKorisnickoIme, prijavaLozinka);
-		Utility.prijavljeniKorisnik = prijavljeniKorisnik;
-		listaKontakata = KontaktDAO.getAllContacts(Utility.prijavljeniKorisnik);
+		
 		if (prijavljeniKorisnik != null)
 		{
+			Utility.prijavljeniKorisnik = prijavljeniKorisnik;
+			listaKontakata = KontaktDAO.getAllContacts(Utility.prijavljeniKorisnik);
 			if (prijavljeniKorisnik.getStatus() != 0)
 			{
 				if (prijavljeniKorisnik.getKorisnickaGrupa().equals("korisnik"))
