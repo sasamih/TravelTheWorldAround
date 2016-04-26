@@ -16,6 +16,7 @@ import net.etfbl.dto.Kontakt;
 import net.etfbl.dto.Korisnik;
 import net.etfbl.dto.Poruka;
 import net.etfbl.dto.Putopis;
+import net.etfbl.email.SendMail;
 import net.etfbl.dao.*;
 
 @ManagedBean(name = "korisnikBean")
@@ -195,7 +196,6 @@ public class KorisnikBean {
 	public String prijavi() throws NoSuchAlgorithmException, SQLException, IOException
 	{
 		String stranica = "";
-		System.out.println("Ode");
 		pretragaKorisnika = null;
 		prijavljeniKorisnik = KorisnikDAO.login(prijavaKorisnickoIme, prijavaLozinka);
 		Utility.prijavljeniKorisnik = prijavljeniKorisnik;
@@ -272,8 +272,20 @@ public class KorisnikBean {
 			poruka.setTekstPoruke("Vas nalog je odobren");
 			poruka.setStatusProcitana(0);
 			PorukaDAO.insert(poruka);
+			SendMail.sendMail("sasamihajlica@gmail.com", "Travel the World Around-nalog", "Vas nalog je odobren. Uzivajte u vremenu provedemo na nasoj stranici! :D");
 		}
 		
+		return "adminpage";
+	}
+	
+	public String odbijKorisnika(Korisnik korisnik) throws SQLException
+	{
+		if (korisnik != null)
+		{
+			KorisnikDAO.delete(korisnik);
+			naloziUCekanju.remove(korisnik);
+			SendMail.sendMail("sasamihajlica@gmail.com", "Travel the World Around-nalog", "Vas nalog je odbijen jer vase ime nije validno!");
+		}	
 		return "adminpage";
 	}
 	

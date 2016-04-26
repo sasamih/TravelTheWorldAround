@@ -22,6 +22,7 @@ public class KorisnikDAO {
 	private static String queryInsert = "INSERT INTO `traveldb`.`KORISNIK` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String queryExists = "select * from KORISNIK where korisnickoIme=?;";
 	private static String queryOnHold = "select * from KORISNIK where statusKorisnik=0;";
+	private static String queryDelete = "delete from KORISNIK where korisnickoIme=?;";
 
 	public static ArrayList<Korisnik> getByName(String naziv) {
 		ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
@@ -90,6 +91,19 @@ public class KorisnikDAO {
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public static void delete(Korisnik korisnik) throws SQLException
+	{
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryDelete);
+			ps.setString(1, korisnik.getKorisnickoIme());
+			ps.executeUpdate();
+			ps.close();
+		}
+		conn.close();
 	}
 
 	public static Korisnik login(String korisnickoIme, String lozinka)

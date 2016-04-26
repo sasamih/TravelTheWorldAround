@@ -20,6 +20,7 @@ public class PutopisDAO {
 	private static String queryUpdateProsjecnaOcjena = "update PUTOPIS set prosjecnaOcjena=? where idPutopisa=?;";
 	private static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
 	private static String queryTravelsByUser = "select * from PUTOPIS where imeAutora=?;";
+	private static String queryCountByStatus = "select count(idPutopisa) from PUTOPIS where statusPutopis=?;";
 	
 	private static String queryGetKeyWords = "select Tekst from KLJUCNE_RIJECI where PUTOPIS_idPutopis = ?;";
 	
@@ -241,5 +242,22 @@ public class PutopisDAO {
 		conn.close();
 		
 		return keyWords;
+	}
+	
+	public static int getCount(int status) throws SQLException
+	{
+		int count = 0;
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryCountByStatus);
+			ps.setInt(1, status);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				count = rs.getInt(1);
+			ps.close();
+		}
+		conn.close();
+		return count;
 	}
 }

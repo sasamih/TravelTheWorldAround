@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.49-0ubuntu0.14.04.1 - (Ubuntu)
+-- Server version:               5.5.46-0ubuntu0.14.04.2 - (Ubuntu)
 -- Server OS:                    debian-linux-gnu
 -- HeidiSQL Version:             9.1.0.4867
 -- --------------------------------------------------------
@@ -75,13 +75,15 @@ CREATE TABLE IF NOT EXISTS `KOMENTAR_PUTOPIS` (
   KEY `FK_KOMENTAR_PUTOPIS_KORISNIK` (`imeAutora`),
   CONSTRAINT `fk_KOMENTAR_PUTOPIS` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_KOMENTAR_PUTOPIS_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.KOMENTAR_PUTOPIS: ~2 rows (approximately)
 /*!40000 ALTER TABLE `KOMENTAR_PUTOPIS` DISABLE KEYS */;
 INSERT INTO `KOMENTAR_PUTOPIS` (`idKomentara`, `imeAutora`, `PUTOPIS_idPutopis`, `tekstKomentara`) VALUES
 	(1, 'gago', 1, 'Prvi komentar'),
-	(2, 'djoko', 1, 'Drugi komentar');
+	(2, 'djoko', 1, 'Drugi komentar'),
+	(3, 'gago', 1, 'Ovo je prvi pravi komentar'),
+	(4, 'gago', 1, 'Bio sam i ja. Odlicno.');
 /*!40000 ALTER TABLE `KOMENTAR_PUTOPIS` ENABLE KEYS */;
 
 
@@ -89,13 +91,20 @@ INSERT INTO `KOMENTAR_PUTOPIS` (`idKomentara`, `imeAutora`, `PUTOPIS_idPutopis`,
 CREATE TABLE IF NOT EXISTS `KOMENTAR_SLIKA` (
   `idKomentara` int(11) NOT NULL AUTO_INCREMENT,
   `SLIKA_idSlike` int(11) NOT NULL,
+  `imeAutora` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tekstKomentara` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idKomentara`),
   KEY `fk_KOMENTAR_SLIKA_SLIKA1_idx` (`SLIKA_idSlike`),
+  KEY `FK_KOMENTAR_SLIKA_KORISNIK` (`imeAutora`),
+  CONSTRAINT `FK_KOMENTAR_SLIKA_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_KOMENTAR_SLIKA_SLIKA1` FOREIGN KEY (`SLIKA_idSlike`) REFERENCES `SLIKA` (`idSlike`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.KOMENTAR_SLIKA: ~0 rows (approximately)
 /*!40000 ALTER TABLE `KOMENTAR_SLIKA` DISABLE KEYS */;
+INSERT INTO `KOMENTAR_SLIKA` (`idKomentara`, `SLIKA_idSlike`, `imeAutora`, `tekstKomentara`) VALUES
+	(1, 1, 'gago', 'Prvi komentar'),
+	(2, 1, 'gago', '');
 /*!40000 ALTER TABLE `KOMENTAR_SLIKA` ENABLE KEYS */;
 
 
@@ -155,15 +164,16 @@ CREATE TABLE IF NOT EXISTS `OCJENA_PUTOPIS` (
   KEY `fk_OCJENA_PUTOPIS2` (`korisnickoIme`),
   CONSTRAINT `fk_OCJENA_PUTOPIS1` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_OCJENA_PUTOPIS2` FOREIGN KEY (`korisnickoIme`) REFERENCES `KORISNIK` (`korisnickoIme`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.OCJENA_PUTOPIS: ~4 rows (approximately)
+-- Dumping data for table traveldb.OCJENA_PUTOPIS: ~5 rows (approximately)
 /*!40000 ALTER TABLE `OCJENA_PUTOPIS` DISABLE KEYS */;
 INSERT INTO `OCJENA_PUTOPIS` (`idOcjene`, `PUTOPIS_idPutopis`, `ocjena`, `korisnickoIme`) VALUES
 	(1, 1, 4, 'gago'),
 	(2, 15, 4, 'gago'),
 	(3, 1, 3, 'djoko'),
-	(4, 15, 5, 'djoko');
+	(4, 15, 5, 'djoko'),
+	(5, 16, 5, 'gago');
 /*!40000 ALTER TABLE `OCJENA_PUTOPIS` ENABLE KEYS */;
 
 
@@ -204,16 +214,17 @@ CREATE TABLE IF NOT EXISTS `PORUKA` (
   KEY `FK_primalac_ime` (`primalac`),
   CONSTRAINT `FK_posiljalac_ime` FOREIGN KEY (`posiljalac`) REFERENCES `KORISNIK` (`korisnickoIme`),
   CONSTRAINT `FK_primalac_ime` FOREIGN KEY (`primalac`) REFERENCES `KORISNIK` (`korisnickoIme`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.PORUKA: ~3 rows (approximately)
+-- Dumping data for table traveldb.PORUKA: ~5 rows (approximately)
 /*!40000 ALTER TABLE `PORUKA` DISABLE KEYS */;
 INSERT INTO `PORUKA` (`idPoruke`, `posiljalac`, `primalac`, `tekstPoruke`, `statusProcitana`, `vrijemeSlanja`) VALUES
 	(1, 'gago', 'djoko', 'Prva poruka', 1, '25.4.2016.'),
 	(2, 'gago', 'djoko', 'Druga poruka', 1, '25.4.2016.'),
 	(3, 'djoko', 'gago', 'Pozdravite mamu vasu', 1, '25.4.2016.'),
 	(4, 'admin', 'boskic', 'Vas nalog je odobren', 1, '25.4.2016.'),
-	(5, 'admin', 'gago', 'Vas nalog je odobren', 1, '25.4.2016.');
+	(5, 'admin', 'gago', 'Vas nalog je odobren', 1, '25.4.2016.'),
+	(6, 'admin', 'branka', 'Vas nalog je odobren', 0, '26.4.2016.');
 /*!40000 ALTER TABLE `PORUKA` ENABLE KEYS */;
 
 
@@ -244,7 +255,7 @@ INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `pod
 	(13, 'Sa koncerta Piju grupe', '3.4.2016.', 'Novi Sad', '/WEB-INF/putopisi/Sa koncerta Piju grupe.txt', 'djoko', 0, NULL),
 	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 1, NULL),
 	(15, 'U Splitu na kolegijumu', '5.4.2016.', 'Split', '/WEB-INF/putopisi/U Splitu na kolegijumu.txt', 'gago', 1, 4.5),
-	(16, 'Putovanje u Grcku', '5.4.2016.', 'Krf', '/WEB-INF/putopisi/Putovanje u Grcku.txt', 'gago', 1, NULL);
+	(16, 'Putovanje u Grcku', '5.4.2016.', 'Krf', '/WEB-INF/putopisi/Putovanje u Grcku.txt', 'gago', 1, 5);
 /*!40000 ALTER TABLE `PUTOPIS` ENABLE KEYS */;
 
 

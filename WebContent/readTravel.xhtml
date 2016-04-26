@@ -10,6 +10,14 @@
 <title>Putopis</title>
 </h:head>
 <h:body>
+<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/sr_RS/sdk.js#xfbml=1&amp;version=v2.6";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 	<p:panelGrid>
 		<p:row>
 			<p:column>
@@ -25,23 +33,26 @@
 					<h:outputText value="Tekst putopisa"></h:outputText>
 					<h:outputText value="#{putopisBean.putopisCekanje.tekstPutopisa}"></h:outputText>
 				</h:panelGrid>
-				<h:form>
-				<p:fieldset legend="Komentari" toggleable="true" toggleSpeed="500"
-						collapsed="true">
-						<p:ajax event="toggle"
-							actionListener="#{putopisBean.dobaviKomentarePutopisa}" update="pg"></p:ajax>
-						<h:panelGrid columns="1" cellpadding="5">
-							<h:dataTable id="pg" value="#{putopisBean.putopisi}" var="k">
-								<h:outputText value="#{k.nazivPutopisa}"></h:outputText>
-							</h:dataTable>
-						</h:panelGrid>
-					</p:fieldset>
-				</h:form>
+				
 			</p:column>
 		</p:row>
 		<p:row>
 			<p:column>
-					
+				<h:form>
+					<h:commandButton value="#{putopisBean.prikaziSakrijKomentar}" action="#{putopisBean.dobaviKomentarePutopisa()}"></h:commandButton>
+				</h:form>
+				<h:dataTable value="#{putopisBean.komentariPutopisa}" var="kom">
+					<p:column>
+						<h:outputText value="#{kom.korisnik.korisnickoIme}"></h:outputText>
+					</p:column>
+					<p:column>
+						<h:outputText value="#{kom.tekstKomentara}"></h:outputText>
+					</p:column>
+				</h:dataTable>
+				<h:form>
+					<h:inputTextarea rows="1" columns="20" value="#{putopisBean.noviKomentar}"></h:inputTextarea>
+					<h:commandButton value="Dodaj komentar" action="#{putopisBean.dodajKomentar()}"></h:commandButton>
+				</h:form>
 			</p:column>
 		</p:row>
 		<p:row>
@@ -55,5 +66,8 @@
 	<h:form>
 		<h:commandLink value="Nazad" action="#{putopisBean.nazad}"></h:commandLink>
 	</h:form>
+	
+	<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-mobile-iframe="true"></div>
+	
 </h:body>
 </html>

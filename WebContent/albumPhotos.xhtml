@@ -11,12 +11,25 @@
 	
 	<h:form id="form">
 	<h:panelGrid columns="2">
+		<h:form>
     	<h:dataTable value="#{slikaBean.albumPhotos}" var="photo">
     		<p:column>
     			<f:facet name="header">Slika</f:facet>
     			<p:graphicImage value="#{slikaBean.stream}" height="200" width="250"></p:graphicImage>
+    			<br></br>
+    			
+					<h:commandButton value="#{photo.prikaziSakrijKomentar}" action="#{slikaBean.dobaviKomentareSlike(photo)}"></h:commandButton>
+				
+				<br/>
+				<ui:repeat value="#{photo.komentari}" var="komentar">
+        					#{komentar.tekstKomentara}
+        					<br></br>
+				</ui:repeat>
+					<h:inputTextarea rows="1" columns="20" value="#{slikaBean.noviKomentar}"></h:inputTextarea>
+					<h:commandButton value="Dodaj komentar" action="#{slikaBean.dodajKomentar(photo)}"></h:commandButton>
     		</p:column>
     	</h:dataTable>
+    	</h:form>
     	<h:dataTable id="listaOcjena" cellspacing="120" value="#{slikaBean.ocjeneKorisnika}" var="o">
 			<p:column>
 				<f:facet name="header">Vasa ocjena</f:facet>

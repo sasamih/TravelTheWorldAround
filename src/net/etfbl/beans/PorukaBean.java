@@ -39,7 +39,6 @@ public class PorukaBean {
 	
 	public void dobaviNeprocitanePoruke() throws SQLException
 	{
-		System.out.println("Ovde");
 		neprocitanePoruke = PorukaDAO.getAllUnreadMessages(Utility.prijavljeniKorisnik);
 		if (neprocitanePoruke == null)
 		{

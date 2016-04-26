@@ -40,6 +40,8 @@ public class PutopisBean {
 	private Putopis noviPutopis = new Putopis();
 	
 	private String kljucneRijeci;
+	private String prikaziSakrijKomentar;
+	private static boolean prikazi = true;
 	
 	private static List<Putopis> putopisiUCekanju;
 	private static List<Putopis> putopisiKorisnika;
@@ -50,6 +52,15 @@ public class PutopisBean {
 	private ArrayList<OcjenaPutopisa> ocjenePutopisa = null;
 	
 	private ArrayList<KomentarPutopisa> komentariPutopisa = null;
+	
+	private String noviKomentar;
+	
+	
+	private ArrayList<Putopis> putopisiZaPeriod;
+	private ArrayList<Putopis> najviseDjeljeni;
+	private int ukupnoPutopisa;
+	private int ukupnoPrihvacenih;
+	private int ukupnoOdbijenih;
 	
 	public String getTekstPretrage() {
 		return tekstPretrage;
@@ -276,10 +287,22 @@ public class PutopisBean {
 		ocjenePutopisa = OcjenaPutopisaDAO.getGradesByTravel(putopis);
 	}
 	
-	public void dobaviKomentarePutopisa()//Putopis putopis) throws SQLException
+	public String dobaviKomentarePutopisa() throws SQLException
 	{
-		System.out.println("Bio ovde");
-		//komentariPutopisa = KomentarPutopisDAO.getCommentsByTravel(putopis);
+		if (prikazi)
+		{
+			komentariPutopisa = KomentarPutopisDAO.getCommentsByTravel(putopisCekanje);
+			prikazi = false;
+			prikaziSakrijKomentar = "Sakrij";
+		}
+		else
+		{
+			komentariPutopisa = null;
+			prikazi = true;
+			prikaziSakrijKomentar = "Prikazi komentare";
+		}
+		
+		return "readTravel";
 	}
 	
 	public void promjeniOcjenu(OcjenaPutopisa ocjena) throws SQLException
@@ -309,6 +332,27 @@ public class PutopisBean {
 		prosjek = suma/(double)prosjekOcjene.size();
 		ocjena.getPutopis().setProsjecnaOcjena(prosjek);
 		PutopisDAO.updateProsjecnaOcjena(ocjena.getPutopis());
+	}
+	
+	public String dodajKomentar() throws SQLException
+	{
+		KomentarPutopisa komentar = new KomentarPutopisa();
+		komentar.setKorisnik(Utility.prijavljeniKorisnik);
+		komentar.setPutopis(putopisCekanje);
+		komentar.setTekstKomentara(noviKomentar);
+		KomentarPutopisDAO.insert(komentar);
+		noviKomentar = null;
+		
+		return "readTravel";
+	}
+	
+	public String napraviIzvjestaj() throws SQLException
+	{
+		ukupnoPrihvacenih = PutopisDAO.getCount(1);
+		ukupnoOdbijenih = PutopisDAO.getCount(0);
+		ukupnoPutopisa = ukupnoOdbijenih + ukupnoPrihvacenih;
+		
+		return "adminpage";
 	}
 	
 	public List<Putopis> getPutopisiUCekanju() {
@@ -428,5 +472,65 @@ public class PutopisBean {
 		{
 			topTen.add(o);
 		}
+	}
+
+	public String getPrikaziSakrijKomentar() {
+		if (prikazi)
+			prikaziSakrijKomentar = "Prikazi komentare";
+		else
+			prikaziSakrijKomentar = "Sakrij";
+		return prikaziSakrijKomentar;
+	}
+
+	public void setPrikaziSakrijKomentar(String prikaziSakrijKomentar) {
+		this.prikaziSakrijKomentar = prikaziSakrijKomentar;
+	}
+
+	public String getNoviKomentar() {
+		return noviKomentar;
+	}
+
+	public void setNoviKomentar(String noviKomentar) {
+		this.noviKomentar = noviKomentar;
+	}
+
+	public ArrayList<Putopis> getPutopisiZaPeriod() {
+		return putopisiZaPeriod;
+	}
+
+	public void setPutopisiZaPeriod(ArrayList<Putopis> putopisiZaPeriod) {
+		this.putopisiZaPeriod = putopisiZaPeriod;
+	}
+
+	public ArrayList<Putopis> getNajviseDjeljeni() {
+		return najviseDjeljeni;
+	}
+
+	public void setNajviseDjeljeni(ArrayList<Putopis> najviseDjeljeni) {
+		this.najviseDjeljeni = najviseDjeljeni;
+	}
+
+	public int getUkupnoPutopisa() {
+		return ukupnoPutopisa;
+	}
+
+	public void setUkupnoPutopisa(int ukupnoPutopisa) {
+		this.ukupnoPutopisa = ukupnoPutopisa;
+	}
+
+	public int getUkupnoPrihvacenih() {
+		return ukupnoPrihvacenih;
+	}
+
+	public void setUkupnoPrihvacenih(int ukupnoPrihvacenih) {
+		this.ukupnoPrihvacenih = ukupnoPrihvacenih;
+	}
+
+	public int getUkupnoOdbijenih() {
+		return ukupnoOdbijenih;
+	}
+
+	public void setUkupnoOdbijenih(int ukupnoOdbijenih) {
+		this.ukupnoOdbijenih = ukupnoOdbijenih;
 	}
 }

@@ -1,5 +1,7 @@
 package net.etfbl.dto;
 
+import java.util.ArrayList;
+
 import org.primefaces.model.StreamedContent;
 
 public class Slika {
@@ -10,6 +12,17 @@ public class Slika {
 	private String putanjaSlike;
 	private int statusSlika;
 	
+	private ArrayList<KomentarSlike> komentari = null;
+	private String prikaziSakrijKomentar;
+	private boolean prikazi = true;;
+	
+	public boolean isPrikazi() {
+		return prikazi;
+	}
+	public void setPrikazi(boolean prikazi) {
+		this.prikazi = prikazi;
+	}
+
 	private StreamedContent stream;
 	
 	public int getIdSlike() {
@@ -47,5 +60,24 @@ public class Slika {
 	}
 	public void setStream(StreamedContent stream) {
 		this.stream = stream;
+	}
+	public ArrayList<KomentarSlike> getKomentari() {
+		return komentari;
+	}
+	public void setKomentari(ArrayList<KomentarSlike> komentari) {
+		this.komentari = komentari;
+	}
+	
+	public String getPrikaziSakrijKomentar() {
+		if (prikazi)
+			prikaziSakrijKomentar = "Prikazi komentare";
+		else
+			prikaziSakrijKomentar = "Sakrij";
+		
+		return prikaziSakrijKomentar;
+	}
+
+	public void setPrikaziSakrijKomentar(String prikaziSakrijKomentar) {
+		this.prikaziSakrijKomentar = prikaziSakrijKomentar;
 	}
 }

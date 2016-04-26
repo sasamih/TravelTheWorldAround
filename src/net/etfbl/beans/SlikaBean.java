@@ -22,10 +22,13 @@ import org.primefaces.model.StreamedContent;
 
 import net.etfbl.Utility;
 import net.etfbl.dao.AlbumDAO;
+import net.etfbl.dao.KomentarSlikeDAO;
 import net.etfbl.dao.OcjenaSlikeDAO;
 import net.etfbl.dao.PutopisDAO;
 import net.etfbl.dao.SlikaDAO;
 import net.etfbl.dto.Album;
+import net.etfbl.dto.KomentarPutopisa;
+import net.etfbl.dto.KomentarSlike;
 import net.etfbl.dto.OcjenaSlike;
 import net.etfbl.dto.Putopis;
 import net.etfbl.dto.Slika;
@@ -39,7 +42,9 @@ public class SlikaBean {
 	private List<Slika> albumPhotos;
 	private String nazivAlbuma;
 	private StreamedContent stream;
+	private ArrayList<StreamedContent> photoStreams;
 	private Album travelAlbum;
+	private String noviKomentar;
 	
 	private ArrayList<OcjenaSlike> ocjeneKorisnika = null;
 
@@ -157,6 +162,8 @@ public class SlikaBean {
 		albumPhotos = SlikaDAO.getPhotosByAlbum(album);
 		//System.out.println(album.getNazivAlbuma());
 		ocjeneKorisnika = new ArrayList<OcjenaSlike>();
+		photoStreams = new ArrayList<StreamedContent>();
+		
 		for(Slika s : albumPhotos)
 		{
 			if (Utility.prijavljeniKorisnik != null)
@@ -165,7 +172,7 @@ public class SlikaBean {
 				if (ocjena != null)
 				{
 					ocjeneKorisnika.add(ocjena);
-					System.out.println(s.getPutanjaSlike() + " " + ocjena.getOcjena());
+					//System.out.println(s.getPutanjaSlike() + " " + ocjena.getOcjena());
 				}
 				else
 				{
@@ -175,6 +182,16 @@ public class SlikaBean {
 					ocjenaTmp.setOcjena(0);
 					ocjeneKorisnika.add(ocjenaTmp);
 				}
+			}
+			
+			try {
+				StreamedContent tmp = new DefaultStreamedContent(new FileInputStream(new File(
+						Utility.setPutanjaDoProjekta()
+								+ s.getPutanjaSlike())));
+				photoStreams.add(tmp);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -219,6 +236,36 @@ public class SlikaBean {
 		return album;
 	}
 	
+	public String dobaviKomentareSlike(Slika slika) throws SQLException
+	{
+		if (slika.isPrikazi())
+		{
+			ArrayList<KomentarSlike> komentariTmp = KomentarSlikeDAO.getCommentsByTravel(slika);
+			slika.setKomentari(komentariTmp);
+			slika.setPrikazi(false);
+			slika.setPrikaziSakrijKomentar("Sakrij");
+		}
+		else
+		{
+			slika.setKomentari(null);
+			slika.setPrikazi(true);
+			slika.setPrikaziSakrijKomentar("Prikazi komentare");
+		}
+		
+		return "albumPhotos";
+	}
+	
+	public String dodajKomentar(Slika slika) throws SQLException
+	{
+		KomentarSlike komentar = new KomentarSlike();
+		komentar.setKorisnik(Utility.prijavljeniKorisnik);
+		komentar.setSlika(slika);
+		komentar.setTekstKomentara(noviKomentar);
+		KomentarSlikeDAO.insert(komentar);
+		
+		return "albumPhotos";
+	}
+	
 	public String sacuvajSlike() throws SQLException 
 	{
 		return "userpage";
@@ -254,5 +301,21 @@ public class SlikaBean {
 
 	public void setOcjeneKorisnika(ArrayList<OcjenaSlike> ocjeneKorisnika) {
 		this.ocjeneKorisnika = ocjeneKorisnika;
+	}
+
+	public ArrayList<StreamedContent> getPhotoStreams() {
+		return photoStreams;
+	}
+
+	public void setPhotoStreams(ArrayList<StreamedContent> photoStreams) {
+		this.photoStreams = photoStreams;
+	}
+
+	public String getNoviKomentar() {
+		return noviKomentar;
+	}
+
+	public void setNoviKomentar(String noviKomentar) {
+		this.noviKomentar = noviKomentar;
 	}
 }

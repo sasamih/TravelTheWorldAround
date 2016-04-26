@@ -7,10 +7,10 @@ import javax.activation.*;
 
 public class SendMail
 {
-   public static void main(String [] args)
+   public static void sendMail(String mail, String subject, String msg)
    {    
       // Recipient's email ID needs to be mentioned.
-      String to = "nicedayhighlightter@gmail.com";
+      String to = mail;
 
       // Sender's email ID needs to be mentioned
       final String from = "nicedayhighlightter@gmail.com";
@@ -57,10 +57,10 @@ public class SendMail
          message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
          // Set Subject: header field
-         message.setSubject("This is the Subject Line!");
+         message.setSubject(subject);
 
          // Now set the actual message
-         message.setText("This is actual message");
+         message.setText(msg);
 
          // Send message
          Transport.send(message);
