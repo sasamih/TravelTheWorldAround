@@ -9,6 +9,7 @@ public class Putopis {
 	private Korisnik korisnik;
 	private int status;
 	private double prosjecnaOcjena;
+	private int brojDjeljenja;
 	
 	private String tekstPutopisa = "";
 	
@@ -76,5 +77,11 @@ public class Putopis {
 	}
 	public void setProsjecnaOcjena(double prosjecnaOcjena) {
 		this.prosjecnaOcjena = prosjecnaOcjena;
+	}
+	public int getBrojDjeljenja() {
+		return brojDjeljenja;
+	}
+	public void setBrojDjeljenja(int brojDjeljenja) {
+		this.brojDjeljenja = brojDjeljenja;
 	}
 }

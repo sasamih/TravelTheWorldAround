@@ -53,11 +53,6 @@
 		<p:row>
 			<p:column>
 				<h:form>
-					<h:commandButton value="Periodicni izvjestaj" action="#{putopisBean.periodiciniIzvjestaj}"></h:commandButton>
-				</h:form>
-			</p:column>
-			<p:column>
-				<h:form>
 					<h:commandButton value="Najvise dijeljeni putopisi" action="#{putopisBean.dobaviDjeljene()}"></h:commandButton>
 				</h:form>
 			</p:column>
@@ -75,7 +70,12 @@
 			</p:column>
 			<p:column>
 				<h:dataTable value="#{putopisBean.najviseDjeljeni}" var="putopis">
-					<h:outputText value="#{putopis.nazivPutopisa}"></h:outputText>
+					<p:column>
+						<h:outputText value="#{putopis.nazivPutopisa}"></h:outputText>
+					</p:column>
+					<p:column>
+						<h:outputText value="#{putopis.brojDjeljenja}"></h:outputText>
+					</p:column>
 				</h:dataTable>
 			</p:column>
 			<p:column>

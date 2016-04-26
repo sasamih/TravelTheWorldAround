@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -355,6 +357,26 @@ public class PutopisBean {
 		return "adminpage";
 	}
 	
+	public String dobaviDjeljene() throws SQLException
+	{
+		ArrayList<Putopis> sviPutopisi = PutopisDAO.getAllTravels();
+		
+		Collections.sort(sviPutopisi, new Comparator<Putopis>(){
+			public int compare(Putopis p1, Putopis p2)
+			{
+				return Double.compare(p2.getProsjecnaOcjena(), p1.getProsjecnaOcjena());
+			}
+		});
+		
+		najviseDjeljeni = new ArrayList<Putopis>();
+		for (int i = 0; i < 5; i++)
+		{
+			najviseDjeljeni.add(sviPutopisi.get(i));
+		}
+		
+		return "adminpage";
+	}
+	
 	public List<Putopis> getPutopisiUCekanju() {
 		return putopisiUCekanju;
 	}
@@ -437,6 +459,10 @@ public class PutopisBean {
 		tekstPretrage = "";
 		putopisi = null;
 		ocjeneKorisnika = null;
+		najviseDjeljeni = null;
+		ukupnoOdbijenih = 0;
+		ukupnoPrihvacenih = 0;
+		ukupnoPutopisa = 0;
 	}
 	
 	public void odjava()

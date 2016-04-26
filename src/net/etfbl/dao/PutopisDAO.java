@@ -21,6 +21,7 @@ public class PutopisDAO {
 	private static String queryTravelsOnHold = "select * from PUTOPIS p inner join KORISNIK k on imeAutora=korisnickoIme where p.statusPutopis=0;";
 	private static String queryTravelsByUser = "select * from PUTOPIS where imeAutora=?;";
 	private static String queryCountByStatus = "select count(idPutopisa) from PUTOPIS where statusPutopis=?;";
+	private static String queryGetAllTravels = "select * from PUTOPIS p inner join KORISNIK k on k.korisnickoIme=p.imeAutora;";
 	
 	private static String queryGetKeyWords = "select Tekst from KLJUCNE_RIJECI where PUTOPIS_idPutopis = ?;";
 	
@@ -59,6 +60,36 @@ public class PutopisDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return putopisi;
+	}
+	
+	public static ArrayList<Putopis> getAllTravels() throws SQLException
+	{
+		ArrayList<Putopis> putopisi = null;
+		Connection conn = ConnectionPool.openConnection();
+		if (conn != null)
+		{
+			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(queryGetAllTravels);
+			ResultSet rs = ps.executeQuery();
+			putopisi = new ArrayList<Putopis>();
+			while(rs.next())
+			{
+				Putopis putopis = new Putopis();
+				putopis.setIdPutopisa(rs.getInt(1));
+				putopis.setNazivPutopisa(rs.getString(2));
+				putopis.setDatumObjavljivanja(rs.getString(3));
+				putopis.setPodaciOMjestu(rs.getString(4));
+				putopis.setPutanja(rs.getString(5));
+				putopis.setKorisnik(KorisnikDAO.setUser(rs));
+				putopis.setStatus(rs.getInt(7));
+				putopis.setProsjecnaOcjena(rs.getDouble(8));
+				putopis.setBrojDjeljenja(rs.getInt(9));
+				putopisi.add(putopis);
+			}
+			rs.close();
+			ps.close();
+		}
+		conn.close();
 		return putopisi;
 	}
 
