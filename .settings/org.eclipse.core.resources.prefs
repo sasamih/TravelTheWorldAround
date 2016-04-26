@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/net/etfbl/travel/GetTopTenTravels.java=UTF-8
+encoding//src/net/etfbl/travel/GetTopTenTravelsResponse.java=UTF-8
+encoding//src/net/etfbl/travel/Korisnik.java=UTF-8
+encoding//src/net/etfbl/travel/Putopis.java=UTF-8
+encoding//src/net/etfbl/travel/TopTravels.java=UTF-8
+encoding//src/net/etfbl/travel/TopTravelsService.java=UTF-8
+encoding//src/net/etfbl/travel/TopTravelsServiceLocator.java=UTF-8
+encoding//src/net/etfbl/travel/TopTravelsSoapBindingStub.java=UTF-8

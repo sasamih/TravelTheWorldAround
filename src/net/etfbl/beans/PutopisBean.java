@@ -1,6 +1,7 @@
 package net.etfbl.beans;
 
 import java.io.*;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.xml.rpc.ServiceException;
 
 import org.primefaces.event.ToggleEvent;
 
@@ -20,6 +22,9 @@ import net.etfbl.dto.Korisnik;
 import net.etfbl.dto.OcjenaPutopisa;
 import net.etfbl.dto.Poruka;
 import net.etfbl.dto.Putopis;
+import net.etfbl.travel.TopTravels;
+import net.etfbl.travel.TopTravelsService;
+import net.etfbl.travel.TopTravelsServiceLocator;
 
 import com.itextpdf.*;
 import com.itextpdf.text.Document;
@@ -38,6 +43,7 @@ public class PutopisBean {
 	
 	private static List<Putopis> putopisiUCekanju;
 	private static List<Putopis> putopisiKorisnika;
+	private ArrayList<net.etfbl.travel.Putopis> topTen;
 	private Putopis putopisCekanje;
 
 	private ArrayList<OcjenaPutopisa>  ocjeneKorisnika = null;
@@ -94,6 +100,14 @@ public class PutopisBean {
 		this.putopisi = putopisi;
 	}
 	
+	public ArrayList<net.etfbl.travel.Putopis> getTopTen() {
+		return topTen;
+	}
+
+	public void setTopTen(List<net.etfbl.travel.Putopis> topTen) {
+		this.topTen = (ArrayList<net.etfbl.travel.Putopis>) topTen;
+	}
+
 	public Putopis getNoviPutopis() {
 		return noviPutopis;
 	}
@@ -397,6 +411,22 @@ public class PutopisBean {
 		else
 		{
 			return "front_page";
+		}
+	}
+	
+	public void topTenTravels() throws ServiceException, RemoteException
+	{
+		TopTravelsServiceLocator loc= new TopTravelsServiceLocator();
+		TopTravels service = loc.getTopTravels();
+		topTen = new ArrayList<net.etfbl.travel.Putopis>();
+		net.etfbl.travel.Putopis[] topTenObj = null;
+		
+		if (service != null)
+			topTenObj = service.getTopTenTravels();
+		
+		for (net.etfbl.travel.Putopis o : topTenObj)
+		{
+			topTen.add(o);
 		}
 	}
 }

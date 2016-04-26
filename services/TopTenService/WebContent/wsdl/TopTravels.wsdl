@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://travel.etfbl.net" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://travel.etfbl.net" xmlns:intf="http://travel.etfbl.net" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://travel.etfbl.net" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="getTopTenTravels">
+    <complexType/>
+   </element>
+   <element name="getTopTenTravelsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getTopTenTravelsReturn" type="impl:Putopis"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="Korisnik">
+    <sequence>
+     <element name="datumRodjenja" nillable="true" type="xsd:string"/>
+     <element name="eMail" nillable="true" type="xsd:string"/>
+     <element name="ime" nillable="true" type="xsd:string"/>
+     <element name="korisnickaGrupa" nillable="true" type="xsd:string"/>
+     <element name="korisnickoIme" nillable="true" type="xsd:string"/>
+     <element name="kratkaBiografija" nillable="true" type="xsd:string"/>
+     <element name="lozinka" nillable="true" type="xsd:string"/>
+     <element name="prezime" nillable="true" type="xsd:string"/>
+     <element name="status" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="Putopis">
+    <sequence>
+     <element name="datumObjavljivanja" nillable="true" type="xsd:string"/>
+     <element name="idPutopisa" type="xsd:int"/>
+     <element name="korisnik" nillable="true" type="impl:Korisnik"/>
+     <element name="nazivPutopisa" nillable="true" type="xsd:string"/>
+     <element name="podaciOMjestu" nillable="true" type="xsd:string"/>
+     <element name="prosjecnaOcjena" type="xsd:double"/>
+     <element name="putanja" nillable="true" type="xsd:string"/>
+     <element name="status" type="xsd:int"/>
+     <element name="tekstPutopisa" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getTopTenTravelsRequest">
+
+      <wsdl:part element="impl:getTopTenTravels" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTopTenTravelsResponse">
+
+      <wsdl:part element="impl:getTopTenTravelsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="TopTravels">
+
+      <wsdl:operation name="getTopTenTravels">
+
+         <wsdl:input message="impl:getTopTenTravelsRequest" name="getTopTenTravelsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getTopTenTravelsResponse" name="getTopTenTravelsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="TopTravelsSoapBinding" type="impl:TopTravels">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getTopTenTravels">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getTopTenTravelsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getTopTenTravelsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="TopTravelsService">
+
+      <wsdl:port binding="impl:TopTravelsSoapBinding" name="TopTravels">
+
+         <wsdlsoap:address location="http://localhost:8080/TopTenService/services/TopTravels"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

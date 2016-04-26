@@ -9,7 +9,7 @@
 	<link href="#{request.contextPath}/styles.css" rel="stylesheet"
 		type="text/css" />
 </h:head>
-<h:body>
+<h:body onload="#{putopisBean.topTenTravels()}">
 	<p:panelGrid>
 		<p:row>
 			<p:column>
@@ -168,10 +168,20 @@
 					</h:panelGrid>
 				</h:form>
 			</p:column>
+			<p:column>
+				<h:dataTable value="#{putopisBean.topTen}" var="top">
+					<p:column>
+						<h:outputText value="#{top.nazivPutopisa}"></h:outputText>
+					</p:column>
+					<p:column>
+						<h:outputText value="#{top.prosjecnaOcjena}"></h:outputText>
+					</p:column>
+				</h:dataTable>
+			</p:column>
 		</p:row>
 		<p:row>
 			<p:column>
-
+				
 			</p:column>
 		</p:row>
 

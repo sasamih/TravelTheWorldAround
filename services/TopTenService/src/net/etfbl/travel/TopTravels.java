@@ -9,11 +9,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.jws.WebService;
+
 import com.mysql.jdbc.PreparedStatement;
 
+@WebService
 public class TopTravels {
 
-	public List<Putopis> getTopTenTravels()
+	public Putopis[] getTopTenTravels()
 	{
 		List<Putopis> putopisi = null;
 		Connection conn = openConnection();
@@ -39,7 +42,7 @@ public class TopTravels {
 			Collections.sort(putopisi, new Comparator<Putopis>(){
 				public int compare(Putopis p1, Putopis p2)
 				{
-					return Double.compare(p1.getProsjecnaOcjena(), p2.getProsjecnaOcjena());
+					return Double.compare(p2.getProsjecnaOcjena(), p1.getProsjecnaOcjena());
 				}
 			});
 			
@@ -48,7 +51,22 @@ public class TopTravels {
 			e.printStackTrace();
 		}
 		
-		return putopisi;
+		Putopis[] nizPutopisa = null;
+		
+		if (putopisi != null)
+		{
+			if (putopisi.size() >= 10)
+				nizPutopisa = new Putopis[10];
+			else
+				nizPutopisa = new Putopis[putopisi.size()];
+			int duzina = nizPutopisa.length;
+			for (int i=0; i < ((duzina < 11)?duzina:10); i++)
+			{
+				nizPutopisa[i] = putopisi.get(i);
+			}
+		}
+	
+		return nizPutopisa;
 	}
 	
 	private Connection openConnection()
@@ -63,7 +81,7 @@ public class TopTravels {
 		}
 		try
 		{
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traveldb", "root", "root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traveldb", "root", "rtrk");
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
