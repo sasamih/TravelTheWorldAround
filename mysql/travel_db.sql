@@ -26,12 +26,13 @@ CREATE TABLE IF NOT EXISTS `ALBUM` (
   KEY `FK_ALBUM_PUTOPIS` (`idPutopisa`),
   CONSTRAINT `FK_ALBUM_PUTOPIS` FOREIGN KEY (`idPutopisa`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_ALBUM_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.ALBUM: ~1 rows (approximately)
 /*!40000 ALTER TABLE `ALBUM` DISABLE KEYS */;
 INSERT INTO `ALBUM` (`idAlbuma`, `imeAutora`, `nazivAlbuma`, `idPutopisa`) VALUES
-	(10, 'gago', 'Testni album', 1);
+	(10, 'gago', 'Testni album', 1),
+	(12, 'gago', 'Put svile', 18);
 /*!40000 ALTER TABLE `ALBUM` ENABLE KEYS */;
 
 
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `KLJUCNE_RIJECI` (
   PRIMARY KEY (`idKljucneRijeci`),
   KEY `fk_KLJUCNE_RIJECI_PUTOPIS1_idx` (`PUTOPIS_idPutopis`),
   CONSTRAINT `fk_KLJUCNE_RIJECI_PUTOPIS1` FOREIGN KEY (`PUTOPIS_idPutopis`) REFERENCES `PUTOPIS` (`idPutopisa`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.KLJUCNE_RIJECI: ~13 rows (approximately)
 /*!40000 ALTER TABLE `KLJUCNE_RIJECI` DISABLE KEYS */;
@@ -60,7 +61,10 @@ INSERT INTO `KLJUCNE_RIJECI` (`idKljucneRijeci`, `Tekst`, `PUTOPIS_idPutopis`) V
 	(10, 'U Splitu na kolegijumu', 15),
 	(11, 'Grcka', 16),
 	(12, 'Krf', 16),
-	(13, 'Putovanje u Grcku', 16);
+	(13, 'Putovanje u Grcku', 16),
+	(17, 'Svila', 18),
+	(18, 'Azija', 18),
+	(19, 'Putem svile', 18);
 /*!40000 ALTER TABLE `KLJUCNE_RIJECI` ENABLE KEYS */;
 
 
@@ -77,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `KOMENTAR_PUTOPIS` (
   CONSTRAINT `FK_KOMENTAR_PUTOPIS_KORISNIK` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KOMENTAR_PUTOPIS: ~2 rows (approximately)
+-- Dumping data for table traveldb.KOMENTAR_PUTOPIS: ~4 rows (approximately)
 /*!40000 ALTER TABLE `KOMENTAR_PUTOPIS` DISABLE KEYS */;
 INSERT INTO `KOMENTAR_PUTOPIS` (`idKomentara`, `imeAutora`, `PUTOPIS_idPutopis`, `tekstKomentara`) VALUES
 	(1, 'gago', 1, 'Prvi komentar'),
@@ -100,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `KOMENTAR_SLIKA` (
   CONSTRAINT `fk_KOMENTAR_SLIKA_SLIKA1` FOREIGN KEY (`SLIKA_idSlike`) REFERENCES `SLIKA` (`idSlike`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.KOMENTAR_SLIKA: ~0 rows (approximately)
+-- Dumping data for table traveldb.KOMENTAR_SLIKA: ~2 rows (approximately)
 /*!40000 ALTER TABLE `KOMENTAR_SLIKA` DISABLE KEYS */;
 INSERT INTO `KOMENTAR_SLIKA` (`idKomentara`, `SLIKA_idSlike`, `imeAutora`, `tekstKomentara`) VALUES
 	(1, 1, 'gago', 'Prvi komentar'),
@@ -216,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `PORUKA` (
   CONSTRAINT `FK_primalac_ime` FOREIGN KEY (`primalac`) REFERENCES `KORISNIK` (`korisnickoIme`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table traveldb.PORUKA: ~5 rows (approximately)
+-- Dumping data for table traveldb.PORUKA: ~6 rows (approximately)
 /*!40000 ALTER TABLE `PORUKA` DISABLE KEYS */;
 INSERT INTO `PORUKA` (`idPoruke`, `posiljalac`, `primalac`, `tekstPoruke`, `statusProcitana`, `vrijemeSlanja`) VALUES
 	(1, 'gago', 'djoko', 'Prva poruka', 1, '25.4.2016.'),
@@ -238,24 +242,26 @@ CREATE TABLE IF NOT EXISTS `PUTOPIS` (
   `imeAutora` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `statusPutopis` int(11) DEFAULT NULL,
   `prosjecnaOcjena` double DEFAULT NULL,
+  `brojDjeljenja` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPutopisa`),
   KEY `fk_PUTOPIS_KORISNIK1_idx` (`imeAutora`),
   CONSTRAINT `fk_PUTOPIS_KORISNIK1` FOREIGN KEY (`imeAutora`) REFERENCES `KORISNIK` (`korisnickoIme`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table traveldb.PUTOPIS: ~10 rows (approximately)
 /*!40000 ALTER TABLE `PUTOPIS` DISABLE KEYS */;
-INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`, `prosjecnaOcjena`) VALUES
-	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa', 1, 3.5),
-	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa', 1, NULL),
-	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago', 1, NULL),
-	(5, 'Na farmi kod babe', NULL, NULL, '/WEB-INF/putopisi/Na farmi kod babe.txt', 'djoko', 1, NULL),
-	(9, 'U Majkic Japru po piletinu', '13.4.2016.', 'Majkic Japra', '/WEB-INF/putopisi/U Majkic Japru po piletinu.txt', 'gago', 1, NULL),
-	(10, 'Kod tetka u Ofenbahu', '3.4.2016.', 'Ofenbah', '/WEB-INF/putopisi/Kod tetka u Ofenbahu.txt', 'gago', 1, NULL),
-	(13, 'Sa koncerta Piju grupe', '3.4.2016.', 'Novi Sad', '/WEB-INF/putopisi/Sa koncerta Piju grupe.txt', 'djoko', 0, NULL),
-	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 1, NULL),
-	(15, 'U Splitu na kolegijumu', '5.4.2016.', 'Split', '/WEB-INF/putopisi/U Splitu na kolegijumu.txt', 'gago', 1, 4.5),
-	(16, 'Putovanje u Grcku', '5.4.2016.', 'Krf', '/WEB-INF/putopisi/Putovanje u Grcku.txt', 'gago', 1, 5);
+INSERT INTO `PUTOPIS` (`idPutopisa`, `nazivPutopisa`, `datumObjavljivanja`, `podaciOMjestu`, `putanja`, `imeAutora`, `statusPutopis`, `prosjecnaOcjena`, `brojDjeljenja`) VALUES
+	(1, 'Put u Italiju', '23.1.2016.', 'Milano', '/WEB-INF/putopisi/put_u_italiju.txt', 'sasa', 1, 3.5, 25),
+	(2, 'Venecija - grad na vodi', '14.8.2015.', 'Venecija', '/WEB-INF/putopisi/venecija.txt', 'sasa', 1, NULL, 345),
+	(4, 'Krslje', NULL, NULL, '/WEB-INF/putopisi/Krslje.txt', 'gago', 1, NULL, 325),
+	(5, 'Na farmi kod babe', NULL, NULL, '/WEB-INF/putopisi/Na farmi kod babe.txt', 'djoko', 1, NULL, 35),
+	(9, 'U Majkic Japru po piletinu', '13.4.2016.', 'Majkic Japra', '/WEB-INF/putopisi/U Majkic Japru po piletinu.txt', 'gago', 1, NULL, 61),
+	(10, 'Kod tetka u Ofenbahu', '3.4.2016.', 'Ofenbah', '/WEB-INF/putopisi/Kod tetka u Ofenbahu.txt', 'gago', 1, NULL, 23),
+	(13, 'Sa koncerta Piju grupe', '3.4.2016.', 'Novi Sad', '/WEB-INF/putopisi/Sa koncerta Piju grupe.txt', 'djoko', 0, NULL, 34),
+	(14, 'Kod Joje u gostima', '3.4.2016.', 'Beograd', '/WEB-INF/putopisi/Kod Joje u gostima.txt', 'gago', 1, NULL, 324),
+	(15, 'U Splitu na kolegijumu', '5.4.2016.', 'Split', '/WEB-INF/putopisi/U Splitu na kolegijumu.txt', 'gago', 1, 4.5, 42),
+	(16, 'Putovanje u Grcku', '5.4.2016.', 'Krf', '/WEB-INF/putopisi/Putovanje u Grcku.txt', 'gago', 1, 5, 423),
+	(18, 'Putem svile', '26.4.2016.', 'Istocna azija', '/WEB-INF/putopisi/Putem svile.txt', 'gago', 0, 0, NULL);
 /*!40000 ALTER TABLE `PUTOPIS` ENABLE KEYS */;
 
 
