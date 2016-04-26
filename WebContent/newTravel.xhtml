@@ -10,6 +10,13 @@
 <title>Novi putopis</title>
 </head>
 <h:body>
+	<div align="right">
+		<h:form>
+			<h:commandButton value="Odjavi se" action="#{korisnikBean.odjava}">
+				<f:actionListener binding="#{putopisBean.odjava()}" />
+			</h:commandButton>
+		</h:form>
+	</div>
 	<h:form>
 		<h:panelGrid columns="3">
 			<h:outputText value="Naslov:"></h:outputText>
@@ -36,6 +43,9 @@
 	</h:form>
 	<h:form>
 		<h:commandButton value="Kreiraj PDF" action="#{putopisBean.kreirajPDF}"></h:commandButton>
+	</h:form>
+	<h:form>
+		<h:commandLink value="Nazad" action="userpage"></h:commandLink>
 	</h:form>
 </h:body>
 </html>

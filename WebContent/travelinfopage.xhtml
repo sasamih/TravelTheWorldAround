@@ -10,6 +10,13 @@
 <title>Korisnik</title>
 </h:head>
 <h:body>
+	<div align="right">
+		<h:form>
+			<h:commandButton value="Odjavi se" action="#{korisnikBean.odjava}">
+				<f:actionListener binding="#{putopisBean.odjava()}" />
+			</h:commandButton>
+		</h:form>
+	</div>
 	<p:panelGrid>
 		<p:row>
 			<p:column>

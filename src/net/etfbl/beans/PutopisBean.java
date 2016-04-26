@@ -151,13 +151,16 @@ public class PutopisBean {
 		
 		if (Utility.newTravel)
 		{
-			PutopisDAO.insert(noviPutopis, rijeci);
+			int putopisId = PutopisDAO.insert(noviPutopis, rijeci);
+			Utility.noviPutopis = noviPutopis;
+			Utility.noviPutopis.setIdPutopisa(putopisId);
 		}
 		else
 		{
 			PutopisDAO.update(noviPutopis, rijeci);
 		}
-		return "userpage";
+		
+		return "newAlbum";
 	}
 
 	public String odobriPutopis(Putopis putopis) throws SQLException

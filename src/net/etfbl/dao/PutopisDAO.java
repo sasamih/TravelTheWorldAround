@@ -93,9 +93,10 @@ public class PutopisDAO {
 		return putopisi;
 	}
 
-	public static boolean insert(Putopis putopis, String[] rijeci) throws SQLException
+	public static int insert(Putopis putopis, String[] rijeci) throws SQLException
 	{
 		boolean success = false;
+		int putopisId = 0;
 		
 		Connection conn = ConnectionPool.openConnection();
 		
@@ -114,7 +115,7 @@ public class PutopisDAO {
 			ps = (PreparedStatement) conn.prepareStatement(lastIdQuery);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			int putopisId = rs.getInt(1);
+			putopisId = rs.getInt(1);
 			rs.close();
 			
 			String keyWordQuery = "insert into KLJUCNE_RIJECI(`Tekst`, `PUTOPIS_idPutopis`) values(?, ?);";
@@ -136,7 +137,7 @@ public class PutopisDAO {
 		}
 		conn.close();
 		
-		return success;
+		return putopisId;
 	}
 	
 	public static boolean update(Putopis putopis, String[] rijeci) throws SQLException

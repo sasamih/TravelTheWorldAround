@@ -160,7 +160,6 @@ public class SlikaBean {
 	public String prikaziSlikeAlbuma(Album album) throws SQLException, FileNotFoundException
 	{
 		albumPhotos = SlikaDAO.getPhotosByAlbum(album);
-		//System.out.println(album.getNazivAlbuma());
 		ocjeneKorisnika = new ArrayList<OcjenaSlike>();
 		photoStreams = new ArrayList<StreamedContent>();
 		
@@ -172,7 +171,6 @@ public class SlikaBean {
 				if (ocjena != null)
 				{
 					ocjeneKorisnika.add(ocjena);
-					//System.out.println(s.getPutanjaSlike() + " " + ocjena.getOcjena());
 				}
 				else
 				{
@@ -195,14 +193,6 @@ public class SlikaBean {
 			}
 		}
 		
-		for (Slika slika : albumPhotos)
-		{
-//			File file = new File(Utility.setPutanjaDoProjekta() + "/WEB-INF/slike/testSlike.jpg");
-//			if (file.exists())
-//				slika.setStream(new DefaultStreamedContent(new FileInputStream(file)));
-//			else
-//				System.out.println(Utility.setPutanjaDoProjekta() + "/WEB-INF/slike/testSlike.jpg");
-		}
 		return "albumPhotos";
 	}
 	
@@ -230,8 +220,10 @@ public class SlikaBean {
 		Album album = new Album();
 		album.setKorisnik(Utility.prijavljeniKorisnik);
 		album.setNazivAlbuma(nazivAlbuma);
+		album.setPutopis(Utility.noviPutopis);
 		int id = AlbumDAO.insert(album);
 		album.setIdAlbuma(id);
+		Utility.noviPutopis = null;
 		
 		return album;
 	}
