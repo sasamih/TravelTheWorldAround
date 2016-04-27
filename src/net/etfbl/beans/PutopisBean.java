@@ -431,7 +431,7 @@ public class PutopisBean {
 	public void kreirajPDF() throws DocumentException, IOException
 	{
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/rtrk/" + noviPutopis.getNazivPutopisa() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("/home/sasa/" + noviPutopis.getNazivPutopisa() + ".pdf"));
         document.open();
         Utility.setPutanjaDoProjekta();
         File file = new File(Utility.projectPath + "/testHtml.html");

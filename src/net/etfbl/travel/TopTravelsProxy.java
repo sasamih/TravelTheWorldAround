@@ -44,7 +44,7 @@ public class TopTravelsProxy implements net.etfbl.travel.TopTravels {
     return topTravels;
   }
   
-  public Putopis[] getTopTenTravels() throws java.rmi.RemoteException{
+  public net.etfbl.travel.Putopis[] getTopTenTravels() throws java.rmi.RemoteException{
     if (topTravels == null)
       _initTopTravelsProxy();
     return topTravels.getTopTenTravels();

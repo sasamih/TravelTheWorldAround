@@ -81,7 +81,7 @@ public class TopTravels {
 		}
 		try
 		{
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traveldb", "root", "rtrk");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/traveldb", "root", "root");
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
